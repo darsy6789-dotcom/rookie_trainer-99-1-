@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Тренажёр новичка</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    button {
+      padding: 10px 16px;
+      margin: 6px;
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .case-box {
+      border: 1px solid #aaa;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .timer {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 16px 0;
+    }
+
+    .answer-box {
+      margin-top: 16px;
+      padding: 12px;
+      border: 1px solid #ccc;
+    }
+
+    .stats {
+      margin-top: 24px;
+      border-top: 1px solid #ccc;
+      padding-top: 16px;
+    }
+
+    input {
+      padding: 8px;
+      width: 100%;
+      max-width: 500px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Тренажёр новичка</h1>
+
+  <!-- ГЛАВНЫЙ ЭКРАН -->
+  <div id="home-screen">
+    <h2>Выбери блок</h2>
+
+    <button onclick="startMode('knowledge')">
+      Найти знание
+    </button>
+
+    <button onclick="startMode('interface')">
+      Найти кнопку на сайте
+    </button>
+
+    <div class="stats">
+      <h3>Прогресс</h3>
+
+      <p>
+        Знания:
+        <span id="knowledge-progress">0 / 10</span>
+        закреплено
+      </p>
+
+      <p>
+        Интерфейс:
+        <span id="interface-progress">0 / 10</span>
+        закреплено
+      </p>
+    </div>
+  </div>
+
+
+  <!-- ЭКРАН КЕЙСА -->
+  <div id="case-screen" class="hidden">
+
+    <button onclick="goHome()">← На главную</button>
+
+    <h2 id="mode-title"></h2>
+
+    <div class="case-box">
+
+      <div>
+        Кейс:
+        <span id="case-progress"></span>
+      </div>
+
+      <div class="timer">
+        Время:
+        <span id="timer">0</span> сек.
+      </div>
+
+      <h3 id="case-question"></h3>
+
+      <div id="knowledge-answer-area" class="hidden">
+
+        <p>Введи номер знания:</p>
+
+        <input
+          type="text"
+          id="knowledge-input"
+          placeholder="Например: 10402"
+        />
+
+        <br />
+
+        <button onclick="checkKnowledgeAnswer()">
+          Ответить
+        </button>
+
+      </div>
+
+
+      <div id="interface-answer-area" class="hidden">
+
+        <p>
+          Где находится нужная кнопка?
+        </p>
+
+        <div id="interface-options"></div>
+
+      </div>
+
+
+      <div id="result-box" class="answer-box hidden"></div>
+
+      <button
+        id="next-case-btn"
+        class="hidden"
+        onclick="nextCase()"
+      >
+        Следующий кейс
+      </button>
+
+    </div>
+  </div>
+
+
+<script>
+
+  // ==========================
+  // КЕЙСЫ: ЗНАНИЯ
+  // ==========================
+
+  const knowledgeCases = [
+
+    {
+      id: "k1",
+      question: "Какое знание использовать для продления Универсального модуля?",
+      correctAnswer: "10402"
+    },
+
+    {
+      id: "k2",
+      question: "Какое знание использовать для стоимости Диадока?",
+      correctAnswer: "1912"
+    },
+
+    {
+      id: "k3",
+      question: "Какое знание использовать для роуминга?",
+      correctAnswer: "13244"
+    },
+
+    {
+      id: "k4",
+      question: "Какое знание использовать для аннулирования документов?",
+      correctAnswer: "4280"
+    },
+
+    {
+      id: "k5",
+      question: "Какое знание использовать для маршрутов согласования?",
+      correctAnswer: "7122"
+    },
+
+    {
+      id: "k6",
+      question: "Какое знание использовать для продления сертификата?",
+      correctAnswer: "12978"
+    },
+
+    {
+      id: "k7",
+      question: "Какое знание использовать для ролей в Контур.Доверенности?",
+      correctAnswer: "14057"
+    },
+
+    {
+      id: "k8",
+      question: "Какое знание использовать для форматов МЧД?",
+      correctAnswer: "16943"
+    },
+
+    {
+      id: "k9",
+      question: "Какое знание использовать для выгрузки списка доверенностей?",
+      correctAnswer: "17446"
+    },
+
+    {
+      id: "k10",
+      question: "Какое знание использовать для уведомлений в Контур.Доверенности?",
+      correctAnswer: "17481"
+    }
+
+  ];
+
+
+  // ==========================
+  // КЕЙСЫ: ИНТЕРФЕЙС
+  // ==========================
+
+  const interfaceCases = [
+
+    {
+      id: "i1",
+      question: "Нужно посмотреть историю изменений файла в GitHub.",
+      options: [
+        "Code",
+        "History",
+        "Settings",
+        "Issues"
+      ],
+      correctAnswer: "History"
+    },
+
+    {
+      id: "i2",
+      question: "Нужно создать новый файл в репозитории GitHub.",
+      options: [
+        "Add file",
+        "Insights",
+        "Security",
+        "Star"
+      ],
+      correctAnswer: "Add file"
+    },
+
+    {
+      id: "i3",
+      question: "Нужно изменить существующий файл в GitHub.",
+      options: [
+        "Raw",
+        "Edit this file",
+        "Download",
+        "Blame"
+      ],
+      correctAnswer: "Edit this file"
+    },
+
+    {
+      id: "i4",
+      question: "Нужно посмотреть все коммиты репозитория.",
+      options: [
+        "Commits",
+        "Fork",
+        "Projects",
+        "Packages"
+      ],
+      correctAnswer: "Commits"
+    },
+
+    {
+      id: "i5",
+      question: "Нужно создать новый репозиторий.",
+      options: [
+        "New",
+        "Pin",
+        "Watch",
+        "Tag"
+      ],
+      correctAnswer: "New"
+    },
+
+    {
+      id: "i6",
+      question: "Нужно открыть настройки репозитория.",
+      options: [
+        "Settings",
+        "Pull requests",
+        "Actions",
+        "Wiki"
+      ],
+      correctAnswer: "Settings"
+    },
+
+    {
+      id: "i7",
+      question: "Нужно посмотреть опубликованный GitHub Pages.",
+      options: [
+        "Deployments",
+        "Packages",
+        "Contributors",
+        "Releases"
+      ],
+      correctAnswer: "Deployments"
+    },
+
+    {
+      id: "i8",
+      question: "Нужно выбрать ветку main.",
+      options: [
+        "Branch selector",
+        "Search",
+        "Issues",
+        "README"
+      ],
+      correctAnswer: "Branch selector"
+    },
+
+    {
+      id: "i9",
+      question: "Нужно сохранить изменения файла.",
+      options: [
+        "Commit changes",
+        "Raw",
+        "Preview",
+        "Cancel"
+      ],
+      correctAnswer: "Commit changes"
+    },
+
+    {
+      id: "i10",
+      question: "Нужно посмотреть содержимое README.",
+      options: [
+        "README.md",
+        "Actions",
+        "Security",
+        "Insights"
+      ],
+      correctAnswer: "README.md"
+    }
+
+  ];
+
+
+  // ==========================
+  // СОСТОЯНИЕ
+  // ==========================
+
+  let currentMode = null;
+  let currentCase = null;
+
+  let timerSeconds = 0;
+  let timerInterval = null;
+
+
+  // ==========================
+  // ПРОГРЕСС
+  // ==========================
+
+  let progress = loadProgress();
+
+
+  function loadProgress() {
+
+    const saved = localStorage.getItem("rookieTrainerProgress");
+
+    if (saved) {
+      return JSON.parse(saved);
+    }
+
+    return {
+      knowledge: {},
+      interface: {}
+    };
+  }
+
+
+  function saveProgress() {
+
+    localStorage.setItem(
+      "rookieTrainerProgress",
+      JSON.stringify(progress)
+    );
+
+    updateHomeStats();
+  }
+
+
+  // ==========================
+  // ЗАПУСК РЕЖИМА
+  // ==========================
+
+  function startMode(mode) {
+
+    currentMode = mode;
+
+    document
+      .getElementById("home-screen")
+      .classList.add("hidden");
+
+    document
+      .getElementById("case-screen")
+      .classList.remove("hidden");
+
+    if (mode === "knowledge") {
+
+      document.getElementById("mode-title").textContent =
+        "Блок: найти знание";
+
+    } else {
+
+      document.getElementById("mode-title").textContent =
+        "Блок: найти кнопку на сайте";
+    }
+
+    nextCase();
+  }
+
+
+  // ==========================
+  // ВЫБОР КЕЙСА
+  // ==========================
+
+  function nextCase() {
+
+    resetCaseUI();
+
+    const cases =
+      currentMode === "knowledge"
+        ? knowledgeCases
+        : interfaceCases;
+
+    // оставляем кейсы, которые ещё не пройдены 3 раза
+    let available = cases.filter(caseItem => {
+
+      const data =
+        progress[currentMode][caseItem.id];
+
+      if (!data) {
+        return true;
+      }
+
+      return data.successCount < 3;
+    });
+
+
+    // если всё пройдено
+    if (available.length === 0) {
+
+      alert("Все кейсы этого блока закреплены 3 раза.");
+
+      goHome();
+
+      return;
+    }
+
+
+    // случайный кейс
+    const randomIndex =
+      Math.floor(Math.random() * available.length);
+
+    currentCase =
+      available[randomIndex];
+
+
+    showCase();
+
+    startTimer();
+  }
+
+
+  // ==========================
+  // ПОКАЗ КЕЙСА
+  // ==========================
+
+  function showCase() {
+
+    document.getElementById("case-question").textContent =
+      currentCase.question;
+
+
+    const data =
+      progress[currentMode][currentCase.id];
+
+    const successCount =
+      data ? data.successCount : 0;
+
+
+    document.getElementById("case-progress").textContent =
+      successCount + " / 3";
+
+
+    if (currentMode === "knowledge") {
+
+      document
+        .getElementById("knowledge-answer-area")
+        .classList.remove("hidden");
+
+      document
+        .getElementById("interface-answer-area")
+        .classList.add("hidden");
+
+
+    } else {
+
+      document
+        .getElementById("knowledge-answer-area")
+        .classList.add("hidden");
+
+      document
+        .getElementById("interface-answer-area")
+        .classList.remove("hidden");
+
+      renderInterfaceOptions();
+    }
+  }
+
+
+  // ==========================
+  // ВАРИАНТЫ КНОПОК
+  // ==========================
+
+  function renderInterfaceOptions() {
+
+    const container =
+      document.getElementById("interface-options");
+
+    container.innerHTML = "";
+
+
+    currentCase.options.forEach(option => {
+
+      const button =
+        document.createElement("button");
+
+      button.textContent = option;
+
+      button.onclick = function() {
+
+        checkInterfaceAnswer(option);
+      };
+
+      container.appendChild(button);
+
+    });
+  }
+
+
+  // ==========================
+  // ПРОВЕРКА ЗНАНИЯ
+  // ==========================
+
+  function checkKnowledgeAnswer() {
+
+    const value =
+      document
+        .getElementById("knowledge-input")
+        .value
+        .trim();
+
+    const isCorrect =
+      value === currentCase.correctAnswer;
+
+    finishCase(isCorrect);
+  }
+
+
+  // ==========================
+  // ПРОВЕРКА ИНТЕРФЕЙСА
+  // ==========================
+
+  function checkInterfaceAnswer(answer) {
+
+    const isCorrect =
+      answer === currentCase.correctAnswer;
+
+    finishCase(isCorrect);
+  }
+
+
+  // ==========================
+  // ЗАВЕРШЕНИЕ КЕЙСА
+  // ==========================
+
+  function finishCase(isCorrect) {
+
+    stopTimer();
+
+
+    if (!progress[currentMode][currentCase.id]) {
+
+      progress[currentMode][currentCase.id] = {
+
+        successCount: 0,
+
+        attempts: 0,
+
+        totalTime: 0,
+
+        bestTime: null
+      };
+    }
+
+
+    const data =
+      progress[currentMode][currentCase.id];
+
+
+    data.attempts++;
+
+    data.totalTime += timerSeconds;
+
+
+    if (
+      data.bestTime === null ||
+      timerSeconds < data.bestTime
+    ) {
+
+      data.bestTime =
+        timerSeconds;
+    }
+
+
+    if (isCorrect) {
+
+      data.successCount++;
+
+      if (data.successCount > 3) {
+        data.successCount = 3;
+      }
+    }
+
+
+    saveProgress();
+
+
+    const result =
+      document.getElementById("result-box");
+
+
+    result.classList.remove("hidden");
+
+
+    if (isCorrect) {
+
+      result.innerHTML =
+        "<strong>Верно.</strong><br>" +
+        "Время: " + timerSeconds + " сек.<br>" +
+        "Закрепление: " + data.successCount + " / 3";
+
+    } else {
+
+      result.innerHTML =
+        "<strong>Ошибка.</strong><br>" +
+        "Правильный ответ: " +
+        currentCase.correctAnswer +
+        "<br>" +
+        "Время: " +
+        timerSeconds +
+        " сек.";
+    }
+
+
+    document
+      .getElementById("next-case-btn")
+      .classList.remove("hidden");
+  }
+
+
+  // ==========================
+  // ТАЙМЕР
+  // ==========================
+
+  function startTimer() {
+
+    timerSeconds = 0;
+
+    document
+      .getElementById("timer")
+      .textContent = timerSeconds;
+
+
+    timerInterval =
+      setInterval(function() {
+
+        timerSeconds++;
+
+        document
+          .getElementById("timer")
+          .textContent = timerSeconds;
+
+      }, 1000);
+  }
+
+
+  function stopTimer() {
+
+    if (timerInterval) {
+
+      clearInterval(timerInterval);
+
+      timerInterval = null;
+    }
+  }
+
+
+  // ==========================
+  // СБРОС ЭКРАНА КЕЙСА
+  // ==========================
+
+  function resetCaseUI() {
+
+    stopTimer();
+
+    document
+      .getElementById("result-box")
+      .classList.add("hidden");
+
+    document
+      .getElementById("next-case-btn")
+      .classList.add("hidden");
+
+    document
+      .getElementById("knowledge-input")
+      .value = "";
+
+    document
+      .getElementById("interface-options")
+      .innerHTML = "";
+  }
+
+
+  // ==========================
+  // ГЛАВНАЯ
+  // ==========================
+
+  function goHome() {
+
+    stopTimer();
+
+    document
+      .getElementById("case-screen")
+      .classList.add("hidden");
+
+    document
+      .getElementById("home-screen")
+      .classList.remove("hidden");
+
+    updateHomeStats();
+  }
+
+
+  // ==========================
+  // СТАТИСТИКА
+  // ==========================
+
+  function updateHomeStats() {
+
+    const knowledgeDone =
+      knowledgeCases.filter(caseItem => {
+
+        const data =
+          progress.knowledge[caseItem.id];
+
+        return data &&
+               data.successCount >= 3;
+
+      }).length;
+
+
+    const interfaceDone =
+      interfaceCases.filter(caseItem => {
+
+        const data =
+          progress.interface[caseItem.id];
+
+        return data &&
+               data.successCount >= 3;
+
+      }).length;
+
+
+    document
+      .getElementById("knowledge-progress")
+      .textContent =
+      knowledgeDone +
+      " / " +
+      knowledgeCases.length;
+
+
+    document
+      .getElementById("interface-progress")
+      .textContent =
+      interfaceDone +
+      " / " +
+      interfaceCases.length;
+  }
+
+
+  updateHomeStats();
+
+</script>
+
+</body>
+</html>
