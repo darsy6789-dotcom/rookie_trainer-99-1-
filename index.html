@@ -1,378 +1,626 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Тренажёр новичка</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 24px;
-    }
+<title>Тренажёр новичка</title>
 
-    button {
-      padding: 10px 16px;
-      margin: 6px;
-      cursor: pointer;
-    }
+<style>
+* {
+  box-sizing: border-box;
+}
 
-    input {
-      padding: 8px;
-      width: 220px;
-    }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f6fa;
+  color: #222;
+}
 
-    .hidden {
-      display: none;
-    }
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
 
-    .box {
-      border: 1px solid #aaa;
-      padding: 20px;
-      margin-top: 20px;
-    }
+h1 {
+  margin-bottom: 30px;
+}
 
-    .timer {
-      font-size: 24px;
-      font-weight: bold;
-      margin: 16px 0;
-    }
+button {
+  border: 0;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-size: 15px;
+  cursor: pointer;
+}
 
-    .roulette-number {
-      font-size: 72px;
-      font-weight: bold;
-      text-align: center;
-      margin: 30px 0;
-    }
+.main-button {
+  background: #222;
+  color: white;
+  margin: 5px;
+}
 
-    .result {
-      margin-top: 16px;
-      padding: 12px;
-      border: 1px solid #ccc;
-    }
+.success-button {
+  background: #42b883;
+  color: white;
+}
 
-    .stats {
-      margin-top: 20px;
-      padding-top: 16px;
-      border-top: 1px solid #ccc;
-    }
-  </style>
+.fail-button {
+  background: #e85d75;
+  color: white;
+}
+
+.secondary-button {
+  background: #ddd;
+  color: #222;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.card {
+  background: white;
+  border-radius: 18px;
+  padding: 25px;
+  margin-top: 20px;
+  box-shadow: 0 5px 20px rgba(0,0,0,.08);
+}
+
+.timer {
+  font-size: 30px;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+.big-number {
+  font-size: 55px;
+  font-weight: bold;
+  margin: 25px 0;
+}
+
+.progress {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* =========================
+   РУЛЕТКА
+========================= */
+
+.wheel-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px 0;
+}
+
+.pointer {
+  width: 0;
+  height: 0;
+  border-left: 18px solid transparent;
+  border-right: 18px solid transparent;
+  border-top: 35px solid #222;
+  margin-bottom: -8px;
+  z-index: 10;
+}
+
+.wheel {
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  border: 8px solid white;
+
+  box-shadow:
+    0 8px 30px rgba(0,0,0,.20),
+    0 0 0 3px #222;
+
+  position: relative;
+
+  background:
+    conic-gradient(
+      #ff6b6b 0deg 36deg,
+      #ffd93d 36deg 72deg,
+      #6bcb77 72deg 108deg,
+      #4d96ff 108deg 144deg,
+      #9d4edd 144deg 180deg,
+      #ff8fab 180deg 216deg,
+      #00b4d8 216deg 252deg,
+      #ff9f1c 252deg 288deg,
+      #80ed99 288deg 324deg,
+      #c77dff 324deg 360deg
+    );
+
+  transition:
+    transform 4s cubic-bezier(.17,.67,.12,.99);
+}
+
+.wheel-label {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  width: 34px;
+  height: 34px;
+
+  margin-left: -17px;
+  margin-top: -17px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: bold;
+  font-size: 20px;
+
+  transform:
+    rotate(var(--angle))
+    translateY(-145px)
+    rotate(calc(-1 * var(--angle)));
+}
+
+.wheel-center {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 70px;
+  height: 70px;
+
+  transform: translate(-50%, -50%);
+
+  background: white;
+  border: 5px solid #222;
+  border-radius: 50%;
+
+  z-index: 3;
+}
+
+.case-result {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.stat {
+  background: #f1f2f6;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.completed {
+  opacity: .45;
+}
+
+@media (max-width: 500px) {
+  .wheel {
+    width: 300px;
+    height: 300px;
+  }
+
+  .wheel-label {
+    transform:
+      rotate(var(--angle))
+      translateY(-110px)
+      rotate(calc(-1 * var(--angle)));
+  }
+}
+</style>
 </head>
+
 
 <body>
 
+<div class="container">
+
 <h1>Тренажёр новичка</h1>
 
-<!-- ГЛАВНАЯ -->
-<div id="home-screen">
 
-  <h2>Выбери режим</h2>
+<!-- =========================
+     ГЛАВНАЯ
+========================= -->
 
-  <button onclick="openKnowledge()">
-    Номера знаний
-  </button>
+<div id="home">
 
-  <button onclick="openRoulette()">
-    Треня кейсов
-  </button>
+  <div class="card">
 
-  <div class="stats">
-    <h3>Общий прогресс</h3>
+    <h2>Что тренируем?</h2>
+
+    <button
+      class="main-button"
+      onclick="openKnowledge()">
+      Номера знаний
+    </button>
+
+    <button
+      class="main-button"
+      onclick="openCases()">
+      Треня кейсов
+    </button>
+
+  </div>
+
+
+  <div class="card">
+
+    <h3>Прогресс</h3>
 
     <p>
-      Знания закреплено:
-      <span id="knowledge-home-progress">0 / 10</span>
+      Номера знаний:
+      <strong id="homeKnowledgeProgress">
+        0 / 10
+      </strong>
     </p>
 
     <p>
-      Кейсы закреплено:
-      <span id="roulette-home-progress">0 / 10</span>
+      Кейсы:
+      <strong id="homeCaseProgress">
+        0 / 10
+      </strong>
     </p>
+
   </div>
 
 </div>
 
 
-<!-- ===================== -->
-<!-- НОМЕРА ЗНАНИЙ -->
-<!-- ===================== -->
 
-<div id="knowledge-screen" class="hidden">
+<!-- =========================
+     НОМЕРА ЗНАНИЙ
+========================= -->
 
-  <button onclick="goHome()">← На главную</button>
+<div id="knowledge" class="hidden">
 
-  <h2>Номера знаний</h2>
+  <button
+    class="secondary-button"
+    onclick="goHome()">
+    ← На главную
+  </button>
 
-  <div class="box">
+
+  <div class="card">
+
+    <h2>Номера знаний</h2>
 
     <p>
-      Закрепление:
-      <span id="knowledge-case-progress">0 / 3</span>
+      Тренажёр не проверяет ответ.
+      Найди нужное знание самостоятельно,
+      а затем оцени результат.
     </p>
+
+
+    <div class="big-number">
+      Задание №
+      <span id="knowledgeNumber">1</span>
+    </div>
+
+
+    <div class="progress">
+      Закрепление:
+      <strong id="knowledgeProgress">
+        0 / 3
+      </strong>
+    </div>
+
 
     <div class="timer">
-      Время:
-      <span id="knowledge-timer">0</span> сек.
+      ⏱
+      <span id="knowledgeTimer">0</span>
+      сек.
     </div>
 
-    <h3 id="knowledge-question"></h3>
 
-    <input
-      id="knowledge-input"
-      type="text"
-      placeholder="Номер знания"
-    />
+    <div class="actions">
 
-    <button onclick="checkKnowledge()">
-      Ответить
-    </button>
+      <button
+        class="success-button"
+        onclick="finishKnowledge(true)">
+        ✓ Верно
+      </button>
 
-    <div id="knowledge-result" class="result hidden"></div>
+      <button
+        class="fail-button"
+        onclick="finishKnowledge(false)">
+        ✕ Не верно
+      </button>
 
-    <button
-      id="knowledge-next"
-      class="hidden"
-      onclick="nextKnowledgeCase()"
-    >
-      Следующий вопрос
-    </button>
+    </div>
+
+
+    <div
+      id="knowledgeResult"
+      class="hidden">
+
+      <p id="knowledgeResultText"></p>
+
+      <button
+        class="main-button"
+        onclick="nextKnowledge()">
+        Следующее
+      </button>
+
+    </div>
 
   </div>
 
 </div>
 
 
-<!-- ===================== -->
-<!-- РУЛЕТКА КЕЙСОВ -->
-<!-- ===================== -->
 
-<div id="roulette-screen" class="hidden">
+<!-- =========================
+     КЕЙСЫ
+========================= -->
 
-  <button onclick="goHome()">← На главную</button>
+<div id="cases" class="hidden">
 
-  <h2>Треня кейсов</h2>
+  <button
+    class="secondary-button"
+    onclick="goHome()">
+    ← На главную
+  </button>
 
-  <div class="box">
+
+  <div class="card">
+
+    <h2>Рулетка кейсов</h2>
 
     <p>
-      Рулетка выбирает номер кейса от 1 до 10.
-      Сам кейс открывай отдельно.
+      Крути колесо.
+      Выпавший номер соответствует
+      номеру кейса в твоём отдельном списке.
     </p>
 
-    <div id="roulette-number" class="roulette-number">
-      ?
-    </div>
 
-    <button
-      id="spin-button"
-      onclick="spinRoulette()"
-    >
-      Крутить рулетку
-    </button>
+    <div class="wheel-area">
 
-    <div id="roulette-work-area" class="hidden">
+      <div class="pointer"></div>
 
-      <p>
-        Выпал кейс №
-        <strong id="selected-case-number"></strong>
-      </p>
 
-      <p>
-        Закрепление:
-        <span id="roulette-case-progress">0 / 3</span>
-      </p>
+      <div
+        id="wheel"
+        class="wheel">
 
-      <div class="timer">
-        Время:
-        <span id="roulette-timer">0</span> сек.
+        <div
+          class="wheel-label"
+          style="--angle:18deg">
+          1
+        </div>
+
+        <div
+          class="wheel-label"
+          style="--angle:54deg">
+          2
+        </div>
+
+        <div
+          class="wheel-label"
+          style="--angle:90deg">
+          3
+        </div>
+
+        <div
+          class="wheel-label"
+          style="--angle:126deg">
+          4
+        </div>
+
+        <div
+          class="wheel-label"
+          style="--angle:162deg">
+          5
+        </div>
+
+        <div
+          class="wheel-label"
+          style="--angle:198deg">
+          6
+        </div>
+
+        <div
+          class="wheel-label"
+          style="--angle:234deg">
+          7
+        </div>
+
+        <div
+          class="wheel-label"
+          style="--angle:270deg">
+          8
+        </div>
+
+        <div
+          class="wheel-label"
+          style="--angle:306deg">
+          9
+        </div>
+
+        <div
+          class="wheel-label"
+          style="--angle:342deg">
+          10
+        </div>
+
+        <div class="wheel-center"></div>
+
       </div>
 
-      <button onclick="finishRouletteCase(true)">
-        Успешно
-      </button>
+    </div>
 
-      <button onclick="finishRouletteCase(false)">
-        Неуспешно
+
+    <div style="text-align:center">
+
+      <button
+        id="spinButton"
+        class="main-button"
+        onclick="spinWheel()">
+        🎲 Крутить рулетку
       </button>
 
     </div>
 
-    <div id="roulette-result" class="result hidden"></div>
 
-    <button
-      id="roulette-next"
+    <div
+      id="caseWork"
+      class="hidden">
+
+      <div class="case-result">
+
+        Выпал кейс №
+        <span id="caseNumber"></span>
+
+      </div>
+
+
+      <p style="text-align:center">
+
+        Закрепление:
+
+        <strong id="caseProgress">
+          0 / 3
+        </strong>
+
+      </p>
+
+
+      <div
+        class="timer"
+        style="text-align:center">
+
+        ⏱
+        <span id="caseTimer">0</span>
+        сек.
+
+      </div>
+
+
+      <div
+        class="actions"
+        style="justify-content:center">
+
+        <button
+          class="success-button"
+          onclick="finishCase(true)">
+          ✓ Верно
+        </button>
+
+        <button
+          class="fail-button"
+          onclick="finishCase(false)">
+          ✕ Не верно
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div
+      id="caseResult"
       class="hidden"
-      onclick="prepareNextSpin()"
-    >
-      Следующий кейс
-    </button>
+      style="text-align:center">
 
-    <div class="stats">
-      <h3>Прогресс кейсов</h3>
-      <div id="roulette-stats"></div>
+      <p id="caseResultText"></p>
 
-      <button onclick="resetRouletteProgress()">
-        Сбросить прогресс кейсов
+      <button
+        class="main-button"
+        onclick="prepareWheel()">
+        Крутить ещё
       </button>
+
     </div>
 
   </div>
 
+
+
+  <div class="card">
+
+    <h3>Прогресс кейсов</h3>
+
+    <div
+      id="caseStats"
+      class="stats-grid">
+    </div>
+
+    <br>
+
+    <button
+      class="secondary-button"
+      onclick="resetCases()">
+      Сбросить прогресс
+    </button>
+
+  </div>
+
 </div>
+
+</div>
+
 
 
 <script>
 
-// ======================================================
-// НАСТРОЙКИ
-// ======================================================
+/* ==============================
+   ОБЩЕЕ
+============================== */
 
-const REQUIRED_SUCCESS_COUNT = 3;
+const NEED = 3;
 
-
-// ======================================================
-// ЗНАНИЯ
-// Пока нейтральные примеры.
-// Потом ты просто заменишь вопрос и номер знания.
-// ======================================================
-
-const knowledgeCases = [
-
-  {
-    id: "k1",
-    question: "Какой номер знания относится к теме №1?",
-    correctAnswer: "10001"
-  },
-
-  {
-    id: "k2",
-    question: "Какой номер знания относится к теме №2?",
-    correctAnswer: "10002"
-  },
-
-  {
-    id: "k3",
-    question: "Какой номер знания относится к теме №3?",
-    correctAnswer: "10003"
-  },
-
-  {
-    id: "k4",
-    question: "Какой номер знания относится к теме №4?",
-    correctAnswer: "10004"
-  },
-
-  {
-    id: "k5",
-    question: "Какой номер знания относится к теме №5?",
-    correctAnswer: "10005"
-  },
-
-  {
-    id: "k6",
-    question: "Какой номер знания относится к теме №6?",
-    correctAnswer: "10006"
-  },
-
-  {
-    id: "k7",
-    question: "Какой номер знания относится к теме №7?",
-    correctAnswer: "10007"
-  },
-
-  {
-    id: "k8",
-    question: "Какой номер знания относится к теме №8?",
-    correctAnswer: "10008"
-  },
-
-  {
-    id: "k9",
-    question: "Какой номер знания относится к теме №9?",
-    correctAnswer: "10009"
-  },
-
-  {
-    id: "k10",
-    question: "Какой номер знания относится к теме №10?",
-    correctAnswer: "10010"
-  }
-
-];
-
-
-// ======================================================
-// ПРОГРЕСС
-// ======================================================
-
-let knowledgeProgress = loadData(
-  "rookieKnowledgeProgress",
-  {}
-);
-
-let rouletteProgress = loadData(
-  "rookieRouletteProgress",
-  {}
-);
-
-
-// ======================================================
-// ОБЩИЕ ФУНКЦИИ
-// ======================================================
-
-function loadData(key, defaultValue) {
-
+function load(key) {
   try {
-
-    const saved = localStorage.getItem(key);
-
-    if (saved) {
-      return JSON.parse(saved);
-    }
-
-  } catch(e) {}
-
-  return defaultValue;
+    return JSON.parse(
+      localStorage.getItem(key)
+    ) || {};
+  } catch {
+    return {};
+  }
 }
 
-
-function saveKnowledgeProgress() {
-
+function save(key, data) {
   localStorage.setItem(
-    "rookieKnowledgeProgress",
-    JSON.stringify(knowledgeProgress)
+    key,
+    JSON.stringify(data)
   );
-
-  updateHomeStats();
 }
 
+let knowledgeData =
+  load("trainerKnowledge");
 
-function saveRouletteProgress() {
-
-  localStorage.setItem(
-    "rookieRouletteProgress",
-    JSON.stringify(rouletteProgress)
-  );
-
-  updateHomeStats();
-  renderRouletteStats();
-}
+let caseData =
+  load("trainerCases");
 
 
-function hideAllScreens() {
+function hideScreens() {
 
   document
-    .getElementById("home-screen")
+    .getElementById("home")
     .classList.add("hidden");
 
   document
-    .getElementById("knowledge-screen")
+    .getElementById("knowledge")
     .classList.add("hidden");
 
   document
-    .getElementById("roulette-screen")
+    .getElementById("cases")
     .classList.add("hidden");
 }
 
@@ -380,125 +628,75 @@ function hideAllScreens() {
 function goHome() {
 
   stopKnowledgeTimer();
-  stopRouletteTimer();
+  stopCaseTimer();
 
-  hideAllScreens();
+  hideScreens();
 
   document
-    .getElementById("home-screen")
+    .getElementById("home")
     .classList.remove("hidden");
 
-  updateHomeStats();
+  updateHome();
 }
 
 
-// ======================================================
-// ГЛАВНАЯ СТАТИСТИКА
-// ======================================================
 
-function updateHomeStats() {
+/* ==============================
+   НОМЕРА ЗНАНИЙ
 
-  const knowledgeDone =
-    knowledgeCases.filter(item => {
+   ВАЖНО:
+   здесь НЕТ правильных ответов.
+============================== */
 
-      const data =
-        knowledgeProgress[item.id];
+let currentKnowledge = null;
 
-      return (
-        data &&
-        data.successCount >= REQUIRED_SUCCESS_COUNT
-      );
+let knowledgeSeconds = 0;
 
-    }).length;
-
-
-  let rouletteDone = 0;
-
-  for (let i = 1; i <= 10; i++) {
-
-    const data =
-      rouletteProgress[i];
-
-    if (
-      data &&
-      data.successCount >= REQUIRED_SUCCESS_COUNT
-    ) {
-
-      rouletteDone++;
-    }
-  }
-
-
-  document
-    .getElementById("knowledge-home-progress")
-    .textContent =
-    knowledgeDone + " / " + knowledgeCases.length;
-
-
-  document
-    .getElementById("roulette-home-progress")
-    .textContent =
-    rouletteDone + " / 10";
-}
-
-
-// ======================================================
-// РЕЖИМ ЗНАНИЙ
-// ======================================================
-
-let currentKnowledgeCase = null;
-
-let knowledgeTimerSeconds = 0;
-
-let knowledgeTimerInterval = null;
+let knowledgeInterval = null;
 
 
 function openKnowledge() {
 
-  hideAllScreens();
+  hideScreens();
 
   document
-    .getElementById("knowledge-screen")
+    .getElementById("knowledge")
     .classList.remove("hidden");
 
-  nextKnowledgeCase();
+  nextKnowledge();
 }
 
 
-function nextKnowledgeCase() {
+function getAvailableKnowledge() {
+
+  let result = [];
+
+  for (let i = 1; i <= 10; i++) {
+
+    let data = knowledgeData[i];
+
+    if (!data || data.success < NEED) {
+      result.push(i);
+    }
+  }
+
+  return result;
+}
+
+
+function nextKnowledge() {
 
   stopKnowledgeTimer();
 
-  document
-    .getElementById("knowledge-result")
-    .classList.add("hidden");
-
-  document
-    .getElementById("knowledge-next")
-    .classList.add("hidden");
-
-  document
-    .getElementById("knowledge-input")
-    .value = "";
-
-
   let available =
-    knowledgeCases.filter(item => {
-
-      const data =
-        knowledgeProgress[item.id];
-
-      return (
-        !data ||
-        data.successCount < REQUIRED_SUCCESS_COUNT
-      );
-
-    });
+    getAvailableKnowledge();
 
 
-  if (available.length === 0) {
+  if (!available.length) {
 
-    alert("Все знания закреплены 3 раза.");
+    alert(
+      "Все задания закреплены 3 раза!"
+    );
 
     goHome();
 
@@ -506,165 +704,130 @@ function nextKnowledgeCase() {
   }
 
 
-  const randomIndex =
-    Math.floor(
-      Math.random() * available.length
-    );
+  currentKnowledge =
+    available[
+      Math.floor(
+        Math.random() *
+        available.length
+      )
+    ];
 
 
-  currentKnowledgeCase =
-    available[randomIndex];
-
-
-  document
-    .getElementById("knowledge-question")
-    .textContent =
-    currentKnowledgeCase.question;
-
-
-  const data =
-    knowledgeProgress[currentKnowledgeCase.id];
-
-
-  const successCount =
-    data ? data.successCount : 0;
+  let data =
+    knowledgeData[currentKnowledge] ||
+    { success: 0 };
 
 
   document
-    .getElementById("knowledge-case-progress")
+    .getElementById("knowledgeNumber")
     .textContent =
-    successCount + " / 3";
+    currentKnowledge;
+
+
+  document
+    .getElementById("knowledgeProgress")
+    .textContent =
+    data.success + " / 3";
+
+
+  document
+    .getElementById("knowledgeResult")
+    .classList.add("hidden");
 
 
   startKnowledgeTimer();
 }
 
 
-function checkKnowledge() {
+function finishKnowledge(success) {
 
   stopKnowledgeTimer();
 
 
-  const answer =
-    document
-      .getElementById("knowledge-input")
-      .value
-      .trim();
+  if (!knowledgeData[currentKnowledge]) {
 
-
-  const isCorrect =
-    answer === currentKnowledgeCase.correctAnswer;
-
-
-  if (
-    !knowledgeProgress[currentKnowledgeCase.id]
-  ) {
-
-    knowledgeProgress[currentKnowledgeCase.id] = {
-
-      successCount: 0,
+    knowledgeData[currentKnowledge] = {
+      success: 0,
       attempts: 0,
-      totalTime: 0,
-      bestTime: null
-
+      best: null
     };
   }
 
 
-  const data =
-    knowledgeProgress[currentKnowledgeCase.id];
+  let data =
+    knowledgeData[currentKnowledge];
 
 
   data.attempts++;
 
-  data.totalTime += knowledgeTimerSeconds;
 
+  if (success) {
 
-  if (
-    data.bestTime === null ||
-    knowledgeTimerSeconds < data.bestTime
-  ) {
+    data.success++;
 
-    data.bestTime =
-      knowledgeTimerSeconds;
-  }
-
-
-  if (isCorrect) {
-
-    data.successCount++;
-
-    if (
-      data.successCount >
-      REQUIRED_SUCCESS_COUNT
-    ) {
-
-      data.successCount =
-        REQUIRED_SUCCESS_COUNT;
+    if (data.success > NEED) {
+      data.success = NEED;
     }
   }
 
 
-  saveKnowledgeProgress();
+  if (
+    data.best === null ||
+    knowledgeSeconds < data.best
+  ) {
 
-
-  const result =
-    document.getElementById(
-      "knowledge-result"
-    );
-
-
-  result.classList.remove("hidden");
-
-
-  if (isCorrect) {
-
-    result.innerHTML =
-      "<strong>Верно.</strong><br>" +
-      "Время: " +
-      knowledgeTimerSeconds +
-      " сек.<br>" +
-      "Закрепление: " +
-      data.successCount +
-      " / 3";
-
-  } else {
-
-    result.innerHTML =
-      "<strong>Ошибка.</strong><br>" +
-      "Правильный номер: " +
-      currentKnowledgeCase.correctAnswer +
-      "<br>" +
-      "Время: " +
-      knowledgeTimerSeconds +
-      " сек.";
+    data.best =
+      knowledgeSeconds;
   }
 
 
+  save(
+    "trainerKnowledge",
+    knowledgeData
+  );
+
+
   document
-    .getElementById("knowledge-next")
+    .getElementById("knowledgeProgress")
+    .textContent =
+    data.success + " / 3";
+
+
+  document
+    .getElementById("knowledgeResultText")
+    .textContent =
+    success
+      ? "Засчитано ✓"
+      : "Не засчитано";
+
+
+  document
+    .getElementById("knowledgeResult")
     .classList.remove("hidden");
+
+
+  updateHome();
 }
 
 
 function startKnowledgeTimer() {
 
-  knowledgeTimerSeconds = 0;
+  knowledgeSeconds = 0;
 
   document
-    .getElementById("knowledge-timer")
-    .textContent = "0";
+    .getElementById("knowledgeTimer")
+    .textContent = 0;
 
 
-  knowledgeTimerInterval =
-    setInterval(function() {
+  knowledgeInterval =
+    setInterval(() => {
 
-      knowledgeTimerSeconds++;
+      knowledgeSeconds++;
 
       document
-        .getElementById("knowledge-timer")
+        .getElementById("knowledgeTimer")
         .textContent =
-        knowledgeTimerSeconds;
+        knowledgeSeconds;
 
     }, 1000);
 }
@@ -672,360 +835,317 @@ function startKnowledgeTimer() {
 
 function stopKnowledgeTimer() {
 
-  if (knowledgeTimerInterval) {
+  clearInterval(
+    knowledgeInterval
+  );
 
-    clearInterval(
-      knowledgeTimerInterval
-    );
-
-    knowledgeTimerInterval = null;
-  }
+  knowledgeInterval = null;
 }
 
 
-// ======================================================
-// РУЛЕТКА КЕЙСОВ
-// ======================================================
 
-let selectedRouletteCase = null;
+/* ==============================
+   РУЛЕТКА
+============================== */
 
-let rouletteTimerSeconds = 0;
+let currentCase = null;
 
-let rouletteTimerInterval = null;
+let caseSeconds = 0;
 
-let rouletteAnimationInterval = null;
+let caseInterval = null;
+
+let wheelRotation = 0;
+
+let spinning = false;
 
 
-function openRoulette() {
+function openCases() {
 
-  hideAllScreens();
+  hideScreens();
 
   document
-    .getElementById("roulette-screen")
+    .getElementById("cases")
     .classList.remove("hidden");
 
-  prepareNextSpin();
+  prepareWheel();
 
-  renderRouletteStats();
+  renderCaseStats();
 }
 
 
-function getAvailableRouletteCases() {
+function availableCases() {
 
-  const available = [];
-
+  let result = [];
 
   for (let i = 1; i <= 10; i++) {
 
-    const data =
-      rouletteProgress[i];
+    let data = caseData[i];
 
-
-    if (
-      !data ||
-      data.successCount < REQUIRED_SUCCESS_COUNT
-    ) {
-
-      available.push(i);
+    if (!data || data.success < NEED) {
+      result.push(i);
     }
   }
 
-
-  return available;
+  return result;
 }
 
 
-function spinRoulette() {
+function spinWheel() {
 
-  const available =
-    getAvailableRouletteCases();
+  if (spinning) return;
 
 
-  if (available.length === 0) {
+  let available =
+    availableCases();
+
+
+  if (!available.length) {
 
     alert(
-      "Все 10 кейсов закреплены 3 раза."
+      "Все 10 кейсов закреплены!"
     );
 
     return;
   }
 
 
+  spinning = true;
+
+
   document
-    .getElementById("spin-button")
+    .getElementById("spinButton")
     .disabled = true;
 
 
-  let animationTicks = 0;
+  currentCase =
+    available[
+      Math.floor(
+        Math.random() *
+        available.length
+      )
+    ];
 
 
-  rouletteAnimationInterval =
-    setInterval(function() {
+  /*
+    Каждый сектор = 36 градусов.
 
-      const randomDisplay =
-        Math.floor(Math.random() * 10) + 1;
+    Центр сектора:
+    1 = 18°
+    2 = 54°
+    ...
+  */
 
-
-      document
-        .getElementById("roulette-number")
-        .textContent =
-        randomDisplay;
-
-
-      animationTicks++;
+  let sectorCenter =
+    18 +
+    (currentCase - 1) * 36;
 
 
-      if (animationTicks >= 20) {
+  /*
+    Стрелка находится сверху.
 
-        clearInterval(
-          rouletteAnimationInterval
-        );
+    Добавляем несколько
+    полных оборотов.
+  */
 
-
-        const randomIndex =
-          Math.floor(
-            Math.random() *
-            available.length
-          );
+  let extraTurns =
+    5 * 360;
 
 
-        selectedRouletteCase =
-          available[randomIndex];
+  let target =
+    extraTurns +
+    (360 - sectorCenter);
 
 
-        document
-          .getElementById("roulette-number")
-          .textContent =
-          selectedRouletteCase;
+  wheelRotation += target;
 
 
-        beginRouletteCase();
+  let wheel =
+    document.getElementById("wheel");
 
-      }
 
-    }, 80);
+  wheel.style.transform =
+    "rotate(" +
+    wheelRotation +
+    "deg)";
+
+
+  setTimeout(() => {
+
+    spinning = false;
+
+    showCase();
+
+  }, 4100);
 }
 
 
-function beginRouletteCase() {
+function showCase() {
 
-  const data =
-    rouletteProgress[selectedRouletteCase];
-
-
-  const successCount =
-    data ? data.successCount : 0;
+  let data =
+    caseData[currentCase] ||
+    { success: 0 };
 
 
   document
-    .getElementById("selected-case-number")
+    .getElementById("caseNumber")
     .textContent =
-    selectedRouletteCase;
+    currentCase;
 
 
   document
-    .getElementById("roulette-case-progress")
+    .getElementById("caseProgress")
     .textContent =
-    successCount + " / 3";
+    data.success + " / 3";
 
 
   document
-    .getElementById("roulette-work-area")
+    .getElementById("caseWork")
     .classList.remove("hidden");
 
 
-  startRouletteTimer();
+  startCaseTimer();
 }
 
 
-function finishRouletteCase(isSuccess) {
+function finishCase(success) {
 
-  stopRouletteTimer();
+  stopCaseTimer();
 
 
-  if (
-    !rouletteProgress[selectedRouletteCase]
-  ) {
+  if (!caseData[currentCase]) {
 
-    rouletteProgress[selectedRouletteCase] = {
-
-      successCount: 0,
+    caseData[currentCase] = {
+      success: 0,
       attempts: 0,
-      totalTime: 0,
-      bestTime: null
-
+      best: null
     };
   }
 
 
-  const data =
-    rouletteProgress[selectedRouletteCase];
+  let data =
+    caseData[currentCase];
 
 
   data.attempts++;
 
-  data.totalTime += rouletteTimerSeconds;
 
+  if (success) {
 
-  if (
-    data.bestTime === null ||
-    rouletteTimerSeconds < data.bestTime
-  ) {
+    data.success++;
 
-    data.bestTime =
-      rouletteTimerSeconds;
-  }
-
-
-  if (isSuccess) {
-
-    data.successCount++;
-
-    if (
-      data.successCount >
-      REQUIRED_SUCCESS_COUNT
-    ) {
-
-      data.successCount =
-        REQUIRED_SUCCESS_COUNT;
+    if (data.success > NEED) {
+      data.success = NEED;
     }
   }
 
 
-  saveRouletteProgress();
+  if (
+    data.best === null ||
+    caseSeconds < data.best
+  ) {
 
-
-  const result =
-    document.getElementById(
-      "roulette-result"
-    );
-
-
-  result.classList.remove("hidden");
-
-
-  if (isSuccess) {
-
-    result.innerHTML =
-      "<strong>Кейс засчитан.</strong><br>" +
-      "Кейс №" +
-      selectedRouletteCase +
-      "<br>" +
-      "Время: " +
-      rouletteTimerSeconds +
-      " сек.<br>" +
-      "Закрепление: " +
-      data.successCount +
-      " / 3";
-
-  } else {
-
-    result.innerHTML =
-      "<strong>Кейс не засчитан.</strong><br>" +
-      "Кейс №" +
-      selectedRouletteCase +
-      "<br>" +
-      "Время: " +
-      rouletteTimerSeconds +
-      " сек.<br>" +
-      "Он останется в рулетке.";
+    data.best =
+      caseSeconds;
   }
 
 
+  save(
+    "trainerCases",
+    caseData
+  );
+
+
   document
-    .getElementById("roulette-work-area")
+    .getElementById("caseWork")
     .classList.add("hidden");
 
 
   document
-    .getElementById("roulette-next")
+    .getElementById("caseResultText")
+    .textContent =
+    success
+      ? "Кейс засчитан ✓"
+      : "Кейс не засчитан";
+
+
+  document
+    .getElementById("caseResult")
     .classList.remove("hidden");
+
+
+  renderCaseStats();
+
+  updateHome();
 }
 
 
-function prepareNextSpin() {
+function prepareWheel() {
 
-  stopRouletteTimer();
+  stopCaseTimer();
 
-
-  selectedRouletteCase = null;
-
-
-  document
-    .getElementById("roulette-number")
-    .textContent =
-    "?";
+  currentCase = null;
 
 
   document
-    .getElementById("roulette-result")
+    .getElementById("caseWork")
     .classList.add("hidden");
 
 
   document
-    .getElementById("roulette-work-area")
+    .getElementById("caseResult")
     .classList.add("hidden");
 
 
   document
-    .getElementById("roulette-next")
-    .classList.add("hidden");
-
-
-  document
-    .getElementById("spin-button")
+    .getElementById("spinButton")
     .disabled = false;
 }
 
 
-function startRouletteTimer() {
+function startCaseTimer() {
 
-  rouletteTimerSeconds = 0;
+  caseSeconds = 0;
 
 
   document
-    .getElementById("roulette-timer")
-    .textContent =
-    "0";
+    .getElementById("caseTimer")
+    .textContent = 0;
 
 
-  rouletteTimerInterval =
-    setInterval(function() {
+  caseInterval =
+    setInterval(() => {
 
-      rouletteTimerSeconds++;
-
+      caseSeconds++;
 
       document
-        .getElementById("roulette-timer")
+        .getElementById("caseTimer")
         .textContent =
-        rouletteTimerSeconds;
+        caseSeconds;
 
     }, 1000);
 }
 
 
-function stopRouletteTimer() {
+function stopCaseTimer() {
 
-  if (rouletteTimerInterval) {
+  clearInterval(
+    caseInterval
+  );
 
-    clearInterval(
-      rouletteTimerInterval
-    );
-
-    rouletteTimerInterval = null;
-  }
+  caseInterval = null;
 }
 
 
-// ======================================================
-// СТАТИСТИКА РУЛЕТКИ
-// ======================================================
 
-function renderRouletteStats() {
+/* ==============================
+   СТАТИСТИКА КЕЙСОВ
+============================== */
 
-  const container =
+function renderCaseStats() {
+
+  let container =
     document.getElementById(
-      "roulette-stats"
+      "caseStats"
     );
 
 
@@ -1034,72 +1154,129 @@ function renderRouletteStats() {
 
   for (let i = 1; i <= 10; i++) {
 
-    const data =
-      rouletteProgress[i];
+    let data =
+      caseData[i] || {
+        success: 0,
+        attempts: 0,
+        best: null
+      };
 
 
-    const successCount =
-      data ? data.successCount : 0;
+    let div =
+      document.createElement("div");
 
 
-    const attempts =
-      data ? data.attempts : 0;
+    div.className =
+      "stat" +
+      (
+        data.success >= NEED
+          ? " completed"
+          : ""
+      );
 
 
-    const bestTime =
-      data &&
-      data.bestTime !== null
-        ? data.bestTime + " сек."
-        : "—";
-
-
-    const line =
-      document.createElement("p");
-
-
-    line.textContent =
-      "Кейс " +
+    div.innerHTML =
+      "<strong>Кейс " +
       i +
-      ": " +
-      successCount +
-      "/3 | попыток: " +
-      attempts +
-      " | лучшее время: " +
-      bestTime;
+      "</strong><br>" +
+
+      "Закрепление: " +
+      data.success +
+      "/3<br>" +
+
+      "Попыток: " +
+      data.attempts +
+      "<br>" +
+
+      "Лучшее время: " +
+      (
+        data.best === null
+          ? "—"
+          : data.best + " сек."
+      );
 
 
-    container.appendChild(line);
+    container.appendChild(div);
   }
 }
 
 
-function resetRouletteProgress() {
+function resetCases() {
 
-  const confirmed =
-    confirm(
-      "Сбросить весь прогресс по 10 кейсам?"
-    );
-
-
-  if (!confirmed) {
+  if (
+    !confirm(
+      "Точно сбросить прогресс?"
+    )
+  ) {
     return;
   }
 
 
-  rouletteProgress = {};
+  caseData = {};
 
 
-  saveRouletteProgress();
+  save(
+    "trainerCases",
+    caseData
+  );
 
-  prepareNextSpin();
+
+  renderCaseStats();
+
+  updateHome();
+
+  prepareWheel();
 }
 
 
-// ======================================================
-// СТАРТ
-// ======================================================
 
-updateHomeStats();
+/* ==============================
+   ГЛАВНАЯ СТАТИСТИКА
+============================== */
+
+function updateHome() {
+
+  let knowledgeDone = 0;
+  let casesDone = 0;
+
+
+  for (let i = 1; i <= 10; i++) {
+
+    if (
+      knowledgeData[i] &&
+      knowledgeData[i].success >= NEED
+    ) {
+      knowledgeDone++;
+    }
+
+
+    if (
+      caseData[i] &&
+      caseData[i].success >= NEED
+    ) {
+      casesDone++;
+    }
+  }
+
+
+  document
+    .getElementById(
+      "homeKnowledgeProgress"
+    )
+    .textContent =
+    knowledgeDone + " / 10";
+
+
+  document
+    .getElementById(
+      "homeCaseProgress"
+    )
+    .textContent =
+    casesDone + " / 10";
+}
+
+
+updateHome();
 
 </script>
 
