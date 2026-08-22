@@ -14,83 +14,118 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #f5f6fa;
-  color: #222;
-}
-
-.container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 30px 20px;
-}
-
-h1 {
-  margin-bottom: 30px;
+  background: #f4f5f9;
+  color: #202124;
 }
 
 button {
-  border: 0;
-  border-radius: 10px;
-  padding: 12px 18px;
-  font-size: 15px;
-  cursor: pointer;
+  font-family: inherit;
 }
 
-.main-button {
-  background: #222;
-  color: white;
-  margin: 5px;
+.container {
+  width: min(920px, calc(100% - 30px));
+  margin: 0 auto;
+  padding: 30px 0 60px;
 }
 
-.success-button {
-  background: #42b883;
-  color: white;
+h1 {
+  margin-top: 0;
 }
 
-.fail-button {
-  background: #e85d75;
-  color: white;
-}
-
-.secondary-button {
-  background: #ddd;
-  color: #222;
+.card {
+  background: white;
+  border-radius: 20px;
+  padding: 26px;
+  margin-top: 20px;
+  box-shadow: 0 8px 30px rgba(0,0,0,.08);
 }
 
 .hidden {
   display: none !important;
 }
 
-.card {
-  background: white;
-  border-radius: 18px;
-  padding: 25px;
-  margin-top: 20px;
-  box-shadow: 0 5px 20px rgba(0,0,0,.08);
+/* =========================
+   КНОПКИ
+========================= */
+
+button {
+  border: 0;
+  border-radius: 11px;
+  padding: 12px 18px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: transform .12s, opacity .12s;
 }
 
+button:hover {
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  cursor: default;
+  opacity: .55;
+  transform: none;
+}
+
+.main-button {
+  background: #202124;
+  color: white;
+  margin: 4px;
+}
+
+.success-button {
+  background: #39ad73;
+  color: white;
+}
+
+.fail-button {
+  background: #e45b70;
+  color: white;
+}
+
+.secondary-button {
+  background: #e7e8ec;
+  color: #202124;
+}
+
+.settings-button {
+  background: white;
+  border: 1px solid #d9dbe1;
+  color: #202124;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+/* =========================
+   ОБЩИЕ ЭЛЕМЕНТЫ
+========================= */
+
 .timer {
-  font-size: 30px;
-  font-weight: bold;
-  margin: 20px 0;
+  font-size: 29px;
+  font-weight: 800;
+  margin: 18px 0;
 }
 
 .big-number {
-  font-size: 55px;
-  font-weight: bold;
+  font-size: 48px;
+  font-weight: 800;
   margin: 25px 0;
 }
 
 .progress {
-  font-size: 16px;
-  margin: 10px 0;
+  margin: 12px 0;
 }
 
-.actions {
+.result-message {
   margin-top: 20px;
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
+  padding: 16px;
+  border-radius: 12px;
+  background: #f3f4f7;
 }
 
 /* =========================
@@ -98,74 +133,209 @@ button {
 ========================= */
 
 .wheel-area {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 30px 0;
+  margin: 28px auto 30px;
 }
 
-.pointer {
+.pointer-holder {
+  height: 55px;
+  position: relative;
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  margin-bottom: -8px;
+}
+
+/* Классическая стрелка */
+
+.pointer-classic {
   width: 0;
   height: 0;
-  border-left: 18px solid transparent;
-  border-right: 18px solid transparent;
-  border-top: 35px solid #222;
-  margin-bottom: -8px;
-  z-index: 10;
+
+  border-left: 19px solid transparent;
+  border-right: 19px solid transparent;
+  border-top: 38px solid #202124;
+}
+
+/* Остальные указатели */
+
+.pointer-picture {
+  position: relative;
+  width: 54px;
+  height: 54px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform-origin: center bottom;
+}
+
+/* ПИЦЦА */
+
+.pizza-pointer {
+  width: 0;
+  height: 0;
+
+  border-left: 24px solid transparent;
+  border-right: 24px solid transparent;
+  border-top: 48px solid #f7c948;
+
+  position: relative;
+}
+
+.pizza-pointer::before {
+  content: "";
+  position: absolute;
+  width: 46px;
+  height: 8px;
+  background: #c77b30;
+  border-radius: 6px;
+  top: -49px;
+  left: -23px;
+}
+
+.pizza-pointer::after {
+  content: "●  ●";
+  position: absolute;
+  color: #d94b45;
+  font-size: 12px;
+  white-space: nowrap;
+  top: -39px;
+  left: -15px;
+}
+
+/* ДИКИЙ ПАЛЬЧИК */
+
+.finger-pointer {
+  width: 22px;
+  height: 46px;
+  background: #ffd5b5;
+  border: 3px solid #202124;
+  border-radius: 12px 12px 7px 7px;
+  position: relative;
+}
+
+.finger-pointer::after {
+  content: "";
+  position: absolute;
+  width: 33px;
+  height: 21px;
+  background: #ffd5b5;
+  border: 3px solid #202124;
+  border-radius: 14px;
+  left: -8px;
+  top: -4px;
+  z-index: -1;
+}
+
+/* KIDS */
+
+.kids-pointer {
+  position: relative;
+  width: 28px;
+  height: 48px;
+  background: #8dd7ff;
+  border: 3px solid #202124;
+  border-radius: 50% 50% 12px 12px;
+}
+
+.kids-pointer::before,
+.kids-pointer::after {
+  content: "";
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  background: #8dd7ff;
+  border: 3px solid #202124;
+  border-radius: 50%;
+  top: -5px;
+}
+
+.kids-pointer::before {
+  left: -10px;
+}
+
+.kids-pointer::after {
+  right: -10px;
+}
+
+/* Само колесо */
+
+.wheel-shell {
+  width: 390px;
+  height: 390px;
+  position: relative;
 }
 
 .wheel {
-  width: 380px;
-  height: 380px;
+  width: 100%;
+  height: 100%;
+
   border-radius: 50%;
+
   border: 8px solid white;
 
   box-shadow:
-    0 8px 30px rgba(0,0,0,.20),
-    0 0 0 3px #222;
-
-  position: relative;
+    0 8px 30px rgba(0,0,0,.18),
+    0 0 0 3px #202124;
 
   background:
     conic-gradient(
-      #ff6b6b 0deg 36deg,
+      #ff686b 0deg 36deg,
       #ffd93d 36deg 72deg,
       #6bcb77 72deg 108deg,
       #4d96ff 108deg 144deg,
-      #9d4edd 144deg 180deg,
-      #ff8fab 180deg 216deg,
-      #00b4d8 216deg 252deg,
+      #9747e5 144deg 180deg,
+      #ff86a6 180deg 216deg,
+      #10afc9 216deg 252deg,
       #ff9f1c 252deg 288deg,
-      #80ed99 288deg 324deg,
-      #c77dff 324deg 360deg
+      #75df8d 288deg 324deg,
+      #bd70ee 324deg 360deg
     );
 
+  position: absolute;
+  inset: 0;
+
   transition:
-    transform 4s cubic-bezier(.17,.67,.12,.99);
+    transform 4s cubic-bezier(.12,.62,.16,1);
 }
 
-.wheel-label {
+/*
+  Номера находятся на отдельном слое.
+
+  JS двигает каждый номер по окружности,
+  поэтому цифра сама не переворачивается.
+*/
+
+.number-layer {
   position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.wheel-number {
+  position: absolute;
+
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 21px;
+  font-weight: 900;
+
+  color: #151515;
+
   left: 50%;
   top: 50%;
 
-  width: 34px;
-  height: 34px;
-
-  margin-left: -17px;
-  margin-top: -17px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-weight: bold;
-  font-size: 20px;
-
-  transform:
-    rotate(var(--angle))
-    translateY(-145px)
-    rotate(calc(-1 * var(--angle)));
+  margin-left: -21px;
+  margin-top: -21px;
 }
 
 .wheel-center {
@@ -174,54 +344,226 @@ button {
   left: 50%;
   top: 50%;
 
+  transform: translate(-50%, -50%);
+
   width: 70px;
   height: 70px;
 
-  transform: translate(-50%, -50%);
-
-  background: white;
-  border: 5px solid #222;
   border-radius: 50%;
 
-  z-index: 3;
+  background: white;
+  border: 5px solid #202124;
+
+  z-index: 10;
 }
 
 .case-result {
   text-align: center;
-  font-size: 24px;
-  font-weight: bold;
-  margin-top: 20px;
+  font-size: 25px;
+  font-weight: 800;
+  margin-top: 22px;
 }
+
+/* =========================
+   СТАТИСТИКА
+========================= */
 
 .stats-grid {
   display: grid;
+
   grid-template-columns:
-    repeat(auto-fit, minmax(130px, 1fr));
+    repeat(auto-fit, minmax(135px, 1fr));
+
   gap: 10px;
-  margin-top: 20px;
+  margin-top: 18px;
 }
 
 .stat {
-  background: #f1f2f6;
-  border-radius: 10px;
-  padding: 12px;
+  background: #f2f3f6;
+  border-radius: 12px;
+  padding: 13px;
 }
 
-.completed {
-  opacity: .45;
+.stat.completed {
+  background: #ddf6e9;
 }
+
+.stat.completed::after {
+  content: " ✓";
+  font-weight: bold;
+}
+
+/* =========================
+   НАСТРОЙКИ
+========================= */
+
+.modal-background {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0,0,0,.42);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 1000;
+}
+
+.settings-modal {
+  background: white;
+
+  width: min(520px, calc(100% - 30px));
+
+  border-radius: 22px;
+
+  padding: 26px;
+
+  box-shadow: 0 15px 60px rgba(0,0,0,.25);
+}
+
+.pointer-option {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  background: #f3f4f7;
+
+  margin: 8px 0;
+
+  text-align: left;
+}
+
+.pointer-option.selected {
+  outline: 3px solid #202124;
+}
+
+.pointer-preview {
+  width: 45px;
+  text-align: center;
+  font-size: 28px;
+}
+
+/* =========================
+   ФИНАЛЬНАЯ ПЛАШКА
+========================= */
+
+.final-overlay {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0,0,0,.68);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 5000;
+}
+
+.final-card {
+  position: relative;
+  z-index: 5100;
+
+  width: min(600px, calc(100% - 30px));
+
+  background: white;
+
+  border-radius: 26px;
+
+  padding: 40px 25px;
+
+  text-align: center;
+
+  box-shadow: 0 20px 80px rgba(0,0,0,.35);
+
+  animation: finalPop .45s ease;
+}
+
+.final-card h2 {
+  font-size: clamp(30px, 7vw, 54px);
+  margin: 0 0 15px;
+}
+
+.final-card p {
+  font-size: 25px;
+}
+
+@keyframes finalPop {
+  0% {
+    transform: scale(.5) rotate(-4deg);
+    opacity: 0;
+  }
+
+  70% {
+    transform: scale(1.06) rotate(1deg);
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* =========================
+   КОНФЕТТИ
+========================= */
+
+.confetti {
+  position: fixed;
+
+  width: 10px;
+  height: 16px;
+
+  z-index: 6000;
+
+  pointer-events: none;
+
+  animation:
+    confettiFall var(--time) linear forwards;
+}
+
+@keyframes confettiFall {
+
+  0% {
+    transform:
+      translate(0, -30px)
+      rotate(0deg);
+
+    opacity: 1;
+  }
+
+  100% {
+    transform:
+      translate(
+        var(--x),
+        105vh
+      )
+      rotate(900deg);
+
+    opacity: 0;
+  }
+}
+
+/* =========================
+   МОБИЛЬНЫЙ
+========================= */
 
 @media (max-width: 500px) {
-  .wheel {
+
+  .wheel-shell {
     width: 300px;
     height: 300px;
   }
 
-  .wheel-label {
-    transform:
-      rotate(var(--angle))
-      translateY(-110px)
-      rotate(calc(-1 * var(--angle)));
+  .wheel-number {
+    font-size: 18px;
+  }
+
+  .card {
+    padding: 18px;
   }
 }
 </style>
@@ -235,9 +577,9 @@ button {
 <h1>Тренажёр новичка</h1>
 
 
-<!-- =========================
+<!-- ========================================
      ГЛАВНАЯ
-========================= -->
+======================================== -->
 
 <div id="home">
 
@@ -248,13 +590,18 @@ button {
     <button
       class="main-button"
       onclick="openKnowledge()">
+
       Номера знаний
+
     </button>
+
 
     <button
       class="main-button"
       onclick="openCases()">
+
       Треня кейсов
+
     </button>
 
   </div>
@@ -284,16 +631,20 @@ button {
 
 
 
-<!-- =========================
+<!-- ========================================
      НОМЕРА ЗНАНИЙ
-========================= -->
+======================================== -->
 
-<div id="knowledge" class="hidden">
+<div
+  id="knowledge"
+  class="hidden">
 
   <button
     class="secondary-button"
     onclick="goHome()">
+
     ← На главную
+
   </button>
 
 
@@ -301,46 +652,60 @@ button {
 
     <h2>Номера знаний</h2>
 
-    <p>
-      Тренажёр не проверяет ответ.
-      Найди нужное знание самостоятельно,
-      а затем оцени результат.
-    </p>
-
 
     <div class="big-number">
+
       Задание №
-      <span id="knowledgeNumber">1</span>
+      <span id="knowledgeNumber">
+        1
+      </span>
+
     </div>
 
 
     <div class="progress">
+
       Закрепление:
+
       <strong id="knowledgeProgress">
         0 / 3
       </strong>
+
     </div>
 
 
     <div class="timer">
+
       ⏱
-      <span id="knowledgeTimer">0</span>
+
+      <span id="knowledgeTimer">
+        0
+      </span>
+
       сек.
+
     </div>
 
 
-    <div class="actions">
+    <div
+      id="knowledgeActions"
+      class="actions">
 
       <button
         class="success-button"
         onclick="finishKnowledge(true)">
+
         ✓ Верно
+
       </button>
+
 
       <button
         class="fail-button"
         onclick="finishKnowledge(false)">
+
         ✕ Не верно
+
       </button>
 
     </div>
@@ -348,14 +713,18 @@ button {
 
     <div
       id="knowledgeResult"
-      class="hidden">
+      class="result-message hidden">
 
-      <p id="knowledgeResultText"></p>
+      <strong id="knowledgeResultText"></strong>
+
+      <br><br>
 
       <button
         class="main-button"
         onclick="nextKnowledge()">
+
         Следующее
+
       </button>
 
     </div>
@@ -366,100 +735,119 @@ button {
 
 
 
-<!-- =========================
-     КЕЙСЫ
-========================= -->
+<!-- ========================================
+     РУЛЕТКА КЕЙСОВ
+======================================== -->
 
-<div id="cases" class="hidden">
+<div
+  id="cases"
+  class="hidden">
 
-  <button
-    class="secondary-button"
-    onclick="goHome()">
-    ← На главную
-  </button>
+  <div class="actions">
+
+    <button
+      class="secondary-button"
+      onclick="goHome()">
+
+      ← На главную
+
+    </button>
+
+
+    <button
+      class="settings-button"
+      onclick="openSettings()">
+
+      ⚙️ Настройки
+
+    </button>
+
+  </div>
 
 
   <div class="card">
 
     <h2>Рулетка кейсов</h2>
 
-    <p>
-      Крути колесо.
-      Выпавший номер соответствует
-      номеру кейса в твоём отдельном списке.
-    </p>
-
 
     <div class="wheel-area">
 
-      <div class="pointer"></div>
 
+      <!-- УКАЗАТЕЛЬ -->
 
       <div
-        id="wheel"
-        class="wheel">
+        id="pointerHolder"
+        class="pointer-holder">
 
         <div
-          class="wheel-label"
-          style="--angle:18deg">
-          1
+          id="pointerVisual"
+          class="pointer-classic">
         </div>
+
+      </div>
+
+
+      <!-- КОЛЕСО -->
+
+      <div
+        id="wheelShell"
+        class="wheel-shell">
 
         <div
-          class="wheel-label"
-          style="--angle:54deg">
-          2
+          id="wheel"
+          class="wheel">
         </div>
+
 
         <div
-          class="wheel-label"
-          style="--angle:90deg">
-          3
+          id="numberLayer"
+          class="number-layer">
+
+          <div class="wheel-number" data-number="1">
+            1
+          </div>
+
+          <div class="wheel-number" data-number="2">
+            2
+          </div>
+
+          <div class="wheel-number" data-number="3">
+            3
+          </div>
+
+          <div class="wheel-number" data-number="4">
+            4
+          </div>
+
+          <div class="wheel-number" data-number="5">
+            5
+          </div>
+
+          <div class="wheel-number" data-number="6">
+            6
+          </div>
+
+          <div class="wheel-number" data-number="7">
+            7
+          </div>
+
+          <div class="wheel-number" data-number="8">
+            8
+          </div>
+
+          <div class="wheel-number" data-number="9">
+            9
+          </div>
+
+          <div class="wheel-number" data-number="10">
+            10
+          </div>
+
         </div>
 
-        <div
-          class="wheel-label"
-          style="--angle:126deg">
-          4
-        </div>
 
-        <div
-          class="wheel-label"
-          style="--angle:162deg">
-          5
+        <div class="wheel-center">
         </div>
-
-        <div
-          class="wheel-label"
-          style="--angle:198deg">
-          6
-        </div>
-
-        <div
-          class="wheel-label"
-          style="--angle:234deg">
-          7
-        </div>
-
-        <div
-          class="wheel-label"
-          style="--angle:270deg">
-          8
-        </div>
-
-        <div
-          class="wheel-label"
-          style="--angle:306deg">
-          9
-        </div>
-
-        <div
-          class="wheel-label"
-          style="--angle:342deg">
-          10
-        </div>
-
-        <div class="wheel-center"></div>
 
       </div>
 
@@ -472,11 +860,16 @@ button {
         id="spinButton"
         class="main-button"
         onclick="spinWheel()">
+
         🎲 Крутить рулетку
+
       </button>
 
     </div>
 
+
+
+    <!-- ВЫПАВШИЙ КЕЙС -->
 
     <div
       id="caseWork"
@@ -485,7 +878,9 @@ button {
       <div class="case-result">
 
         Выпал кейс №
-        <span id="caseNumber"></span>
+
+        <span id="caseNumber">
+        </span>
 
       </div>
 
@@ -506,7 +901,11 @@ button {
         style="text-align:center">
 
         ⏱
-        <span id="caseTimer">0</span>
+
+        <span id="caseTimer">
+          0
+        </span>
+
         сек.
 
       </div>
@@ -519,13 +918,18 @@ button {
         <button
           class="success-button"
           onclick="finishCase(true)">
+
           ✓ Верно
+
         </button>
+
 
         <button
           class="fail-button"
           onclick="finishCase(false)">
+
           ✕ Не верно
+
         </button>
 
       </div>
@@ -533,17 +937,25 @@ button {
     </div>
 
 
+
+    <!-- РЕЗУЛЬТАТ -->
+
     <div
       id="caseResult"
-      class="hidden"
+      class="result-message hidden"
       style="text-align:center">
 
-      <p id="caseResultText"></p>
+      <strong id="caseResultText">
+      </strong>
+
+      <br><br>
 
       <button
         class="main-button"
         onclick="prepareWheel()">
+
         Крутить ещё
+
       </button>
 
     </div>
@@ -551,6 +963,8 @@ button {
   </div>
 
 
+
+  <!-- СТАТИСТИКА -->
 
   <div class="card">
 
@@ -566,7 +980,9 @@ button {
     <button
       class="secondary-button"
       onclick="resetCases()">
+
       Сбросить прогресс
+
     </button>
 
   </div>
@@ -577,33 +993,179 @@ button {
 
 
 
+<!-- ========================================
+     НАСТРОЙКИ
+======================================== -->
+
+<div
+  id="settingsOverlay"
+  class="modal-background hidden">
+
+  <div class="settings-modal">
+
+    <h2>⚙️ Настройки</h2>
+
+    <h3>Выбор указателя</h3>
+
+
+    <button
+      class="pointer-option"
+      data-pointer="classic"
+      onclick="selectPointer('classic')">
+
+      <span class="pointer-preview">
+        ▼
+      </span>
+
+      <strong>
+        Классика
+      </strong>
+
+    </button>
+
+
+    <button
+      class="pointer-option"
+      data-pointer="pizza"
+      onclick="selectPointer('pizza')">
+
+      <span class="pointer-preview">
+        🍕
+      </span>
+
+      <strong>
+        Если ты голоден — вот тебе пицца
+      </strong>
+
+    </button>
+
+
+    <button
+      class="pointer-option"
+      data-pointer="finger"
+      onclick="selectPointer('finger')">
+
+      <span class="pointer-preview">
+        ☝️
+      </span>
+
+      <strong>
+        Дикий пальчик
+      </strong>
+
+    </button>
+
+
+    <button
+      class="pointer-option"
+      data-pointer="kids"
+      onclick="selectPointer('kids')">
+
+      <span class="pointer-preview">
+        🩵
+      </span>
+
+      <strong>
+        Писюнчик версии Kids
+      </strong>
+
+    </button>
+
+
+    <br>
+
+
+    <button
+      class="main-button"
+      onclick="closeSettings()">
+
+      Готово
+
+    </button>
+
+  </div>
+
+</div>
+
+
+
+<!-- ========================================
+     ФИНАЛ
+======================================== -->
+
+<div
+  id="finalOverlay"
+  class="final-overlay hidden">
+
+  <div class="final-card">
+
+    <h2>
+      РЫДАЛ, НО СДАЛ!!!
+    </h2>
+
+    <p>
+      Ты умничка!! 🎉
+    </p>
+
+
+    <button
+      class="main-button"
+      onclick="closeFinal()">
+
+      Урааа!
+    </button>
+
+
+    <button
+      class="secondary-button"
+      onclick="startNewRound()">
+
+      Начать новый круг
+    </button>
+
+  </div>
+
+</div>
+
+
+
 <script>
 
-/* ==============================
-   ОБЩЕЕ
-============================== */
+/* =========================================
+   БАЗА
+========================================= */
 
 const NEED = 3;
 
+
 function load(key) {
+
   try {
+
     return JSON.parse(
       localStorage.getItem(key)
     ) || {};
+
   } catch {
+
     return {};
+
   }
 }
 
+
 function save(key, data) {
+
   localStorage.setItem(
     key,
     JSON.stringify(data)
   );
 }
 
+
 let knowledgeData =
   load("trainerKnowledge");
+
 
 let caseData =
   load("trainerCases");
@@ -615,38 +1177,42 @@ function hideScreens() {
     .getElementById("home")
     .classList.add("hidden");
 
+
   document
     .getElementById("knowledge")
     .classList.add("hidden");
 
+
   document
     .getElementById("cases")
     .classList.add("hidden");
+
 }
 
 
 function goHome() {
 
   stopKnowledgeTimer();
+
   stopCaseTimer();
 
   hideScreens();
+
 
   document
     .getElementById("home")
     .classList.remove("hidden");
 
+
   updateHome();
+
 }
 
 
 
-/* ==============================
+/* =========================================
    НОМЕРА ЗНАНИЙ
-
-   ВАЖНО:
-   здесь НЕТ правильных ответов.
-============================== */
+========================================= */
 
 let currentKnowledge = null;
 
@@ -659,11 +1225,14 @@ function openKnowledge() {
 
   hideScreens();
 
+
   document
     .getElementById("knowledge")
     .classList.remove("hidden");
 
+
   nextKnowledge();
+
 }
 
 
@@ -671,22 +1240,34 @@ function getAvailableKnowledge() {
 
   let result = [];
 
+
   for (let i = 1; i <= 10; i++) {
 
-    let data = knowledgeData[i];
+    let data =
+      knowledgeData[i];
 
-    if (!data || data.success < NEED) {
+
+    if (
+      !data ||
+      data.success < NEED
+    ) {
+
       result.push(i);
+
     }
+
   }
 
+
   return result;
+
 }
 
 
 function nextKnowledge() {
 
   stopKnowledgeTimer();
+
 
   let available =
     getAvailableKnowledge();
@@ -701,6 +1282,7 @@ function nextKnowledge() {
     goHome();
 
     return;
+
   }
 
 
@@ -715,7 +1297,9 @@ function nextKnowledge() {
 
   let data =
     knowledgeData[currentKnowledge] ||
-    { success: 0 };
+    {
+      success: 0
+    };
 
 
   document
@@ -735,7 +1319,13 @@ function nextKnowledge() {
     .classList.add("hidden");
 
 
+  document
+    .getElementById("knowledgeActions")
+    .classList.remove("hidden");
+
+
   startKnowledgeTimer();
+
 }
 
 
@@ -747,10 +1337,13 @@ function finishKnowledge(success) {
   if (!knowledgeData[currentKnowledge]) {
 
     knowledgeData[currentKnowledge] = {
+
       success: 0,
       attempts: 0,
       best: null
+
     };
+
   }
 
 
@@ -765,9 +1358,13 @@ function finishKnowledge(success) {
 
     data.success++;
 
+
     if (data.success > NEED) {
+
       data.success = NEED;
+
     }
+
   }
 
 
@@ -778,6 +1375,7 @@ function finishKnowledge(success) {
 
     data.best =
       knowledgeSeconds;
+
   }
 
 
@@ -794,6 +1392,11 @@ function finishKnowledge(success) {
 
 
   document
+    .getElementById("knowledgeActions")
+    .classList.add("hidden");
+
+
+  document
     .getElementById("knowledgeResultText")
     .textContent =
     success
@@ -807,6 +1410,7 @@ function finishKnowledge(success) {
 
 
   updateHome();
+
 }
 
 
@@ -814,15 +1418,18 @@ function startKnowledgeTimer() {
 
   knowledgeSeconds = 0;
 
+
   document
     .getElementById("knowledgeTimer")
-    .textContent = 0;
+    .textContent =
+    0;
 
 
   knowledgeInterval =
-    setInterval(() => {
+    setInterval(function() {
 
       knowledgeSeconds++;
+
 
       document
         .getElementById("knowledgeTimer")
@@ -830,23 +1437,30 @@ function startKnowledgeTimer() {
         knowledgeSeconds;
 
     }, 1000);
+
 }
 
 
 function stopKnowledgeTimer() {
 
-  clearInterval(
-    knowledgeInterval
-  );
+  if (knowledgeInterval) {
+
+    clearInterval(
+      knowledgeInterval
+    );
+
+  }
+
 
   knowledgeInterval = null;
+
 }
 
 
 
-/* ==============================
+/* =========================================
    РУЛЕТКА
-============================== */
+========================================= */
 
 let currentCase = null;
 
@@ -858,18 +1472,25 @@ let wheelRotation = 0;
 
 let spinning = false;
 
+let animationFrame = null;
+
 
 function openCases() {
 
   hideScreens();
 
+
   document
     .getElementById("cases")
     .classList.remove("hidden");
 
+
   prepareWheel();
 
   renderCaseStats();
+
+  positionNumbers(wheelRotation);
+
 }
 
 
@@ -877,35 +1498,142 @@ function availableCases() {
 
   let result = [];
 
+
   for (let i = 1; i <= 10; i++) {
 
-    let data = caseData[i];
+    let data =
+      caseData[i];
 
-    if (!data || data.success < NEED) {
+
+    if (
+      !data ||
+      data.success < NEED
+    ) {
+
       result.push(i);
+
     }
+
   }
 
+
   return result;
+
 }
 
 
+
+/* =========================================
+   РОВНЫЕ ЦИФРЫ НА КОЛЕСЕ
+========================================= */
+
+function positionNumbers(rotation) {
+
+  const shell =
+    document.getElementById(
+      "wheelShell"
+    );
+
+
+  const size =
+    shell.offsetWidth;
+
+
+  const radius =
+    size * 0.38;
+
+
+  const center =
+    size / 2;
+
+
+  const numbers =
+    document.querySelectorAll(
+      ".wheel-number"
+    );
+
+
+  numbers.forEach(function(element) {
+
+    const number =
+      Number(
+        element.dataset.number
+      );
+
+
+    /*
+      -90 градусов =
+      верх колеса.
+
+      +18 =
+      середина первого сектора.
+    */
+
+    const baseAngle =
+      -90 +
+      18 +
+      (number - 1) * 36;
+
+
+    const currentAngle =
+      baseAngle +
+      rotation;
+
+
+    const rad =
+      currentAngle *
+      Math.PI /
+      180;
+
+
+    const x =
+      center +
+      Math.cos(rad) *
+      radius;
+
+
+    const y =
+      center +
+      Math.sin(rad) *
+      radius;
+
+
+    element.style.left =
+      x + "px";
+
+
+    element.style.top =
+      y + "px";
+
+  });
+
+}
+
+
+
+/* =========================================
+   ВРАЩЕНИЕ
+========================================= */
+
 function spinWheel() {
 
-  if (spinning) return;
+  if (spinning) {
+
+    return;
+
+  }
 
 
-  let available =
+  const available =
     availableCases();
 
 
   if (!available.length) {
 
-    alert(
-      "Все 10 кейсов закреплены!"
-    );
+    showFinal();
 
     return;
+
   }
 
 
@@ -914,7 +1642,8 @@ function spinWheel() {
 
   document
     .getElementById("spinButton")
-    .disabled = true;
+    .disabled =
+    true;
 
 
   currentCase =
@@ -927,63 +1656,169 @@ function spinWheel() {
 
 
   /*
-    Каждый сектор = 36 градусов.
-
-    Центр сектора:
-    1 = 18°
-    2 = 54°
-    ...
+    Центр выбранного сектора.
   */
 
-  let sectorCenter =
+  const sectorCenter =
     18 +
     (currentCase - 1) * 36;
 
 
   /*
-    Стрелка находится сверху.
-
-    Добавляем несколько
-    полных оборотов.
+    Нормализуем текущее положение.
   */
 
-  let extraTurns =
-    5 * 360;
+  const currentNormalized =
+    ((wheelRotation % 360) + 360) % 360;
 
 
-  let target =
-    extraTurns +
-    (360 - sectorCenter);
+  /*
+    Хотим поставить центр выбранного
+    сектора ровно наверх.
+  */
+
+  const desiredNormalized =
+    (360 - sectorCenter) % 360;
 
 
-  wheelRotation += target;
+  let difference =
+    desiredNormalized -
+    currentNormalized;
 
 
-  let wheel =
-    document.getElementById("wheel");
+  if (difference < 0) {
+
+    difference += 360;
+
+  }
 
 
-  wheel.style.transform =
-    "rotate(" +
+  /*
+    + 5 полных оборотов.
+  */
+
+  const startRotation =
+    wheelRotation;
+
+
+  const targetRotation =
     wheelRotation +
-    "deg)";
+    (5 * 360) +
+    difference;
 
 
-  setTimeout(() => {
+  const duration =
+    4000;
 
-    spinning = false;
 
-    showCase();
+  const startTime =
+    performance.now();
 
-  }, 4100);
+
+  const wheel =
+    document.getElementById(
+      "wheel"
+    );
+
+
+  /*
+    Отключаем CSS transition,
+    потому что положение цифр
+    синхронизируем через JS.
+  */
+
+  wheel.style.transition =
+    "none";
+
+
+  function animate(now) {
+
+    const elapsed =
+      now - startTime;
+
+
+    let progress =
+      Math.min(
+        elapsed / duration,
+        1
+      );
+
+
+    /*
+      Ease out.
+    */
+
+    const eased =
+      1 -
+      Math.pow(
+        1 - progress,
+        4
+      );
+
+
+    const rotation =
+      startRotation +
+      (
+        targetRotation -
+        startRotation
+      ) *
+      eased;
+
+
+    wheel.style.transform =
+      "rotate(" +
+      rotation +
+      "deg)";
+
+
+    positionNumbers(
+      rotation
+    );
+
+
+    if (progress < 1) {
+
+      animationFrame =
+        requestAnimationFrame(
+          animate
+        );
+
+    } else {
+
+      wheelRotation =
+        targetRotation;
+
+
+      spinning = false;
+
+
+      showCase();
+
+    }
+
+  }
+
+
+  animationFrame =
+    requestAnimationFrame(
+      animate
+    );
+
 }
 
 
+
+/* =========================================
+   РЕШЕНИЕ КЕЙСА
+========================================= */
+
 function showCase() {
 
-  let data =
+  const data =
     caseData[currentCase] ||
-    { success: 0 };
+    {
+      success: 0
+    };
 
 
   document
@@ -1004,6 +1839,7 @@ function showCase() {
 
 
   startCaseTimer();
+
 }
 
 
@@ -1015,15 +1851,22 @@ function finishCase(success) {
   if (!caseData[currentCase]) {
 
     caseData[currentCase] = {
+
       success: 0,
       attempts: 0,
       best: null
+
     };
+
   }
 
 
-  let data =
+  const data =
     caseData[currentCase];
+
+
+  const wasCompleted =
+    data.success >= NEED;
 
 
   data.attempts++;
@@ -1033,9 +1876,14 @@ function finishCase(success) {
 
     data.success++;
 
+
     if (data.success > NEED) {
-      data.success = NEED;
+
+      data.success =
+        NEED;
+
     }
+
   }
 
 
@@ -1046,6 +1894,7 @@ function finishCase(success) {
 
     data.best =
       caseSeconds;
+
   }
 
 
@@ -1073,15 +1922,51 @@ function finishCase(success) {
     .classList.remove("hidden");
 
 
+  /*
+    Только что впервые получили 3/3.
+  */
+
+  const justCompleted =
+    !wasCompleted &&
+    data.success >= NEED;
+
+
+  if (justCompleted) {
+
+    smallCelebration();
+
+  }
+
+
   renderCaseStats();
 
   updateHome();
+
+
+  /*
+    Если именно этим ответом
+    закрыли последний кейс.
+  */
+
+  if (
+    justCompleted &&
+    allCasesCompleted()
+  ) {
+
+    setTimeout(
+      showFinal,
+      900
+    );
+
+  }
+
 }
 
 
 function prepareWheel() {
 
   stopCaseTimer();
+
 
   currentCase = null;
 
@@ -1098,7 +1983,9 @@ function prepareWheel() {
 
   document
     .getElementById("spinButton")
-    .disabled = false;
+    .disabled =
+    false;
+
 }
 
 
@@ -1109,13 +1996,15 @@ function startCaseTimer() {
 
   document
     .getElementById("caseTimer")
-    .textContent = 0;
+    .textContent =
+    0;
 
 
   caseInterval =
-    setInterval(() => {
+    setInterval(function() {
 
       caseSeconds++;
+
 
       document
         .getElementById("caseTimer")
@@ -1123,47 +2012,58 @@ function startCaseTimer() {
         caseSeconds;
 
     }, 1000);
+
 }
 
 
 function stopCaseTimer() {
 
-  clearInterval(
-    caseInterval
-  );
+  if (caseInterval) {
+
+    clearInterval(
+      caseInterval
+    );
+
+  }
+
 
   caseInterval = null;
+
 }
 
 
 
-/* ==============================
-   СТАТИСТИКА КЕЙСОВ
-============================== */
+/* =========================================
+   СТАТИСТИКА
+========================================= */
 
 function renderCaseStats() {
 
-  let container =
+  const container =
     document.getElementById(
       "caseStats"
     );
 
 
-  container.innerHTML = "";
+  container.innerHTML =
+    "";
 
 
   for (let i = 1; i <= 10; i++) {
 
-    let data =
-      caseData[i] || {
+    const data =
+      caseData[i] ||
+      {
         success: 0,
         attempts: 0,
         best: null
       };
 
 
-    let div =
-      document.createElement("div");
+    const div =
+      document.createElement(
+        "div"
+      );
 
 
     div.className =
@@ -1176,6 +2076,7 @@ function renderCaseStats() {
 
 
     div.innerHTML =
+
       "<strong>Кейс " +
       i +
       "</strong><br>" +
@@ -1196,19 +2097,27 @@ function renderCaseStats() {
       );
 
 
-    container.appendChild(div);
+    container.appendChild(
+      div
+    );
+
   }
+
 }
 
 
 function resetCases() {
 
-  if (
-    !confirm(
-      "Точно сбросить прогресс?"
-    )
-  ) {
+  const answer =
+    confirm(
+      "Точно сбросить прогресс кейсов?"
+    );
+
+
+  if (!answer) {
+
     return;
+
   }
 
 
@@ -1226,27 +2135,440 @@ function resetCases() {
   updateHome();
 
   prepareWheel();
+
 }
 
 
 
-/* ==============================
-   ГЛАВНАЯ СТАТИСТИКА
-============================== */
+/* =========================================
+   НАСТРОЙКИ УКАЗАТЕЛЯ
+========================================= */
+
+let selectedPointer =
+  localStorage.getItem(
+    "trainerPointer"
+  ) ||
+  "classic";
+
+
+function openSettings() {
+
+  document
+    .getElementById(
+      "settingsOverlay"
+    )
+    .classList.remove(
+      "hidden"
+    );
+
+
+  updatePointerOptions();
+
+}
+
+
+function closeSettings() {
+
+  document
+    .getElementById(
+      "settingsOverlay"
+    )
+    .classList.add(
+      "hidden"
+    );
+
+}
+
+
+function selectPointer(type) {
+
+  selectedPointer =
+    type;
+
+
+  localStorage.setItem(
+    "trainerPointer",
+    type
+  );
+
+
+  applyPointer();
+
+  updatePointerOptions();
+
+}
+
+
+function updatePointerOptions() {
+
+  document
+    .querySelectorAll(
+      ".pointer-option"
+    )
+    .forEach(function(button) {
+
+      button.classList.toggle(
+
+        "selected",
+
+        button.dataset.pointer ===
+        selectedPointer
+
+      );
+
+    });
+
+}
+
+
+function applyPointer() {
+
+  const visual =
+    document.getElementById(
+      "pointerVisual"
+    );
+
+
+  visual.className =
+    "";
+
+
+  visual.innerHTML =
+    "";
+
+
+  if (
+    selectedPointer ===
+    "classic"
+  ) {
+
+    visual.className =
+      "pointer-classic";
+
+  }
+
+
+  if (
+    selectedPointer ===
+    "pizza"
+  ) {
+
+    visual.className =
+      "pointer-picture";
+
+
+    const shape =
+      document.createElement(
+        "div"
+      );
+
+
+    shape.className =
+      "pizza-pointer";
+
+
+    visual.appendChild(
+      shape
+    );
+
+  }
+
+
+  if (
+    selectedPointer ===
+    "finger"
+  ) {
+
+    visual.className =
+      "pointer-picture";
+
+
+    const shape =
+      document.createElement(
+        "div"
+      );
+
+
+    shape.className =
+      "finger-pointer";
+
+
+    visual.appendChild(
+      shape
+    );
+
+  }
+
+
+  if (
+    selectedPointer ===
+    "kids"
+  ) {
+
+    visual.className =
+      "pointer-picture";
+
+
+    const shape =
+      document.createElement(
+        "div"
+      );
+
+
+    shape.className =
+      "kids-pointer";
+
+
+    visual.appendChild(
+      shape
+    );
+
+  }
+
+}
+
+
+
+/* =========================================
+   КОНФЕТТИ
+========================================= */
+
+function createConfetti(
+  amount,
+  durationMin,
+  durationMax
+) {
+
+  const colors = [
+
+    "#ff686b",
+    "#ffd93d",
+    "#6bcb77",
+    "#4d96ff",
+    "#9747e5",
+    "#ff86a6",
+    "#10afc9",
+    "#ff9f1c"
+
+  ];
+
+
+  for (
+    let i = 0;
+    i < amount;
+    i++
+  ) {
+
+    const piece =
+      document.createElement(
+        "div"
+      );
+
+
+    piece.className =
+      "confetti";
+
+
+    piece.style.left =
+      Math.random() *
+      100 +
+      "vw";
+
+
+    piece.style.top =
+      (
+        -20 -
+        Math.random() * 150
+      ) +
+      "px";
+
+
+    piece.style.background =
+      colors[
+        Math.floor(
+          Math.random() *
+          colors.length
+        )
+      ];
+
+
+    piece.style.setProperty(
+
+      "--x",
+
+      (
+        Math.random() *
+        250 -
+        125
+      ) +
+      "px"
+
+    );
+
+
+    const duration =
+      durationMin +
+      Math.random() *
+      (
+        durationMax -
+        durationMin
+      );
+
+
+    piece.style.setProperty(
+
+      "--time",
+
+      duration +
+      "ms"
+
+    );
+
+
+    document.body.appendChild(
+      piece
+    );
+
+
+    setTimeout(
+      function() {
+
+        piece.remove();
+
+      },
+
+      duration + 300
+    );
+
+  }
+
+}
+
+
+function smallCelebration() {
+
+  createConfetti(
+    45,
+    1200,
+    2200
+  );
+
+}
+
+
+
+/* =========================================
+   ФИНАЛ
+========================================= */
+
+function allCasesCompleted() {
+
+  for (
+    let i = 1;
+    i <= 10;
+    i++
+  ) {
+
+    if (
+      !caseData[i] ||
+      caseData[i].success < NEED
+    ) {
+
+      return false;
+
+    }
+
+  }
+
+
+  return true;
+
+}
+
+
+function showFinal() {
+
+  document
+    .getElementById(
+      "finalOverlay"
+    )
+    .classList.remove(
+      "hidden"
+    );
+
+
+  createConfetti(
+    180,
+    2200,
+    4800
+  );
+
+}
+
+
+function closeFinal() {
+
+  document
+    .getElementById(
+      "finalOverlay"
+    )
+    .classList.add(
+      "hidden"
+    );
+
+}
+
+
+function startNewRound() {
+
+  caseData = {};
+
+
+  save(
+    "trainerCases",
+    caseData
+  );
+
+
+  closeFinal();
+
+  renderCaseStats();
+
+  updateHome();
+
+  prepareWheel();
+
+}
+
+
+
+/* =========================================
+   ГЛАВНАЯ
+========================================= */
 
 function updateHome() {
 
-  let knowledgeDone = 0;
-  let casesDone = 0;
+  let knowledgeDone =
+    0;
 
 
-  for (let i = 1; i <= 10; i++) {
+  let casesDone =
+    0;
+
+
+  for (
+    let i = 1;
+    i <= 10;
+    i++
+  ) {
 
     if (
       knowledgeData[i] &&
       knowledgeData[i].success >= NEED
     ) {
+
       knowledgeDone++;
+
     }
 
 
@@ -1254,8 +2576,11 @@ function updateHome() {
       caseData[i] &&
       caseData[i].success >= NEED
     ) {
+
       casesDone++;
+
     }
+
   }
 
 
@@ -1264,7 +2589,8 @@ function updateHome() {
       "homeKnowledgeProgress"
     )
     .textContent =
-    knowledgeDone + " / 10";
+    knowledgeDone +
+    " / 10";
 
 
   document
@@ -1272,11 +2598,32 @@ function updateHome() {
       "homeCaseProgress"
     )
     .textContent =
-    casesDone + " / 10";
+    casesDone +
+    " / 10";
+
 }
 
 
+
+/* =========================================
+   ЗАПУСК
+========================================= */
+
+applyPointer();
+
 updateHome();
+
+
+window.addEventListener(
+  "resize",
+  function() {
+
+    positionNumbers(
+      wheelRotation
+    );
+
+  }
+);
 
 </script>
 
