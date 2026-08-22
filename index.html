@@ -20,6 +20,22 @@ body {
 
 button {
   font-family: inherit;
+  border: 0;
+  border-radius: 11px;
+  padding: 12px 18px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: transform .12s, opacity .12s;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  cursor: default;
+  opacity: .55;
+  transform: none;
 }
 
 .container {
@@ -42,29 +58,6 @@ h1 {
 
 .hidden {
   display: none !important;
-}
-
-/* =========================
-   КНОПКИ
-========================= */
-
-button {
-  border: 0;
-  border-radius: 11px;
-  padding: 12px 18px;
-  font-size: 15px;
-  cursor: pointer;
-  transition: transform .12s, opacity .12s;
-}
-
-button:hover {
-  transform: translateY(-1px);
-}
-
-button:disabled {
-  cursor: default;
-  opacity: .55;
-  transform: none;
 }
 
 .main-button {
@@ -101,10 +94,6 @@ button:disabled {
   margin-top: 20px;
 }
 
-/* =========================
-   ОБЩИЕ ЭЛЕМЕНТЫ
-========================= */
-
 .timer {
   font-size: 29px;
   font-weight: 800;
@@ -117,15 +106,68 @@ button:disabled {
   margin: 25px 0;
 }
 
-.progress {
-  margin: 12px 0;
-}
-
 .result-message {
   margin-top: 20px;
   padding: 16px;
   border-radius: 12px;
   background: #f3f4f7;
+}
+
+/* =========================
+   ТРЕКЕР ЗНАНИЙ
+========================= */
+
+.knowledge-tracker {
+  display: grid;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.knowledge-row {
+  display: grid;
+  grid-template-columns: 130px 1fr auto auto;
+  gap: 14px;
+  align-items: center;
+
+  background: #f4f5f8;
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.knowledge-row.done {
+  background: #e6f8ee;
+}
+
+.knowledge-title {
+  font-weight: 800;
+}
+
+.knowledge-circles {
+  display: flex;
+  gap: 8px;
+}
+
+.tracker-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid #b8bbc3;
+  background: white;
+}
+
+.tracker-dot.good {
+  background: #32d176;
+  border-color: #20b961;
+}
+
+.tracker-dot.bad {
+  background: #f16474;
+  border-color: #d94b5d;
+}
+
+.knowledge-meta {
+  font-size: 13px;
+  color: #666;
 }
 
 /* =========================
@@ -150,8 +192,6 @@ button:disabled {
   margin-bottom: -8px;
 }
 
-/* КЛАССИКА */
-
 .pointer-classic {
   width: 0;
   height: 0;
@@ -160,8 +200,6 @@ button:disabled {
   border-right: 19px solid transparent;
   border-top: 38px solid #202124;
 }
-
-/* ОБЩИЙ КОНТЕЙНЕР ДЛЯ КАРТИНОЧНЫХ УКАЗАТЕЛЕЙ */
 
 .pointer-picture {
   position: relative;
@@ -172,9 +210,7 @@ button:disabled {
   align-items: center;
 }
 
-/* =========================
-   ПИЦЦА
-========================= */
+/* ПИЦЦА */
 
 .pizza-pointer {
   width: 0;
@@ -208,9 +244,7 @@ button:disabled {
   left: -15px;
 }
 
-/* =========================
-   ДИКИЙ ПАЛЬЧИК
-========================= */
+/* ДИКИЙ ПАЛЬЧИК */
 
 .finger-pointer {
   position: relative;
@@ -220,15 +254,12 @@ button:disabled {
 
 .finger-pointer::before {
   content: "☝️";
-
   position: absolute;
   left: 50%;
   top: 50%;
-
   transform:
     translate(-50%, -50%)
     rotate(180deg);
-
   font-size: 52px;
   line-height: 1;
 
@@ -237,13 +268,7 @@ button:disabled {
     drop-shadow(0 0 1px #222);
 }
 
-.finger-pointer::after {
-  content: none;
-}
-
-/* =========================
-   ПИСЮНЧИК ВЕРСИИ KIDS
-========================= */
+/* KIDS */
 
 .kids-pointer {
   position: relative;
@@ -274,10 +299,6 @@ button:disabled {
   right: -10px;
 }
 
-/* =========================
-   КОЛЕСО
-========================= */
-
 .wheel-shell {
   width: 390px;
   height: 390px;
@@ -289,7 +310,6 @@ button:disabled {
   height: 100%;
 
   border-radius: 50%;
-
   border: 8px solid white;
 
   box-shadow:
@@ -312,9 +332,6 @@ button:disabled {
 
   position: absolute;
   inset: 0;
-
-  transition:
-    transform 4s cubic-bezier(.12,.62,.16,1);
 }
 
 .number-layer {
@@ -335,7 +352,6 @@ button:disabled {
 
   font-size: 21px;
   font-weight: 900;
-
   color: #151515;
 
   left: 50%;
@@ -372,15 +388,13 @@ button:disabled {
 }
 
 /* =========================
-   СТАТИСТИКА
+   СТАТИСТИКА КЕЙСОВ
 ========================= */
 
 .stats-grid {
   display: grid;
-
   grid-template-columns:
     repeat(auto-fit, minmax(135px, 1fr));
-
   gap: 10px;
   margin-top: 18px;
 }
@@ -392,14 +406,10 @@ button:disabled {
   transition: .2s;
 }
 
-/* ПРОЙДЕНО 3/3 — ЯРКО-ЗЕЛЁНОЕ */
-
 .stat.completed {
   background: #39d87a;
   color: #102b1b;
-
   border: 2px solid #20b961;
-
   box-shadow:
     0 4px 14px rgba(57,216,122,.30);
 }
@@ -416,39 +426,28 @@ button:disabled {
 .modal-background {
   position: fixed;
   inset: 0;
-
   background: rgba(0,0,0,.42);
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   z-index: 1000;
 }
 
 .settings-modal {
   background: white;
-
   width: min(520px, calc(100% - 30px));
-
   border-radius: 22px;
-
   padding: 26px;
-
   box-shadow: 0 15px 60px rgba(0,0,0,.25);
 }
 
 .pointer-option {
   width: 100%;
-
   display: flex;
   align-items: center;
   gap: 15px;
-
   background: #f3f4f7;
-
   margin: 8px 0;
-
   text-align: left;
 }
 
@@ -463,38 +462,28 @@ button:disabled {
 }
 
 /* =========================
-   ФИНАЛЬНАЯ ПЛАШКА
+   ФИНАЛЬНЫЕ ПЛАШКИ
 ========================= */
 
 .final-overlay {
   position: fixed;
   inset: 0;
-
   background: rgba(0,0,0,.68);
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   z-index: 5000;
 }
 
 .final-card {
   position: relative;
   z-index: 5100;
-
   width: min(600px, calc(100% - 30px));
-
   background: white;
-
   border-radius: 26px;
-
   padding: 40px 25px;
-
   text-align: center;
-
   box-shadow: 0 20px 80px rgba(0,0,0,.35);
-
   animation: finalPop .45s ease;
 }
 
@@ -529,14 +518,10 @@ button:disabled {
 
 .confetti {
   position: fixed;
-
   width: 10px;
   height: 16px;
-
   z-index: 6000;
-
   pointer-events: none;
-
   animation:
     confettiFall var(--time) linear forwards;
 }
@@ -547,7 +532,6 @@ button:disabled {
     transform:
       translate(0, -30px)
       rotate(0deg);
-
     opacity: 1;
   }
 
@@ -558,16 +542,15 @@ button:disabled {
         105vh
       )
       rotate(900deg);
-
     opacity: 0;
   }
 }
 
-/* =========================
-   МОБИЛЬНЫЙ
-========================= */
+@media (max-width: 700px) {
 
-@media (max-width: 500px) {
+  .knowledge-row {
+    grid-template-columns: 1fr;
+  }
 
   .wheel-shell {
     width: 300px;
@@ -590,6 +573,10 @@ button:disabled {
 <div class="container">
 
 <h1>Тренажёр новичка</h1>
+
+<!-- =========================
+     ГЛАВНАЯ
+========================= -->
 
 <div id="home">
 
@@ -633,6 +620,10 @@ button:disabled {
 
 </div>
 
+<!-- =========================
+     ЗНАНИЯ
+========================= -->
+
 <div id="knowledge" class="hidden">
 
   <button
@@ -648,13 +639,6 @@ button:disabled {
     <div class="big-number">
       Задание №
       <span id="knowledgeNumber">1</span>
-    </div>
-
-    <div class="progress">
-      Закрепление:
-      <strong id="knowledgeProgress">
-        0 / 3
-      </strong>
     </div>
 
     <div class="timer">
@@ -699,7 +683,30 @@ button:disabled {
 
   </div>
 
+  <div class="card">
+
+    <h3>Трекер знаний</h3>
+
+    <div
+      id="knowledgeTracker"
+      class="knowledge-tracker">
+    </div>
+
+    <br>
+
+    <button
+      class="secondary-button"
+      onclick="resetKnowledge()">
+      Сбросить прогресс знаний
+    </button>
+
+  </div>
+
 </div>
+
+<!-- =========================
+     РУЛЕТКА
+========================= -->
 
 <div id="cases" class="hidden">
 
@@ -784,10 +791,8 @@ button:disabled {
       class="hidden">
 
       <div class="case-result">
-
         Выпал кейс №
         <span id="caseNumber"></span>
-
       </div>
 
       <p style="text-align:center">
@@ -871,6 +876,10 @@ button:disabled {
 
 </div>
 
+<!-- =========================
+     НАСТРОЙКИ
+========================= -->
+
 <div
   id="settingsOverlay"
   class="modal-background hidden">
@@ -943,8 +952,12 @@ button:disabled {
 
 </div>
 
+<!-- =========================
+     ФИНАЛ КЕЙСОВ
+========================= -->
+
 <div
-  id="finalOverlay"
+  id="finalCasesOverlay"
   class="final-overlay hidden">
 
   <div class="final-card">
@@ -959,14 +972,48 @@ button:disabled {
 
     <button
       class="main-button"
-      onclick="closeFinal()">
+      onclick="closeCasesFinal()">
       Урааа!
     </button>
 
     <button
       class="secondary-button"
-      onclick="startNewRound()">
+      onclick="startNewCaseRound()">
       Начать новый круг
+    </button>
+
+  </div>
+
+</div>
+
+<!-- =========================
+     ФИНАЛ ЗНАНИЙ
+========================= -->
+
+<div
+  id="finalKnowledgeOverlay"
+  class="final-overlay hidden">
+
+  <div class="final-card">
+
+    <h2>
+      БАЗА ЗНАНИЙ БОЛЬШЕ НЕ СТРАШНА!!!
+    </h2>
+
+    <p>
+      Теперь она боится тебя. 🧠🔥
+    </p>
+
+    <button
+      class="main-button"
+      onclick="closeKnowledgeFinal()">
+      Так ей и надо
+    </button>
+
+    <button
+      class="secondary-button"
+      onclick="startNewKnowledgeRound()">
+      Пройти ещё раз
     </button>
 
   </div>
@@ -977,17 +1024,27 @@ button:disabled {
 
 const NEED = 3;
 
+/* =========================
+   ОБЩЕЕ
+========================= */
+
 function load(key) {
+
   try {
+
     return JSON.parse(
       localStorage.getItem(key)
     ) || {};
+
   } catch {
+
     return {};
+
   }
 }
 
 function save(key, data) {
+
   localStorage.setItem(
     key,
     JSON.stringify(data)
@@ -995,7 +1052,7 @@ function save(key, data) {
 }
 
 let knowledgeData =
-  load("trainerKnowledge");
+  load("trainerKnowledgeV2");
 
 let caseData =
   load("trainerCases");
@@ -1013,7 +1070,6 @@ function hideScreens() {
   document
     .getElementById("cases")
     .classList.add("hidden");
-
 }
 
 function goHome() {
@@ -1028,7 +1084,6 @@ function goHome() {
     .classList.remove("hidden");
 
   updateHome();
-
 }
 
 /* =========================
@@ -1047,8 +1102,8 @@ function openKnowledge() {
     .getElementById("knowledge")
     .classList.remove("hidden");
 
+  renderKnowledgeTracker();
   nextKnowledge();
-
 }
 
 function getAvailableKnowledge() {
@@ -1057,39 +1112,33 @@ function getAvailableKnowledge() {
 
   for (let i = 1; i <= 10; i++) {
 
-    let data =
+    const data =
       knowledgeData[i];
 
-    if (
-      !data ||
-      data.success < NEED
-    ) {
+    const attempts =
+      data && Array.isArray(data.results)
+        ? data.results.length
+        : 0;
+
+    if (attempts < NEED) {
       result.push(i);
     }
-
   }
 
   return result;
-
 }
 
 function nextKnowledge() {
 
   stopKnowledgeTimer();
 
-  let available =
+  const available =
     getAvailableKnowledge();
 
   if (!available.length) {
 
-    alert(
-      "Все задания закреплены 3 раза!"
-    );
-
-    goHome();
-
+    showKnowledgeFinal();
     return;
-
   }
 
   currentKnowledge =
@@ -1100,19 +1149,10 @@ function nextKnowledge() {
       )
     ];
 
-  let data =
-    knowledgeData[currentKnowledge] ||
-    { success: 0 };
-
   document
     .getElementById("knowledgeNumber")
     .textContent =
     currentKnowledge;
-
-  document
-    .getElementById("knowledgeProgress")
-    .textContent =
-    data.success + " / 3";
 
   document
     .getElementById("knowledgeResult")
@@ -1123,7 +1163,6 @@ function nextKnowledge() {
     .classList.remove("hidden");
 
   startKnowledgeTimer();
-
 }
 
 function finishKnowledge(success) {
@@ -1133,45 +1172,44 @@ function finishKnowledge(success) {
   if (!knowledgeData[currentKnowledge]) {
 
     knowledgeData[currentKnowledge] = {
-      success: 0,
+      results: [],
       attempts: 0,
       best: null
     };
-
   }
 
-  let data =
+  const data =
     knowledgeData[currentKnowledge];
 
-  data.attempts++;
-
-  if (success) {
-
-    data.success++;
-
-    if (data.success > NEED) {
-      data.success = NEED;
-    }
-
+  if (!Array.isArray(data.results)) {
+    data.results = [];
   }
+
+  if (data.results.length >= NEED) {
+    return;
+  }
+
+  data.results.push(
+    success ? "good" : "bad"
+  );
+
+  data.attempts =
+    (data.attempts || 0) + 1;
 
   if (
     data.best === null ||
+    data.best === undefined ||
     knowledgeSeconds < data.best
   ) {
+
     data.best =
       knowledgeSeconds;
   }
 
   save(
-    "trainerKnowledge",
+    "trainerKnowledgeV2",
     knowledgeData
   );
-
-  document
-    .getElementById("knowledgeProgress")
-    .textContent =
-    data.success + " / 3";
 
   document
     .getElementById("knowledgeActions")
@@ -1182,14 +1220,22 @@ function finishKnowledge(success) {
     .textContent =
     success
       ? "Засчитано ✓"
-      : "Не засчитано";
+      : "Отмечено как не верно";
 
   document
     .getElementById("knowledgeResult")
     .classList.remove("hidden");
 
+  renderKnowledgeTracker();
   updateHome();
 
+  if (allKnowledgeCompleted()) {
+
+    setTimeout(
+      showKnowledgeFinal,
+      700
+    );
+  }
 }
 
 function startKnowledgeTimer() {
@@ -1211,19 +1257,166 @@ function startKnowledgeTimer() {
         knowledgeSeconds;
 
     }, 1000);
-
 }
 
 function stopKnowledgeTimer() {
 
   if (knowledgeInterval) {
+
     clearInterval(
       knowledgeInterval
     );
   }
 
   knowledgeInterval = null;
+}
 
+function renderKnowledgeTracker() {
+
+  const container =
+    document.getElementById(
+      "knowledgeTracker"
+    );
+
+  container.innerHTML = "";
+
+  for (let i = 1; i <= 10; i++) {
+
+    const data =
+      knowledgeData[i] || {
+        results: [],
+        attempts: 0,
+        best: null
+      };
+
+    const results =
+      Array.isArray(data.results)
+        ? data.results
+        : [];
+
+    const row =
+      document.createElement("div");
+
+    row.className =
+      "knowledge-row" +
+      (
+        results.length >= NEED
+          ? " done"
+          : ""
+      );
+
+    const title =
+      document.createElement("div");
+
+    title.className =
+      "knowledge-title";
+
+    title.textContent =
+      "Задание " + i;
+
+    const circles =
+      document.createElement("div");
+
+    circles.className =
+      "knowledge-circles";
+
+    for (let j = 0; j < NEED; j++) {
+
+      const dot =
+        document.createElement("div");
+
+      dot.className =
+        "tracker-dot";
+
+      if (results[j] === "good") {
+
+        dot.classList.add("good");
+
+      } else if (
+        results[j] === "bad"
+      ) {
+
+        dot.classList.add("bad");
+      }
+
+      circles.appendChild(dot);
+    }
+
+    const attempts =
+      document.createElement("div");
+
+    attempts.className =
+      "knowledge-meta";
+
+    attempts.textContent =
+      "Попыток: " +
+      (data.attempts || 0);
+
+    const best =
+      document.createElement("div");
+
+    best.className =
+      "knowledge-meta";
+
+    best.textContent =
+      "Лучшее: " +
+      (
+        data.best === null ||
+        data.best === undefined
+          ? "—"
+          : data.best + " сек."
+      );
+
+    row.appendChild(title);
+    row.appendChild(circles);
+    row.appendChild(attempts);
+    row.appendChild(best);
+
+    container.appendChild(row);
+  }
+}
+
+function allKnowledgeCompleted() {
+
+  for (let i = 1; i <= 10; i++) {
+
+    const data =
+      knowledgeData[i];
+
+    if (
+      !data ||
+      !Array.isArray(data.results) ||
+      data.results.length < NEED
+    ) {
+
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function resetKnowledge() {
+
+  const answer =
+    confirm(
+      "Точно сбросить прогресс знаний?"
+    );
+
+  if (!answer) {
+    return;
+  }
+
+  knowledgeData = {};
+
+  save(
+    "trainerKnowledgeV2",
+    knowledgeData
+  );
+
+  renderKnowledgeTracker();
+  updateHome();
+  nextKnowledge();
 }
 
 /* =========================
@@ -1249,7 +1442,6 @@ function openCases() {
   prepareWheel();
   renderCaseStats();
   positionNumbers(wheelRotation);
-
 }
 
 function availableCases() {
@@ -1258,20 +1450,19 @@ function availableCases() {
 
   for (let i = 1; i <= 10; i++) {
 
-    let data =
+    const data =
       caseData[i];
 
     if (
       !data ||
       data.success < NEED
     ) {
+
       result.push(i);
     }
-
   }
 
   return result;
-
 }
 
 function positionNumbers(rotation) {
@@ -1331,9 +1522,7 @@ function positionNumbers(rotation) {
 
     element.style.top =
       y + "px";
-
   });
-
 }
 
 function spinWheel() {
@@ -1347,9 +1536,8 @@ function spinWheel() {
 
   if (!available.length) {
 
-    showFinal();
+    showCasesFinal();
     return;
-
   }
 
   spinning = true;
@@ -1403,9 +1591,6 @@ function spinWheel() {
       "wheel"
     );
 
-  wheel.style.transition =
-    "none";
-
   function animate(now) {
 
     const elapsed =
@@ -1453,26 +1638,26 @@ function spinWheel() {
       wheelRotation =
         targetRotation;
 
-      spinning = false;
+      spinning =
+        false;
 
       showCase();
-
     }
-
   }
 
   animationFrame =
     requestAnimationFrame(
       animate
     );
-
 }
 
 function showCase() {
 
   const data =
     caseData[currentCase] ||
-    { success: 0 };
+    {
+      success: 0
+    };
 
   document
     .getElementById("caseNumber")
@@ -1489,7 +1674,6 @@ function showCase() {
     .classList.remove("hidden");
 
   startCaseTimer();
-
 }
 
 function finishCase(success) {
@@ -1503,7 +1687,6 @@ function finishCase(success) {
       attempts: 0,
       best: null
     };
-
   }
 
   const data =
@@ -1519,15 +1702,17 @@ function finishCase(success) {
     data.success++;
 
     if (data.success > NEED) {
-      data.success = NEED;
-    }
 
+      data.success =
+        NEED;
+    }
   }
 
   if (
     data.best === null ||
     caseSeconds < data.best
   ) {
+
     data.best =
       caseSeconds;
   }
@@ -1569,12 +1754,10 @@ function finishCase(success) {
   ) {
 
     setTimeout(
-      showFinal,
+      showCasesFinal,
       900
     );
-
   }
-
 }
 
 function prepareWheel() {
@@ -1594,7 +1777,6 @@ function prepareWheel() {
   document
     .getElementById("spinButton")
     .disabled = false;
-
 }
 
 function startCaseTimer() {
@@ -1616,24 +1798,19 @@ function startCaseTimer() {
         caseSeconds;
 
     }, 1000);
-
 }
 
 function stopCaseTimer() {
 
   if (caseInterval) {
+
     clearInterval(
       caseInterval
     );
   }
 
   caseInterval = null;
-
 }
-
-/* =========================
-   СТАТИСТИКА
-========================= */
 
 function renderCaseStats() {
 
@@ -1691,9 +1868,7 @@ function renderCaseStats() {
     container.appendChild(
       div
     );
-
   }
-
 }
 
 function resetCases() {
@@ -1717,11 +1892,10 @@ function resetCases() {
   renderCaseStats();
   updateHome();
   prepareWheel();
-
 }
 
 /* =========================
-   НАСТРОЙКИ УКАЗАТЕЛЯ
+   УКАЗАТЕЛИ
 ========================= */
 
 let selectedPointer =
@@ -1741,7 +1915,6 @@ function openSettings() {
     );
 
   updatePointerOptions();
-
 }
 
 function closeSettings() {
@@ -1753,7 +1926,6 @@ function closeSettings() {
     .classList.add(
       "hidden"
     );
-
 }
 
 function selectPointer(type) {
@@ -1768,7 +1940,6 @@ function selectPointer(type) {
 
   applyPointer();
   updatePointerOptions();
-
 }
 
 function updatePointerOptions() {
@@ -1787,9 +1958,7 @@ function updatePointerOptions() {
         selectedPointer
 
       );
-
     });
-
 }
 
 function applyPointer() {
@@ -1809,7 +1978,6 @@ function applyPointer() {
 
     visual.className =
       "pointer-classic";
-
   }
 
   if (
@@ -1831,7 +1999,6 @@ function applyPointer() {
     visual.appendChild(
       shape
     );
-
   }
 
   if (
@@ -1853,7 +2020,6 @@ function applyPointer() {
     visual.appendChild(
       shape
     );
-
   }
 
   if (
@@ -1875,9 +2041,7 @@ function applyPointer() {
     visual.appendChild(
       shape
     );
-
   }
-
 }
 
 /* =========================
@@ -1891,7 +2055,6 @@ function createConfetti(
 ) {
 
   const colors = [
-
     "#ff686b",
     "#ffd93d",
     "#6bcb77",
@@ -1900,7 +2063,6 @@ function createConfetti(
     "#ff86a6",
     "#10afc9",
     "#ff9f1c"
-
   ];
 
   for (
@@ -1977,9 +2139,7 @@ function createConfetti(
       },
       duration + 300
     );
-
   }
-
 }
 
 function smallCelebration() {
@@ -1989,39 +2149,33 @@ function smallCelebration() {
     1200,
     2200
   );
-
 }
 
 /* =========================
-   ФИНАЛ
+   ФИНАЛЫ
 ========================= */
 
 function allCasesCompleted() {
 
-  for (
-    let i = 1;
-    i <= 10;
-    i++
-  ) {
+  for (let i = 1; i <= 10; i++) {
 
     if (
       !caseData[i] ||
       caseData[i].success < NEED
     ) {
+
       return false;
     }
-
   }
 
   return true;
-
 }
 
-function showFinal() {
+function showCasesFinal() {
 
   document
     .getElementById(
-      "finalOverlay"
+      "finalCasesOverlay"
     )
     .classList.remove(
       "hidden"
@@ -2032,22 +2186,20 @@ function showFinal() {
     2200,
     4800
   );
-
 }
 
-function closeFinal() {
+function closeCasesFinal() {
 
   document
     .getElementById(
-      "finalOverlay"
+      "finalCasesOverlay"
     )
     .classList.add(
       "hidden"
     );
-
 }
 
-function startNewRound() {
+function startNewCaseRound() {
 
   caseData = {};
 
@@ -2056,11 +2208,53 @@ function startNewRound() {
     caseData
   );
 
-  closeFinal();
+  closeCasesFinal();
   renderCaseStats();
   updateHome();
   prepareWheel();
+}
 
+function showKnowledgeFinal() {
+
+  document
+    .getElementById(
+      "finalKnowledgeOverlay"
+    )
+    .classList.remove(
+      "hidden"
+    );
+
+  createConfetti(
+    180,
+    2200,
+    4800
+  );
+}
+
+function closeKnowledgeFinal() {
+
+  document
+    .getElementById(
+      "finalKnowledgeOverlay"
+    )
+    .classList.add(
+      "hidden"
+    );
+}
+
+function startNewKnowledgeRound() {
+
+  knowledgeData = {};
+
+  save(
+    "trainerKnowledgeV2",
+    knowledgeData
+  );
+
+  closeKnowledgeFinal();
+  renderKnowledgeTracker();
+  updateHome();
+  nextKnowledge();
 }
 
 /* =========================
@@ -2072,16 +2266,17 @@ function updateHome() {
   let knowledgeDone = 0;
   let casesDone = 0;
 
-  for (
-    let i = 1;
-    i <= 10;
-    i++
-  ) {
+  for (let i = 1; i <= 10; i++) {
+
+    const k =
+      knowledgeData[i];
 
     if (
-      knowledgeData[i] &&
-      knowledgeData[i].success >= NEED
+      k &&
+      Array.isArray(k.results) &&
+      k.results.length >= NEED
     ) {
+
       knowledgeDone++;
     }
 
@@ -2089,9 +2284,9 @@ function updateHome() {
       caseData[i] &&
       caseData[i].success >= NEED
     ) {
+
       casesDone++;
     }
-
   }
 
   document
@@ -2109,11 +2304,10 @@ function updateHome() {
     .textContent =
     casesDone +
     " / 10";
-
 }
 
 /* =========================
-   ЗАПУСК
+   СТАРТ
 ========================= */
 
 applyPointer();
@@ -2126,7 +2320,6 @@ window.addEventListener(
     positionNumbers(
       wheelRotation
     );
-
   }
 );
 
