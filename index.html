@@ -7,7 +7,6 @@
 <title>Тренажёр новичка</title>
 
 <style>
-
 /* =========================================================
    БАЗА
 ========================================================= */
@@ -17,417 +16,706 @@
 }
 
 :root {
-  --page-bg:#f4f5f9;
-  --text:#202124;
+  --page-bg: #f4f5f9;
+  --text: #202124;
 
-  --card-bg:#fff;
-  --soft-bg:#f2f3f6;
-  --soft-bg-2:#e7e8ec;
+  --card-bg: #ffffff;
+  --soft-bg: #f2f3f6;
+  --soft-bg-2: #e7e8ec;
 
-  --border:#d9dbe1;
+  --border: #d9dbe1;
 
-  --main-btn:#202124;
-  --main-btn-text:#fff;
+  --main-btn: #202124;
+  --main-btn-text: #ffffff;
 
-  --success:#39ad73;
-  --success-bright:#39d87a;
-  --fail:#e45b70;
+  --success: #39ad73;
+  --success-bright: #39d87a;
 
-  --backdrop:rgba(0,0,0,.55);
+  --fail: #e45b70;
+
+  --backdrop: rgba(0,0,0,.55);
 }
 
 body.dark {
-  --page-bg:#111216;
-  --text:#f3f3f5;
+  --page-bg: #111216;
+  --text: #f3f3f5;
 
-  --card-bg:#1c1d22;
-  --soft-bg:#292a30;
-  --soft-bg-2:#303138;
+  --card-bg: #1c1d22;
+  --soft-bg: #292a30;
+  --soft-bg-2: #303138;
 
-  --border:#41434c;
+  --border: #41434c;
 
-  --main-btn:#f3f3f5;
-  --main-btn-text:#111216;
+  --main-btn: #f3f3f5;
+  --main-btn-text: #111216;
 
-  --backdrop:rgba(0,0,0,.72);
+  --backdrop: rgba(0,0,0,.72);
 }
 
 body {
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:var(--page-bg);
-  color:var(--text);
-  transition:.2s;
+  margin: 0;
+
+  font-family:
+    Arial,
+    sans-serif;
+
+  background:
+    var(--page-bg);
+
+  color:
+    var(--text);
+
+  transition:
+    background .22s ease,
+    color .22s ease;
 }
 
 button {
-  font-family:inherit;
-  border:0;
-  border-radius:11px;
-  padding:12px 18px;
-  font-size:15px;
-  cursor:pointer;
+  font-family: inherit;
+
+  border: 0;
+
+  border-radius: 11px;
+
+  padding:
+    12px 18px;
+
+  font-size: 15px;
+
+  cursor: pointer;
+
+  transition:
+    transform .12s ease,
+    opacity .12s ease;
 }
 
 button:hover {
-  transform:translateY(-1px);
+  transform:
+    translateY(-1px);
 }
 
 button:disabled {
-  opacity:.55;
-  cursor:default;
-  transform:none;
+  opacity: .55;
+
+  cursor: default;
+
+  transform: none;
 }
 
 .container {
-  width:min(920px,calc(100% - 30px));
-  margin:0 auto;
-  padding:30px 0 70px;
+  width:
+    min(
+      920px,
+      calc(100% - 30px)
+    );
+
+  margin:
+    0 auto;
+
+  padding:
+    30px 0 70px;
 }
 
 .card {
-  background:var(--card-bg);
-  border-radius:20px;
-  padding:26px;
-  margin-top:20px;
-  box-shadow:0 8px 30px rgba(0,0,0,.08);
+  background:
+    var(--card-bg);
+
+  border-radius:
+    20px;
+
+  padding:
+    26px;
+
+  margin-top:
+    20px;
+
+  box-shadow:
+    0 8px 30px
+    rgba(0,0,0,.08);
 }
 
 body.dark .card {
-  box-shadow:0 8px 30px rgba(0,0,0,.35);
+  box-shadow:
+    0 8px 30px
+    rgba(0,0,0,.35);
 }
 
 .hidden {
-  display:none !important;
+  display:
+    none !important;
 }
 
 .main-button {
-  background:var(--main-btn);
-  color:var(--main-btn-text);
+  background:
+    var(--main-btn);
+
+  color:
+    var(--main-btn-text);
 }
 
 .success-button {
-  background:var(--success);
-  color:#fff;
+  background:
+    var(--success);
+
+  color:
+    white;
 }
 
 .fail-button {
-  background:var(--fail);
-  color:#fff;
+  background:
+    var(--fail);
+
+  color:
+    white;
 }
 
 .secondary-button {
-  background:var(--soft-bg-2);
-  color:var(--text);
+  background:
+    var(--soft-bg-2);
+
+  color:
+    var(--text);
 }
 
 .actions {
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-top:20px;
+  display:
+    flex;
+
+  gap:
+    10px;
+
+  flex-wrap:
+    wrap;
+
+  margin-top:
+    20px;
 }
 
 .timer {
-  font-size:29px;
-  font-weight:800;
-  margin:18px 0;
+  font-size:
+    29px;
+
+  font-weight:
+    800;
+
+  margin:
+    18px 0;
 }
 
 .big-number {
-  font-size:48px;
-  font-weight:800;
-  margin:25px 0;
+  font-size:
+    48px;
+
+  font-weight:
+    800;
+
+  margin:
+    25px 0;
 }
 
 .result-message {
-  margin-top:20px;
-  padding:16px;
-  border-radius:12px;
-  background:var(--soft-bg);
+  margin-top:
+    20px;
+
+  padding:
+    16px;
+
+  border-radius:
+    12px;
+
+  background:
+    var(--soft-bg);
 }
 
+
 /* =========================================================
-   ? НАСТРОЙКИ
+   ? — НАСТРОЙКИ
 ========================================================= */
 
 .help-widget {
-  position:fixed;
-  top:18px;
-  right:18px;
-  z-index:3000;
+  position:
+    fixed;
+
+  right:
+    18px;
+
+  top:
+    18px;
+
+  z-index:
+    3000;
 }
 
 .help-button {
-  width:44px;
-  height:44px;
-  padding:0;
+  width:
+    44px;
 
-  border-radius:50%;
+  height:
+    44px;
 
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  padding:
+    0;
 
-  background:var(--main-btn);
-  color:var(--main-btn-text);
+  border-radius:
+    50%;
 
-  font-size:23px;
-  font-weight:900;
+  display:
+    flex;
 
-  box-shadow:0 5px 18px rgba(0,0,0,.18);
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  background:
+    var(--main-btn);
+
+  color:
+    var(--main-btn-text);
+
+  font-size:
+    23px;
+
+  font-weight:
+    900;
+
+  box-shadow:
+    0 5px 18px
+    rgba(0,0,0,.18);
 }
 
 .help-tooltip {
-  position:absolute;
-  right:52px;
-  top:50%;
+  position:
+    absolute;
 
-  transform:translateY(-50%) translateX(5px);
+  right:
+    52px;
 
-  padding:8px 11px;
+  top:
+    50%;
 
-  border-radius:9px;
+  transform:
+    translateY(-50%)
+    translateX(5px);
 
-  background:var(--main-btn);
-  color:var(--main-btn-text);
+  white-space:
+    nowrap;
 
-  white-space:nowrap;
+  padding:
+    8px 11px;
 
-  opacity:0;
-  pointer-events:none;
+  border-radius:
+    9px;
 
-  transition:.16s;
+  background:
+    var(--main-btn);
+
+  color:
+    var(--main-btn-text);
+
+  opacity:
+    0;
+
+  pointer-events:
+    none;
+
+  transition:
+    .16s ease;
 }
 
-.help-widget:hover .help-tooltip {
-  opacity:1;
-  transform:translateY(-50%);
+.help-widget:hover
+.help-tooltip {
+  opacity:
+    1;
+
+  transform:
+    translateY(-50%)
+    translateX(0);
 }
+
 
 /* =========================================================
    ТРЕКЕР ЗНАНИЙ
 ========================================================= */
 
 .knowledge-tracker {
-  display:grid;
-  gap:12px;
-  margin-top:20px;
+  display:
+    grid;
+
+  gap:
+    12px;
+
+  margin-top:
+    20px;
 }
 
 .knowledge-row {
-  display:grid;
-  grid-template-columns:130px 1fr auto auto;
+  display:
+    grid;
 
-  gap:14px;
-  align-items:center;
+  grid-template-columns:
+    130px 1fr auto auto;
 
-  background:var(--soft-bg);
+  gap:
+    14px;
 
-  border-radius:12px;
-  padding:12px 14px;
+  align-items:
+    center;
+
+  background:
+    var(--soft-bg);
+
+  border-radius:
+    12px;
+
+  padding:
+    12px 14px;
 }
 
 .knowledge-row.done {
-  background:rgba(57,216,122,.17);
+  background:
+    rgba(
+      57,
+      216,
+      122,
+      .18
+    );
 }
 
 .knowledge-title {
-  font-weight:800;
+  font-weight:
+    800;
 }
 
 .knowledge-circles {
-  display:flex;
-  gap:8px;
+  display:
+    flex;
+
+  gap:
+    8px;
 }
 
 .tracker-dot {
-  width:22px;
-  height:22px;
+  width:
+    22px;
 
-  border-radius:50%;
+  height:
+    22px;
 
-  border:2px solid #aeb1ba;
-  background:var(--card-bg);
+  border-radius:
+    50%;
+
+  border:
+    2px solid #aeb1ba;
+
+  background:
+    var(--card-bg);
 }
 
 .tracker-dot.good {
-  background:#32d176;
-  border-color:#20b961;
+  background:
+    #32d176;
+
+  border-color:
+    #20b961;
 }
 
 .tracker-dot.bad {
-  background:#f16474;
-  border-color:#d94b5d;
+  background:
+    #f16474;
+
+  border-color:
+    #d94b5d;
 }
 
 .knowledge-meta {
-  font-size:13px;
-  opacity:.7;
+  font-size:
+    13px;
+
+  opacity:
+    .7;
 }
+
 
 /* =========================================================
    РУЛЕТКА
 ========================================================= */
 
 .wheel-area {
-  display:flex;
-  flex-direction:column;
-  align-items:center;
+  display:
+    flex;
 
-  margin:28px auto 30px;
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+
+  margin:
+    28px auto 30px;
 }
 
 .pointer-holder {
-  height:60px;
+  height:
+    60px;
 
-  display:flex;
-  justify-content:center;
-  align-items:flex-end;
+  display:
+    flex;
 
-  margin-bottom:-8px;
+  justify-content:
+    center;
 
-  z-index:20;
+  align-items:
+    flex-end;
+
+  margin-bottom:
+    -8px;
+
+  z-index:
+    20;
 }
 
 .pointer-classic {
-  width:0;
-  height:0;
+  width:
+    0;
 
-  border-left:19px solid transparent;
-  border-right:19px solid transparent;
-  border-top:38px solid var(--text);
+  height:
+    0;
+
+  border-left:
+    19px solid transparent;
+
+  border-right:
+    19px solid transparent;
+
+  border-top:
+    38px solid var(--text);
 }
 
 .pointer-picture {
-  width:58px;
-  height:58px;
+  width:
+    58px;
 
-  position:relative;
+  height:
+    58px;
 
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  position:
+    relative;
+
+  display:
+    flex;
+
+  justify-content:
+    center;
+
+  align-items:
+    center;
 }
 
+/* Пицца */
+
 .pizza-pointer {
-  width:0;
-  height:0;
+  width:
+    0;
 
-  border-left:24px solid transparent;
-  border-right:24px solid transparent;
-  border-top:48px solid #f7c948;
+  height:
+    0;
 
-  position:relative;
+  border-left:
+    24px solid transparent;
+
+  border-right:
+    24px solid transparent;
+
+  border-top:
+    48px solid #f7c948;
+
+  position:
+    relative;
 }
 
 .pizza-pointer::before {
-  content:"";
+  content:
+    "";
 
-  width:46px;
-  height:8px;
+  position:
+    absolute;
 
-  position:absolute;
+  width:
+    46px;
 
-  top:-49px;
-  left:-23px;
+  height:
+    8px;
 
-  background:#c77b30;
-  border-radius:6px;
+  top:
+    -49px;
+
+  left:
+    -23px;
+
+  background:
+    #c77b30;
+
+  border-radius:
+    6px;
 }
 
 .pizza-pointer::after {
-  content:"●  ●";
+  content:
+    "●  ●";
 
-  position:absolute;
+  position:
+    absolute;
 
-  top:-39px;
-  left:-15px;
+  top:
+    -39px;
 
-  color:#d94b45;
-  font-size:12px;
+  left:
+    -15px;
+
+  color:
+    #d94b45;
+
+  font-size:
+    12px;
 }
 
+/* Дикий пальчик */
+
 .finger-pointer {
-  width:58px;
-  height:58px;
-  position:relative;
+  position:
+    relative;
+
+  width:
+    58px;
+
+  height:
+    58px;
 }
 
 .finger-pointer::before {
-  content:"☝️";
+  content:
+    "☝️";
 
-  position:absolute;
-  left:50%;
-  top:50%;
+  position:
+    absolute;
 
-  transform:translate(-50%,-50%) rotate(180deg);
+  left:
+    50%;
 
-  font-size:52px;
-  line-height:1;
+  top:
+    50%;
+
+  transform:
+    translate(-50%,-50%)
+    rotate(180deg);
+
+  font-size:
+    52px;
+
+  line-height:
+    1;
 }
 
+/* Kids */
+
 .kids-pointer {
-  width:28px;
-  height:48px;
+  position:
+    relative;
 
-  position:relative;
+  width:
+    28px;
 
-  background:#8dd7ff;
+  height:
+    48px;
 
-  border:3px solid #202124;
-  border-radius:50% 50% 12px 12px;
+  background:
+    #8dd7ff;
+
+  border:
+    3px solid #202124;
+
+  border-radius:
+    50% 50% 12px 12px;
 }
 
 .kids-pointer::before,
 .kids-pointer::after {
-  content:"";
+  content:
+    "";
 
-  position:absolute;
+  position:
+    absolute;
 
-  width:13px;
-  height:13px;
+  width:
+    13px;
 
-  top:-5px;
+  height:
+    13px;
 
-  background:#8dd7ff;
+  top:
+    -5px;
 
-  border:3px solid #202124;
-  border-radius:50%;
+  background:
+    #8dd7ff;
+
+  border:
+    3px solid #202124;
+
+  border-radius:
+    50%;
 }
 
 .kids-pointer::before {
-  left:-10px;
+  left:
+    -10px;
 }
 
 .kids-pointer::after {
-  right:-10px;
+  right:
+    -10px;
 }
 
 .wheel-shell {
-  width:390px;
-  height:390px;
-  position:relative;
+  position:
+    relative;
+
+  width:
+    390px;
+
+  height:
+    390px;
 }
 
 .wheel {
-  position:absolute;
-  inset:0;
+  position:
+    absolute;
 
-  width:100%;
-  height:100%;
+  inset:
+    0;
 
-  border-radius:50%;
+  width:
+    100%;
 
-  border:8px solid var(--card-bg);
+  height:
+    100%;
+
+  border-radius:
+    50%;
+
+  border:
+    8px solid var(--card-bg);
 
   box-shadow:
-    0 8px 30px rgba(0,0,0,.18),
-    0 0 0 3px var(--text);
+    0 8px 30px
+      rgba(0,0,0,.18),
+    0 0 0 3px
+      var(--text);
 
   background:
     conic-gradient(
-      #ff686b 0 36deg,
+      #ff686b 0deg 36deg,
       #ffd93d 36deg 72deg,
       #6bcb77 72deg 108deg,
       #4d96ff 108deg 144deg,
@@ -441,346 +729,629 @@ body.dark .card {
 }
 
 .number-layer {
-  position:absolute;
-  inset:0;
-  pointer-events:none;
+  position:
+    absolute;
+
+  inset:
+    0;
+
+  pointer-events:
+    none;
 }
 
 .wheel-number {
-  position:absolute;
+  position:
+    absolute;
 
-  width:42px;
-  height:42px;
+  width:
+    42px;
 
-  margin-left:-21px;
-  margin-top:-21px;
+  height:
+    42px;
 
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  margin-left:
+    -21px;
 
-  font-size:21px;
-  font-weight:900;
+  margin-top:
+    -21px;
 
-  color:#151515;
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  font-size:
+    21px;
+
+  font-weight:
+    900;
+
+  color:
+    #151515;
 }
 
 .wheel-center {
-  position:absolute;
+  position:
+    absolute;
 
-  left:50%;
-  top:50%;
+  left:
+    50%;
 
-  transform:translate(-50%,-50%);
+  top:
+    50%;
 
-  width:70px;
-  height:70px;
+  transform:
+    translate(-50%,-50%);
 
-  border-radius:50%;
+  width:
+    70px;
 
-  background:var(--card-bg);
+  height:
+    70px;
 
-  border:5px solid var(--text);
+  border-radius:
+    50%;
 
-  z-index:10;
+  border:
+    5px solid var(--text);
+
+  background:
+    var(--card-bg);
+
+  z-index:
+    10;
 }
 
 .case-result {
-  text-align:center;
-  font-size:25px;
-  font-weight:800;
-  margin-top:22px;
+  text-align:
+    center;
+
+  font-size:
+    25px;
+
+  font-weight:
+    800;
+
+  margin-top:
+    22px;
 }
 
+
 /* =========================================================
-   ПРОГРЕСС КЕЙСОВ
+   СТАТИСТИКА КЕЙСОВ
 ========================================================= */
 
 .stats-grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(135px,1fr));
-  gap:10px;
-  margin-top:18px;
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(135px,1fr)
+    );
+
+  gap:
+    10px;
+
+  margin-top:
+    18px;
 }
 
 .stat {
-  background:var(--soft-bg);
-  border-radius:12px;
-  padding:13px;
+  background:
+    var(--soft-bg);
+
+  border-radius:
+    12px;
+
+  padding:
+    13px;
 }
 
 .stat.completed {
-  background:var(--success-bright);
-  color:#102b1b;
+  background:
+    var(--success-bright);
 
-  border:2px solid #20b961;
+  color:
+    #102b1b;
 
-  box-shadow:0 4px 14px rgba(57,216,122,.30);
+  border:
+    2px solid #20b961;
+
+  box-shadow:
+    0 4px 14px
+    rgba(57,216,122,.30);
 }
 
 .stat.completed::after {
-  content:" ✓";
-  font-weight:bold;
+  content:
+    " ✓";
+
+  font-weight:
+    bold;
 }
+
 
 /* =========================================================
    НАСТРОЙКИ
 ========================================================= */
 
 .modal-background {
-  position:fixed;
-  inset:0;
+  position:
+    fixed;
 
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  inset:
+    0;
 
-  background:var(--backdrop);
+  display:
+    flex;
 
-  z-index:4000;
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  background:
+    var(--backdrop);
+
+  z-index:
+    4000;
 }
 
 .settings-modal {
-  width:min(540px,calc(100% - 30px));
+  width:
+    min(
+      540px,
+      calc(100% - 30px)
+    );
 
-  max-height:90vh;
-  overflow:auto;
+  max-height:
+    90vh;
 
-  padding:26px;
+  overflow:
+    auto;
 
-  border-radius:22px;
+  padding:
+    26px;
 
-  background:var(--card-bg);
-  color:var(--text);
+  border-radius:
+    22px;
 
-  box-shadow:0 15px 60px rgba(0,0,0,.3);
+  background:
+    var(--card-bg);
+
+  color:
+    var(--text);
+
+  box-shadow:
+    0 15px 60px
+    rgba(0,0,0,.3);
 }
 
 .theme-options {
-  display:flex;
-  gap:10px;
-  margin-bottom:25px;
+  display:
+    flex;
+
+  gap:
+    10px;
+
+  margin-bottom:
+    25px;
 }
 
 .theme-option {
-  flex:1;
+  flex:
+    1;
 
-  background:var(--soft-bg);
-  color:var(--text);
+  background:
+    var(--soft-bg);
 
-  border:2px solid transparent;
+  color:
+    var(--text);
+
+  border:
+    2px solid transparent;
 }
 
 .theme-option.selected {
-  border-color:var(--text);
-  font-weight:800;
+  border-color:
+    var(--text);
+
+  font-weight:
+    800;
 }
 
 .pointer-option {
-  width:100%;
+  width:
+    100%;
 
-  display:flex;
-  gap:15px;
-  align-items:center;
+  display:
+    flex;
 
-  margin:8px 0;
+  gap:
+    15px;
 
-  text-align:left;
+  align-items:
+    center;
 
-  background:var(--soft-bg);
-  color:var(--text);
+  margin:
+    8px 0;
+
+  background:
+    var(--soft-bg);
+
+  color:
+    var(--text);
+
+  text-align:
+    left;
 }
 
 .pointer-option.selected {
-  outline:3px solid var(--text);
+  outline:
+    3px solid var(--text);
 }
 
 .pointer-preview {
-  width:45px;
-  font-size:28px;
-  text-align:center;
+  width:
+    45px;
+
+  font-size:
+    28px;
+
+  text-align:
+    center;
 }
+
 
 /* =========================================================
    ФИНАЛЫ
 ========================================================= */
 
 .final-overlay {
-  position:fixed;
-  inset:0;
+  position:
+    fixed;
 
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  inset:
+    0;
 
-  padding:15px;
+  display:
+    flex;
 
-  background:var(--backdrop);
+  align-items:
+    center;
 
-  z-index:5000;
+  justify-content:
+    center;
+
+  padding:
+    15px;
+
+  background:
+    var(--backdrop);
+
+  z-index:
+    5000;
 }
 
 .final-card {
-  width:min(720px,100%);
+  width:
+    min(
+      760px,
+      100%
+    );
 
-  max-height:95vh;
-  overflow:auto;
+  max-height:
+    96vh;
 
-  padding:35px 25px;
+  overflow:
+    auto;
 
-  border-radius:26px;
+  padding:
+    34px 25px;
 
-  background:var(--card-bg);
-  color:var(--text);
+  border-radius:
+    26px;
 
-  text-align:center;
+  background:
+    var(--card-bg);
 
-  box-shadow:0 20px 80px rgba(0,0,0,.35);
+  color:
+    var(--text);
 
-  animation:finalPop .45s ease;
+  text-align:
+    center;
+
+  box-shadow:
+    0 20px 80px
+    rgba(0,0,0,.35);
+
+  animation:
+    finalPop .45s ease;
 }
 
 .final-card h2 {
-  font-size:clamp(30px,6vw,52px);
-  margin:0 0 12px;
+  margin:
+    0 0 12px;
+
+  font-size:
+    clamp(
+      30px,
+      6vw,
+      52px
+    );
 }
 
 .final-card p {
-  font-size:23px;
+  font-size:
+    23px;
 }
 
 @keyframes finalPop {
-  from {
-    transform:scale(.5) rotate(-4deg);
-    opacity:0;
+  0% {
+    transform:
+      scale(.5)
+      rotate(-4deg);
+
+    opacity:
+      0;
   }
 
   70% {
-    transform:scale(1.06) rotate(1deg);
+    transform:
+      scale(1.06)
+      rotate(1deg);
   }
 
-  to {
-    transform:scale(1);
-    opacity:1;
+  100% {
+    transform:
+      scale(1);
+
+    opacity:
+      1;
   }
 }
 
+
 /* =========================================================
-   ЗЛОЙ КОТ + КНИГА
+   СЦЕНА: КОТ СМОТРИТ НА КНИГУ
 ========================================================= */
 
 .cat-battle {
-  position:relative;
+  position:
+    relative;
 
-  width:min(620px,100%);
-  height:285px;
+  width:
+    min(680px,100%);
 
-  margin:10px auto 15px;
+  height:
+    300px;
+
+  margin:
+    5px auto 12px;
+
+  overflow:
+    visible;
 }
 
+
+/* Кнопка-кот */
+
 .cat-button {
-  position:absolute;
+  position:
+    absolute;
 
-  left:25px;
-  bottom:15px;
+  left:
+    0;
 
-  width:265px;
-  height:245px;
+  bottom:
+    22px;
 
-  padding:0;
+  width:
+    375px;
 
-  background:transparent;
+  height:
+    255px;
 
-  cursor:pointer;
+  padding:
+    0;
 
-  transform-origin:55% 75%;
+  background:
+    transparent;
+
+  border:
+    0;
+
+  transform-origin:
+    45% 75%;
+
+  z-index:
+    10;
 }
 
 .cat-button:hover {
-  transform:scale(1.03);
+  transform:
+    scale(1.015);
 }
 
-.angry-cat {
-  width:100%;
-  height:100%;
-  overflow:visible;
+.cat-svg {
+  width:
+    100%;
+
+  height:
+    100%;
+
+  overflow:
+    visible;
 }
 
-.cat-fill {
-  fill:#fff;
+
+/* Белая шерсть */
+
+.cat-white {
+  fill:
+    #fff;
+
+  stroke:
+    #202124;
+
+  stroke-width:
+    6;
+
+  stroke-linecap:
+    round;
+
+  stroke-linejoin:
+    round;
 }
 
-.cat-line {
-  stroke:#202124;
-  stroke-width:7;
-  stroke-linecap:round;
-  stroke-linejoin:round;
+
+/* Хвост */
+
+.cat-tail-line {
+  fill:
+    none;
+
+  stroke:
+    #202124;
+
+  stroke-width:
+    18;
+
+  stroke-linecap:
+    round;
 }
 
-.cat-face-line {
-  fill:none;
-  stroke:#202124;
-  stroke-width:7;
-  stroke-linecap:round;
+.cat-tail-white {
+  fill:
+    none;
+
+  stroke:
+    #fff;
+
+  stroke-width:
+    11;
+
+  stroke-linecap:
+    round;
 }
 
-/* злые глаза */
 
-.cat-eye-angry {
-  fill:#202124;
+/* Морда */
+
+.cat-face {
+  fill:
+    none;
+
+  stroke:
+    #202124;
+
+  stroke-width:
+    6;
+
+  stroke-linecap:
+    round;
+
+  stroke-linejoin:
+    round;
 }
 
-/* бита */
 
-.cat-bat {
-  transform-origin:116px 129px;
+/* Лапы */
+
+.cat-arm {
+  fill:
+    #fff;
+
+  stroke:
+    #202124;
+
+  stroke-width:
+    6;
+
+  stroke-linejoin:
+    round;
 }
 
-/* морда злости */
 
-.anger-mark {
-  transform-origin:center;
+/* Бита */
+
+.bat-group {
+  transform-origin:
+    184px 125px;
 }
 
-/* книга */
+
+/* =========================================================
+   КНИГА
+========================================================= */
 
 .book {
-  position:absolute;
+  position:
+    absolute;
 
-  right:55px;
-  bottom:45px;
+  right:
+    35px;
 
-  width:165px;
-  height:120px;
+  bottom:
+    50px;
 
-  background:#8247d6;
+  width:
+    170px;
 
-  border:5px solid #202124;
+  height:
+    125px;
 
-  border-radius:8px 14px 14px 8px;
+  background:
+    #8247d6;
 
-  transform:rotate(4deg);
+  border:
+    5px solid #202124;
 
-  z-index:4;
+  border-radius:
+    8px 15px 15px 8px;
+
+  transform:
+    rotate(3deg);
 
   transition:
-    transform .18s,
-    filter .18s,
-    opacity .18s;
+    transform .2s ease,
+    filter .2s ease;
+
+  z-index:
+    5;
 }
 
+
+/* Страницы */
+
 .book-pages {
-  position:absolute;
+  position:
+    absolute;
 
-  width:145px;
-  height:22px;
+  width:
+    150px;
 
-  left:8px;
-  bottom:-19px;
+  height:
+    23px;
 
-  border:4px solid #202124;
+  left:
+    8px;
 
-  border-radius:0 0 10px 10px;
+  bottom:
+    -20px;
+
+  border:
+    4px solid #202124;
+
+  border-radius:
+    0 0 10px 10px;
 
   background:
     repeating-linear-gradient(
@@ -789,461 +1360,746 @@ body.dark .card {
       #e1c98f 3px 5px
     );
 
-  z-index:-1;
+  z-index:
+    -1;
+
+  transition:
+    .2s ease;
 }
 
-/* глаза книги */
+
+/* Глаза книги */
 
 .book-eye {
-  position:absolute;
+  position:
+    absolute;
 
-  top:35px;
+  top:
+    35px;
 
-  width:28px;
-  height:28px;
+  width:
+    30px;
 
-  font-size:29px;
-  font-weight:900;
-  line-height:28px;
+  height:
+    30px;
 
-  color:#202124;
+  color:
+    #202124;
+
+  font-size:
+    29px;
+
+  font-weight:
+    900;
+
+  line-height:
+    28px;
 }
 
 .book-eye.left {
-  left:35px;
+  left:
+    35px;
 }
 
 .book-eye.right {
-  right:35px;
+  right:
+    35px;
 }
 
-/* рот книги */
+
+/* Рот грустный с самого начала */
 
 .book-mouth {
-  position:absolute;
+  position:
+    absolute;
 
-  left:61px;
-  top:76px;
+  left:
+    62px;
 
-  width:36px;
-  height:12px;
+  top:
+    77px;
 
-  border-top:4px solid #202124;
+  width:
+    38px;
 
-  border-radius:50%;
+  height:
+    18px;
+
+  border-top:
+    4px solid #202124;
+
+  border-radius:
+    50%;
+
+  transform:
+    rotate(-4deg);
 }
 
-/* трещины */
+
+/* Язык появляется после смерти */
+
+.book-tongue {
+  position:
+    absolute;
+
+  left:
+    68px;
+
+  top:
+    84px;
+
+  width:
+    25px;
+
+  height:
+    19px;
+
+  border:
+    3px solid #202124;
+
+  border-radius:
+    0 0 13px 13px;
+
+  background:
+    #f47796;
+
+  opacity:
+    0;
+
+  transform:
+    rotate(7deg);
+}
+
+
+/* Трещины */
 
 .book-crack {
-  position:absolute;
+  position:
+    absolute;
 
-  width:4px;
-  height:34px;
+  width:
+    4px;
 
-  background:#202124;
+  height:
+    36px;
 
-  opacity:0;
+  background:
+    #202124;
 
-  transform:rotate(22deg);
+  opacity:
+    0;
 }
 
 .book-crack.c1 {
-  left:24px;
-  top:10px;
+  left:
+    22px;
+
+  top:
+    11px;
+
+  transform:
+    rotate(22deg);
 }
 
 .book-crack.c2 {
-  right:27px;
-  top:57px;
-  transform:rotate(-28deg);
+  right:
+    28px;
+
+  top:
+    63px;
+
+  transform:
+    rotate(-29deg);
 }
 
 .book-crack.c3 {
-  left:76px;
-  top:10px;
-  transform:rotate(-18deg);
+  left:
+    82px;
+
+  top:
+    7px;
+
+  transform:
+    rotate(-17deg);
 }
 
-/* ухудшение книги */
+
+/* =========================================================
+   СТАДИИ ПОВРЕЖДЕНИЯ КНИГИ
+========================================================= */
 
 .book.damage-1 {
   transform:
     rotate(9deg)
-    translateX(8px);
+    translate(7px,2px);
 }
 
-.book.damage-1 .c1 {
-  opacity:1;
+.book.damage-1
+.c1 {
+  opacity:
+    1;
 }
+
 
 .book.damage-2 {
   transform:
     rotate(-7deg)
-    translate(13px,7px)
+    translate(13px,8px)
     scale(.97);
 
-  filter:saturate(.85);
+  filter:
+    saturate(.84);
 }
 
-.book.damage-2 .c1,
-.book.damage-2 .c2 {
-  opacity:1;
+.book.damage-2
+.c1,
+.book.damage-2
+.c2 {
+  opacity:
+    1;
 }
+
+.book.damage-2
+.book-pages {
+  transform:
+    translateY(4px)
+    rotate(2deg);
+}
+
 
 .book.damage-3 {
   transform:
     rotate(15deg)
-    translate(17px,15px)
-    scale(.94,.90);
+    translate(18px,16px)
+    scale(.94,.89);
 
   filter:
-    saturate(.65)
+    saturate(.62)
     brightness(.9);
 }
 
-.book.damage-3 .book-mouth {
-  transform:rotate(10deg);
+.book.damage-3
+.book-crack {
+  opacity:
+    1;
 }
 
-.book.damage-3 .book-pages {
-  transform:translateY(5px) rotate(3deg);
+.book.damage-3
+.book-pages {
+  transform:
+    translate(5px,7px)
+    rotate(5deg);
 }
 
-.book.damage-3 .book-crack {
-  opacity:1;
-}
 
-/* дохлая */
+/* Дохлая */
 
 .book.dead {
   transform:
-    rotate(23deg)
-    translate(20px,25px)
-    scale(.91,.82);
+    rotate(24deg)
+    translate(24px,27px)
+    scale(.90,.80);
 
   filter:
-    saturate(.45)
-    brightness(.76);
+    saturate(.38)
+    brightness(.74);
 }
 
-.book.dead .book-mouth {
-  border-top:0;
-  border-bottom:4px solid #202124;
-
-  top:69px;
-
-  transform:rotate(-7deg);
+.book.dead
+.book-crack {
+  opacity:
+    1;
 }
 
-/* язык */
+.book.dead
+.book-pages {
+  transform:
+    translate(10px,11px)
+    rotate(8deg);
+}
 
+.book.dead
+.book-mouth {
+  border-top:
+    0;
+
+  border-bottom:
+    4px solid #202124;
+
+  top:
+    68px;
+
+  transform:
+    rotate(-8deg);
+}
+
+.book.dead
 .book-tongue {
-  position:absolute;
-
-  width:25px;
-  height:18px;
-
-  left:66px;
-  top:81px;
-
-  border-radius:0 0 12px 12px;
-
-  background:#f47796;
-
-  border:3px solid #202124;
-
-  opacity:0;
-
-  transform:rotate(6deg);
+  opacity:
+    1;
 }
 
-.book.dead .book-tongue {
-  opacity:1;
-}
 
-/* бумажки */
-
-.paper-bit {
-  position:absolute;
-
-  width:20px;
-  height:14px;
-
-  background:#f6e5be;
-
-  border:2px solid #202124;
-
-  opacity:0;
-
-  z-index:20;
-}
-
-.paper-bit.p1 {
-  right:185px;
-  bottom:130px;
-}
-
-.paper-bit.p2 {
-  right:105px;
-  bottom:175px;
-}
-
-.paper-bit.p3 {
-  right:65px;
-  bottom:115px;
-}
-
-/* удар */
+/* =========================================================
+   💥 И БУМАЖКИ
+========================================================= */
 
 .impact {
-  position:absolute;
+  position:
+    absolute;
 
-  right:195px;
-  bottom:105px;
+  right:
+    185px;
 
-  font-size:55px;
+  bottom:
+    110px;
 
-  opacity:0;
+  z-index:
+    30;
 
-  z-index:30;
-}
+  font-size:
+    58px;
 
-/* разные виды атак */
+  opacity:
+    0;
 
-.cat-button.attack-overhead {
-  animation:catOverhead .48s ease;
-}
-
-.cat-button.attack-overhead .cat-bat {
-  animation:batOverhead .48s ease;
-}
-
-.cat-button.attack-side {
-  animation:catSide .42s ease;
-}
-
-.cat-button.attack-side .cat-bat {
-  animation:batSide .42s ease;
-}
-
-.cat-button.attack-heavy {
-  animation:catHeavy .58s ease;
-}
-
-.cat-button.attack-heavy .cat-bat {
-  animation:batHeavy .58s ease;
-}
-
-.book.hit-1 {
-  animation:bookHit1 .42s ease;
-}
-
-.book.hit-2 {
-  animation:bookHit2 .46s ease;
-}
-
-.book.hit-3 {
-  animation:bookHit3 .56s ease;
+  pointer-events:
+    none;
 }
 
 .impact.show {
-  animation:impactBoom .45s ease;
+  animation:
+    impactBoom
+    .44s ease;
+}
+
+
+.paper-bit {
+  position:
+    absolute;
+
+  width:
+    21px;
+
+  height:
+    15px;
+
+  border:
+    2px solid #202124;
+
+  background:
+    #f6e5be;
+
+  opacity:
+    0;
+
+  z-index:
+    25;
+}
+
+.paper-bit.p1 {
+  right:
+    184px;
+
+  bottom:
+    155px;
+}
+
+.paper-bit.p2 {
+  right:
+    92px;
+
+  bottom:
+    190px;
+}
+
+.paper-bit.p3 {
+  right:
+    65px;
+
+  bottom:
+    110px;
 }
 
 .paper-bit.fly {
-  animation:paperFly .7s ease;
+  animation:
+    paperFly .72s ease;
 }
 
-@keyframes catOverhead {
-  0% {
-    transform:translate(0) rotate(0);
-  }
 
-  30% {
-    transform:translate(-5px,-4px) rotate(-8deg);
-  }
+/* =========================================================
+   РАЗНЫЕ ДВИЖЕНИЯ КОТА
+========================================================= */
 
-  70% {
-    transform:translate(17px,8px) rotate(7deg);
-  }
+/*
+  Важно:
+  здесь двигается не просто бита.
+  Кот вместе с вытянутыми лапами
+  реально приближается к книге.
+*/
 
-  100% {
-    transform:none;
-  }
+
+/* Удар сбоку */
+
+.cat-button.attack-side {
+  animation:
+    catSide .65s ease;
 }
 
-@keyframes batOverhead {
-  0% {
-    transform:rotate(0);
-  }
-
-  30% {
-    transform:rotate(-75deg);
-  }
-
-  72% {
-    transform:rotate(35deg);
-  }
-
-  100% {
-    transform:rotate(0);
-  }
+.cat-button.attack-side
+.bat-group {
+  animation:
+    batSide .65s ease;
 }
+
+
+/* Удар сверху */
+
+.cat-button.attack-overhead {
+  animation:
+    catOverhead .72s ease;
+}
+
+.cat-button.attack-overhead
+.bat-group {
+  animation:
+    batOverhead .72s ease;
+}
+
+
+/* Сильный удар */
+
+.cat-button.attack-heavy {
+  animation:
+    catHeavy .80s ease;
+}
+
+.cat-button.attack-heavy
+.bat-group {
+  animation:
+    batHeavy .80s ease;
+}
+
+
+/* =========================================================
+   КЛЮЧЕВЫЕ КАДРЫ
+========================================================= */
+
+/*
+  Контакт примерно на 50%.
+  Потом кот отдёргивает биту.
+*/
 
 @keyframes catSide {
+
   0% {
-    transform:none;
+    transform:
+      translateX(0)
+      rotate(0);
   }
 
-  35% {
-    transform:translateX(-12px) rotate(-4deg);
-  }
-
-  70% {
-    transform:translateX(22px) rotate(4deg);
-  }
-
-  100% {
-    transform:none;
-  }
-}
-
-@keyframes batSide {
-  0% {
-    transform:rotate(0);
-  }
-
-  35% {
-    transform:rotate(-28deg);
-  }
-
-  70% {
-    transform:rotate(28deg);
-  }
-
-  100% {
-    transform:rotate(0);
-  }
-}
-
-@keyframes catHeavy {
-  0% {
-    transform:none;
-  }
-
-  30% {
-    transform:translate(-12px,-7px) rotate(-12deg) scale(1.03);
-  }
-
-  70% {
-    transform:translate(25px,12px) rotate(9deg) scale(.98);
-  }
-
-  100% {
-    transform:none;
-  }
-}
-
-@keyframes batHeavy {
-  0% {
-    transform:rotate(0);
-  }
-
-  28% {
-    transform:rotate(-95deg);
-  }
-
-  72% {
-    transform:rotate(45deg);
-  }
-
-  100% {
-    transform:rotate(0);
-  }
-}
-
-@keyframes bookHit1 {
-  30% {
-    transform:translateX(14px) rotate(14deg);
-  }
-
-  60% {
-    transform:translateX(-6px) rotate(-5deg);
-  }
-}
-
-@keyframes bookHit2 {
-  30% {
-    transform:translate(19px,-5px) rotate(18deg);
-  }
-
-  55% {
-    transform:translate(-10px,8px) rotate(-12deg);
-  }
-}
-
-@keyframes bookHit3 {
   25% {
-    transform:translate(24px,-8px) rotate(24deg) scale(.95);
+    transform:
+      translateX(-14px)
+      rotate(-4deg);
   }
 
   50% {
-    transform:translate(-13px,12px) rotate(-15deg);
+    transform:
+      translateX(64px)
+      rotate(4deg);
   }
 
-  75% {
-    transform:translate(10px,17px) rotate(18deg);
+  68% {
+    transform:
+      translateX(54px)
+      rotate(2deg);
+  }
+
+  100% {
+    transform:
+      translateX(0)
+      rotate(0);
   }
 }
+
+
+@keyframes batSide {
+
+  0% {
+    transform:
+      rotate(-8deg);
+  }
+
+  25% {
+    transform:
+      rotate(-28deg);
+  }
+
+  50% {
+    transform:
+      rotate(9deg);
+  }
+
+  68% {
+    transform:
+      rotate(3deg);
+  }
+
+  100% {
+    transform:
+      rotate(-8deg);
+  }
+}
+
+
+@keyframes catOverhead {
+
+  0% {
+    transform:
+      translate(0,0)
+      rotate(0);
+  }
+
+  25% {
+    transform:
+      translate(-10px,-16px)
+      rotate(-7deg);
+  }
+
+  50% {
+    transform:
+      translate(58px,17px)
+      rotate(5deg);
+  }
+
+  70% {
+    transform:
+      translate(46px,7px)
+      rotate(2deg);
+  }
+
+  100% {
+    transform:
+      translate(0,0)
+      rotate(0);
+  }
+}
+
+
+@keyframes batOverhead {
+
+  0% {
+    transform:
+      rotate(-8deg);
+  }
+
+  25% {
+    transform:
+      rotate(-72deg);
+  }
+
+  50% {
+    transform:
+      rotate(23deg);
+  }
+
+  70% {
+    transform:
+      rotate(7deg);
+  }
+
+  100% {
+    transform:
+      rotate(-8deg);
+  }
+}
+
+
+@keyframes catHeavy {
+
+  0% {
+    transform:
+      translate(0,0)
+      rotate(0)
+      scale(1);
+  }
+
+  22% {
+    transform:
+      translate(-18px,-11px)
+      rotate(-10deg)
+      scale(1.03);
+  }
+
+  50% {
+    transform:
+      translate(72px,20px)
+      rotate(7deg)
+      scale(.99);
+  }
+
+  68% {
+    transform:
+      translate(58px,12px)
+      rotate(3deg)
+      scale(1);
+  }
+
+  100% {
+    transform:
+      translate(0,0)
+      rotate(0)
+      scale(1);
+  }
+}
+
+
+@keyframes batHeavy {
+
+  0% {
+    transform:
+      rotate(-8deg);
+  }
+
+  22% {
+    transform:
+      rotate(-92deg);
+  }
+
+  50% {
+    transform:
+      rotate(31deg);
+  }
+
+  68% {
+    transform:
+      rotate(12deg);
+  }
+
+  100% {
+    transform:
+      rotate(-8deg);
+  }
+}
+
+
+/* Книга трясётся в момент контакта */
+
+.book.contact {
+  animation:
+    bookContact .32s ease;
+}
+
+@keyframes bookContact {
+
+  0% {
+    translate:
+      0 0;
+  }
+
+  20% {
+    translate:
+      15px -4px;
+  }
+
+  40% {
+    translate:
+      -8px 4px;
+  }
+
+  60% {
+    translate:
+      10px 2px;
+  }
+
+  80% {
+    translate:
+      -4px 2px;
+  }
+
+  100% {
+    translate:
+      0 0;
+  }
+}
+
 
 @keyframes impactBoom {
+
   0% {
-    opacity:0;
-    transform:scale(.2) rotate(-20deg);
+    opacity:
+      0;
+
+    transform:
+      scale(.2)
+      rotate(-20deg);
   }
 
-  35% {
-    opacity:1;
-    transform:scale(1.45) rotate(8deg);
+  32% {
+    opacity:
+      1;
+
+    transform:
+      scale(1.5)
+      rotate(7deg);
   }
 
   100% {
-    opacity:0;
-    transform:scale(.8) rotate(18deg);
+    opacity:
+      0;
+
+    transform:
+      scale(.8)
+      rotate(18deg);
   }
 }
+
 
 @keyframes paperFly {
+
   0% {
-    opacity:1;
-    transform:translate(0,0) rotate(0);
+    opacity:
+      1;
+
+    transform:
+      translate(0,0)
+      rotate(0);
   }
 
   100% {
-    opacity:0;
-    transform:translate(var(--paper-x),var(--paper-y)) rotate(240deg);
+    opacity:
+      0;
+
+    transform:
+      translate(
+        var(--paper-x),
+        var(--paper-y)
+      )
+      rotate(260deg);
   }
 }
 
-.cat-hint {
-  font-size:14px;
-  opacity:.68;
-}
 
 /* =========================================================
    КОНФЕТТИ
 ========================================================= */
 
 .confetti {
-  position:fixed;
+  position:
+    fixed;
 
-  width:10px;
-  height:16px;
+  width:
+    10px;
 
-  z-index:6000;
+  height:
+    16px;
 
-  pointer-events:none;
+  z-index:
+    6000;
+
+  pointer-events:
+    none;
 
   animation:
     confettiFall
@@ -1253,16 +2109,29 @@ body.dark .card {
 }
 
 @keyframes confettiFall {
-  from {
-    transform:translate(0,-30px) rotate(0);
-    opacity:1;
+
+  0% {
+    transform:
+      translate(0,-30px)
+      rotate(0);
+
+    opacity:
+      1;
   }
 
-  to {
-    transform:translate(var(--x),105vh) rotate(900deg);
-    opacity:0;
+  100% {
+    transform:
+      translate(
+        var(--x),
+        105vh
+      )
+      rotate(900deg);
+
+    opacity:
+      0;
   }
 }
+
 
 /* =========================================================
    МОБИЛЬНЫЙ
@@ -1271,23 +2140,33 @@ body.dark .card {
 @media (max-width:700px) {
 
   .knowledge-row {
-    grid-template-columns:1fr;
+    grid-template-columns:
+      1fr;
   }
 
   .wheel-shell {
-    width:300px;
-    height:300px;
+    width:
+      300px;
+
+    height:
+      300px;
   }
 
   .cat-battle {
-    transform:scale(.78);
-    transform-origin:top center;
+    width:
+      680px;
 
-    width:620px;
+    transform:
+      scale(.76);
 
-    margin-left:calc(50% - 310px);
+    transform-origin:
+      top center;
 
-    margin-bottom:-55px;
+    margin-left:
+      calc(50% - 340px);
+
+    margin-bottom:
+      -65px;
   }
 }
 
@@ -1295,6 +2174,7 @@ body.dark .card {
 </head>
 
 <body>
+
 
 <!-- =====================================================
      ? НАСТРОЙКИ
@@ -1317,7 +2197,9 @@ body.dark .card {
 
 <div class="container">
 
-<h1>Тренажёр новичка</h1>
+<h1>
+  Тренажёр новичка
+</h1>
 
 
 <!-- =====================================================
@@ -1328,28 +2210,38 @@ body.dark .card {
 
   <div class="card">
 
-    <h2>Что тренируем?</h2>
+    <h2>
+      Что тренируем?
+    </h2>
 
     <button
       class="main-button"
       onclick="openKnowledge()">
+
       Номера знаний
+
     </button>
 
     <button
       class="main-button"
       onclick="openCases()">
+
       Треня кейсов
+
     </button>
 
   </div>
 
+
   <div class="card">
 
-    <h3>Прогресс</h3>
+    <h3>
+      Прогресс
+    </h3>
 
     <p>
       Номера знаний:
+
       <strong id="homeKnowledgeProgress">
         0 / 10
       </strong>
@@ -1357,6 +2249,7 @@ body.dark .card {
 
     <p>
       Кейсы:
+
       <strong id="homeCaseProgress">
         0 / 10
       </strong>
@@ -1371,36 +2264,48 @@ body.dark .card {
      ЗНАНИЯ
 ===================================================== -->
 
-<div id="knowledge" class="hidden">
+<div
+  id="knowledge"
+  class="hidden">
 
   <button
     class="secondary-button"
     onclick="goHome()">
+
     ← На главную
+
   </button>
+
 
   <div class="card">
 
-    <h2>Номера знаний</h2>
+    <h2>
+      Номера знаний
+    </h2>
 
     <div class="big-number">
 
       Задание №
+
       <span id="knowledgeNumber">
         1
       </span>
 
     </div>
 
+
     <div class="timer">
 
       ⏱
+
       <span id="knowledgeTimer">
         0
       </span>
+
       сек.
 
     </div>
+
 
     <div
       id="knowledgeActions"
@@ -1409,38 +2314,50 @@ body.dark .card {
       <button
         class="success-button"
         onclick="finishKnowledge(true)">
+
         ✓ Верно
+
       </button>
+
 
       <button
         class="fail-button"
         onclick="finishKnowledge(false)">
+
         ✕ Не верно
+
       </button>
 
     </div>
+
 
     <div
       id="knowledgeResult"
       class="result-message hidden">
 
-      <strong id="knowledgeResultText"></strong>
+      <strong id="knowledgeResultText">
+      </strong>
 
       <br><br>
 
       <button
         class="main-button"
         onclick="nextKnowledge()">
+
         Следующее
+
       </button>
 
     </div>
 
   </div>
 
+
   <div class="card">
 
-    <h3>Трекер знаний</h3>
+    <h3>
+      Трекер знаний
+    </h3>
 
     <div
       id="knowledgeTracker"
@@ -1452,7 +2369,9 @@ body.dark .card {
     <button
       class="secondary-button"
       onclick="resetKnowledge()">
+
       Сбросить прогресс знаний
+
     </button>
 
   </div>
@@ -1464,22 +2383,29 @@ body.dark .card {
      КЕЙСЫ
 ===================================================== -->
 
-<div id="cases" class="hidden">
+<div
+  id="cases"
+  class="hidden">
 
   <button
     class="secondary-button"
     onclick="goHome()">
+
     ← На главную
+
   </button>
+
 
   <div class="card">
 
-    <h2>Рулетка кейсов</h2>
+    <h2>
+      Рулетка кейсов
+    </h2>
+
 
     <div class="wheel-area">
 
-      <div
-        class="pointer-holder">
+      <div class="pointer-holder">
 
         <div
           id="pointerVisual"
@@ -1487,6 +2413,7 @@ body.dark .card {
         </div>
 
       </div>
+
 
       <div
         id="wheelShell"
@@ -1497,27 +2424,79 @@ body.dark .card {
           class="wheel">
         </div>
 
-        <div
-          class="number-layer">
 
-          <div class="wheel-number" data-number="1">1</div>
-          <div class="wheel-number" data-number="2">2</div>
-          <div class="wheel-number" data-number="3">3</div>
-          <div class="wheel-number" data-number="4">4</div>
-          <div class="wheel-number" data-number="5">5</div>
-          <div class="wheel-number" data-number="6">6</div>
-          <div class="wheel-number" data-number="7">7</div>
-          <div class="wheel-number" data-number="8">8</div>
-          <div class="wheel-number" data-number="9">9</div>
-          <div class="wheel-number" data-number="10">10</div>
+        <div class="number-layer">
+
+          <div
+            class="wheel-number"
+            data-number="1">
+            1
+          </div>
+
+          <div
+            class="wheel-number"
+            data-number="2">
+            2
+          </div>
+
+          <div
+            class="wheel-number"
+            data-number="3">
+            3
+          </div>
+
+          <div
+            class="wheel-number"
+            data-number="4">
+            4
+          </div>
+
+          <div
+            class="wheel-number"
+            data-number="5">
+            5
+          </div>
+
+          <div
+            class="wheel-number"
+            data-number="6">
+            6
+          </div>
+
+          <div
+            class="wheel-number"
+            data-number="7">
+            7
+          </div>
+
+          <div
+            class="wheel-number"
+            data-number="8">
+            8
+          </div>
+
+          <div
+            class="wheel-number"
+            data-number="9">
+            9
+          </div>
+
+          <div
+            class="wheel-number"
+            data-number="10">
+            10
+          </div>
 
         </div>
 
-        <div class="wheel-center"></div>
+
+        <div class="wheel-center">
+        </div>
 
       </div>
 
     </div>
+
 
     <div style="text-align:center">
 
@@ -1525,10 +2504,13 @@ body.dark .card {
         id="spinButton"
         class="main-button"
         onclick="spinWheel()">
+
         🎲 Крутить рулетку
+
       </button>
 
     </div>
+
 
     <div
       id="caseWork"
@@ -1537,30 +2519,38 @@ body.dark .card {
       <div class="case-result">
 
         Выпал кейс №
-        <span id="caseNumber"></span>
+
+        <span id="caseNumber">
+        </span>
 
       </div>
+
 
       <p style="text-align:center">
 
         Закрепление:
+
         <strong id="caseProgress">
           0 / 3
         </strong>
 
       </p>
 
+
       <div
         class="timer"
         style="text-align:center">
 
         ⏱
+
         <span id="caseTimer">
           0
         </span>
+
         сек.
 
       </div>
+
 
       <div
         class="actions"
@@ -1569,41 +2559,53 @@ body.dark .card {
         <button
           class="success-button"
           onclick="finishCase(true)">
+
           ✓ Верно
+
         </button>
+
 
         <button
           class="fail-button"
           onclick="finishCase(false)">
+
           ✕ Не верно
+
         </button>
 
       </div>
 
     </div>
 
+
     <div
       id="caseResult"
       class="result-message hidden"
       style="text-align:center">
 
-      <strong id="caseResultText"></strong>
+      <strong id="caseResultText">
+      </strong>
 
       <br><br>
 
       <button
         class="main-button"
         onclick="prepareWheel()">
+
         Крутить ещё
+
       </button>
 
     </div>
 
   </div>
 
+
   <div class="card">
 
-    <h3>Прогресс кейсов</h3>
+    <h3>
+      Прогресс кейсов
+    </h3>
 
     <div
       id="caseStats"
@@ -1615,7 +2617,9 @@ body.dark .card {
     <button
       class="secondary-button"
       onclick="resetCases()">
+
       Сбросить прогресс
+
     </button>
 
   </div>
@@ -1635,9 +2639,14 @@ body.dark .card {
 
   <div class="settings-modal">
 
-    <h2>Настройки</h2>
+    <h2>
+      Настройки
+    </h2>
 
-    <h3>Тема</h3>
+
+    <h3>
+      Тема
+    </h3>
 
     <div class="theme-options">
 
@@ -1645,37 +2654,53 @@ body.dark .card {
         id="lightThemeButton"
         class="theme-option"
         onclick="selectTheme('light')">
+
         ☀️ Светлая
+
       </button>
+
 
       <button
         id="darkThemeButton"
         class="theme-option"
         onclick="selectTheme('dark')">
+
         🌙 Тёмная
+
       </button>
 
     </div>
 
-    <h3>Выбор указателя</h3>
+
+    <h3>
+      Выбор указателя
+    </h3>
+
 
     <button
       class="pointer-option"
       data-pointer="classic"
       onclick="selectPointer('classic')">
 
-      <span class="pointer-preview">▼</span>
+      <span class="pointer-preview">
+        ▼
+      </span>
 
-      <strong>Классика</strong>
+      <strong>
+        Классика
+      </strong>
 
     </button>
+
 
     <button
       class="pointer-option"
       data-pointer="pizza"
       onclick="selectPointer('pizza')">
 
-      <span class="pointer-preview">🍕</span>
+      <span class="pointer-preview">
+        🍕
+      </span>
 
       <strong>
         Если ты голоден — вот тебе пицца
@@ -1683,12 +2708,15 @@ body.dark .card {
 
     </button>
 
+
     <button
       class="pointer-option"
       data-pointer="finger"
       onclick="selectPointer('finger')">
 
-      <span class="pointer-preview">☝️</span>
+      <span class="pointer-preview">
+        ☝️
+      </span>
 
       <strong>
         Дикий пальчик
@@ -1696,12 +2724,15 @@ body.dark .card {
 
     </button>
 
+
     <button
       class="pointer-option"
       data-pointer="kids"
       onclick="selectPointer('kids')">
 
-      <span class="pointer-preview">🩵</span>
+      <span class="pointer-preview">
+        🩵
+      </span>
 
       <strong>
         Писюнчик версии Kids
@@ -1709,12 +2740,15 @@ body.dark .card {
 
     </button>
 
+
     <br>
 
     <button
       class="main-button"
       onclick="closeSettings()">
+
       Готово
+
     </button>
 
   </div>
@@ -1743,13 +2777,17 @@ body.dark .card {
     <button
       class="main-button"
       onclick="closeCasesFinal()">
+
       Урааа!
+
     </button>
 
     <button
       class="secondary-button"
       onclick="startNewCaseRound()">
+
       Начать новый круг
+
     </button>
 
   </div>
@@ -1775,177 +2813,329 @@ body.dark .card {
       Теперь она боится тебя. 🧠🔥
     </p>
 
+
     <div class="cat-battle">
 
-      <!-- злой кот -->
+
+      <!-- =============================
+           КОТ В ПРОФИЛЬ / 3-4
+      ============================== -->
 
       <button
         id="catAttackButton"
         class="cat-button"
-        onclick="catAttack()">
+        onclick="catAttack()"
+        aria-label="Котик бьёт книгу">
+
 
         <svg
-          class="angry-cat"
-          viewBox="0 0 250 220">
+          class="cat-svg"
+          viewBox="0 0 320 220"
+          aria-hidden="true">
 
-          <!-- хвост -->
 
-          <path
-            class="cat-line"
-            d="M55 150
-               C15 147 15 115 39 110
-               C24 124 32 139 57 133"
-            fill="none"/>
-
-          <!-- тело -->
+          <!-- хвост сзади -->
 
           <path
-            class="cat-fill cat-line"
-            d="M52 72
-               L39 25
-               L77 51
-               Q117 34 157 51
-               L194 24
-               L181 75
-               Q194 98 185 140
-               Q177 181 151 190
-               Q117 201 78 190
-               Q49 178 44 141
-               Q38 100 52 72
-               Z"/>
-
-          <!-- уши -->
+            class="cat-tail-line"
+            d="
+              M74 149
+              C30 159,
+              27 125,
+              53 118
+              C35 133,
+              49 145,
+              79 135
+            "/>
 
           <path
-            d="M50 40 L71 55 L53 61 Z"
-            fill="#f4b1b1"/>
+            class="cat-tail-white"
+            d="
+              M74 149
+              C30 159,
+              27 125,
+              53 118
+              C35 133,
+              49 145,
+              79 135
+            "/>
+
+
+          <!-- вытянутое тело -->
 
           <path
-            d="M183 40 L162 55 L181 61 Z"
-            fill="#f4b1b1"/>
+            class="cat-white"
+            d="
+              M64 93
+              Q75 66 110 62
+              Q149 56 179 76
+              Q198 90 199 121
+              Q199 158 177 176
+              Q147 195 103 184
+              Q68 175 61 144
+              Q54 113 64 93
+              Z
+            "/>
 
-          <!-- злые брови -->
 
-          <path
-            class="cat-face-line"
-            d="M67 88 L94 99"/>
-
-          <path
-            class="cat-face-line"
-            d="M167 88 L140 99"/>
-
-          <!-- глаза -->
-
-          <path
-            class="cat-eye-angry"
-            d="M78 103
-               Q88 96 96 103
-               Q88 116 78 103Z"/>
+          <!-- задняя лапа -->
 
           <path
-            class="cat-eye-angry"
-            d="M139 103
-               Q149 96 157 103
-               Q149 116 139 103Z"/>
+            class="cat-white"
+            d="
+              M88 167
+              Q72 184 86 194
+              Q102 201 116 183
+              L122 167
+              Z
+            "/>
 
-          <!-- нос -->
+
+          <!-- голова справа -->
 
           <path
-            d="M112 115 L122 115 L117 123 Z"
+            class="cat-white"
+            d="
+              M151 79
+
+              L158 41
+              L181 63
+
+              Q206 52 229 65
+
+              L255 42
+              L248 84
+
+              Q261 99 255 119
+
+              Q249 140 225 145
+
+              Q199 151 178 139
+
+              Q158 128 154 109
+
+              Q150 94 151 79
+
+              Z
+            "/>
+
+
+          <!-- внутреннее левое ухо -->
+
+          <path
+            d="
+              M164 53
+              L178 67
+              L164 70
+              Z
+            "
+            fill="#f3b4ba"/>
+
+
+          <!-- внутреннее правое ухо -->
+
+          <path
+            d="
+              M246 54
+              L232 67
+              L245 72
+              Z
+            "
+            fill="#f3b4ba"/>
+
+
+          <!-- глаз смотрит ВПРАВО -->
+
+          <path
+            d="
+              M218 93
+              Q229 87 237 94
+              Q228 108 218 93
+              Z
+            "
             fill="#202124"/>
 
-          <!-- злой рот -->
+
+          <!-- злая бровь в сторону книги -->
 
           <path
-            class="cat-face-line"
-            d="M117 123
-               Q105 134 95 124
-               M117 123
-               Q129 134 139 124"/>
+            class="cat-face"
+            d="
+              M213 82
+              L238 88
+            "/>
 
-          <!-- Х на пузе -->
 
-          <path
-            d="M96 147 L135 177"
-            stroke="#cfcfcf"
-            stroke-width="8"
-            stroke-linecap="round"/>
+          <!-- нос на правом краю морды -->
 
           <path
-            d="M135 147 L96 177"
-            stroke="#cfcfcf"
-            stroke-width="8"
-            stroke-linecap="round"/>
+            d="
+              M245 103
+              L254 106
+              L246 112
+              Z
+            "
+            fill="#202124"/>
 
-          <!-- лапы -->
 
-          <path
-            class="cat-fill cat-line"
-            d="M51 126
-               Q25 129 26 150
-               Q29 167 48 158
-               L87 135
-               Q89 121 75 119Z"/>
+          <!-- сердитый рот -->
 
           <path
-            class="cat-fill cat-line"
-            d="M179 121
-               Q207 125 207 146
-               Q204 164 184 157
-               L144 136
-               Q140 123 154 118Z"/>
+            class="cat-face"
+            d="
+              M247 112
+              Q239 120 231 115
+            "/>
 
-          <!-- бита -->
 
-          <g class="cat-bat">
+          <!-- маленький ус вверх -->
+
+          <path
+            class="cat-face"
+            d="
+              M250 99
+              L270 94
+            "/>
+
+
+          <!-- маленький ус вниз -->
+
+          <path
+            class="cat-face"
+            d="
+              M252 107
+              L272 111
+            "/>
+
+
+          <!-- =============================
+               ПЕРЕДНИЕ ЛАПЫ ВЫТЯНУТЫ
+          ============================== -->
+
+
+          <!-- нижняя лапа -->
+
+          <path
+            class="cat-arm"
+            d="
+              M176 128
+
+              Q195 119 218 123
+
+              L248 129
+
+              Q258 133 254 143
+
+              Q251 151 240 149
+
+              L206 143
+
+              Q187 146 174 139
+
+              Z
+            "/>
+
+
+          <!-- верхняя лапа -->
+
+          <path
+            class="cat-arm"
+            d="
+              M171 111
+
+              Q191 102 215 108
+
+              L244 117
+
+              Q255 121 251 131
+
+              Q247 139 237 136
+
+              L204 127
+
+              Q188 130 173 121
+
+              Z
+            "/>
+
+
+          <!-- =============================
+               БИТА
+          ============================== -->
+
+          <g class="bat-group">
+
+            <!-- ручка -->
 
             <rect
-              x="123"
-              y="126"
-              width="112"
-              height="20"
-              rx="10"
-              fill="#b76e35"
-              stroke="#202124"
-              stroke-width="5"
-              transform="rotate(-8 123 126)"/>
-
-            <rect
-              x="107"
-              y="128"
-              width="31"
+              x="215"
+              y="121"
+              width="38"
               height="15"
               rx="7"
               fill="#8d532d"
               stroke="#202124"
-              stroke-width="4"
-              transform="rotate(-8 107 128)"/>
+              stroke-width="5"
+              transform="
+                rotate(-8 215 121)
+              "/>
 
-          </g>
 
-          <!-- злость -->
-
-          <g class="anger-mark">
+            <!-- основная бита -->
 
             <path
-              d="M171 62
-                 Q181 54 187 64
-                 Q194 54 203 62
-                 Q198 73 206 79
-                 Q194 82 196 93
-                 Q185 87 177 95
-                 Q177 82 165 80
-                 Q173 73 171 62Z"
-              fill="#ef3340"/>
+              d="
+                M244 117
+
+                L308 103
+
+                Q318 101 320 109
+
+                Q322 118 311 121
+
+                L248 136
+
+                Z
+              "
+              fill="#c57a39"
+
+              stroke="#202124"
+
+              stroke-width="5"
+
+              stroke-linejoin="round"/>
 
           </g>
+
+
+          <!-- X на пузе как у референса -->
+
+          <path
+            d="
+              M111 122
+              L144 151
+            "
+            stroke="#d0d0d0"
+            stroke-width="8"
+            stroke-linecap="round"/>
+
+          <path
+            d="
+              M143 122
+              L111 151
+            "
+            stroke="#d0d0d0"
+            stroke-width="8"
+            stroke-linecap="round"/>
 
         </svg>
 
       </button>
 
 
-      <!-- книга -->
+      <!-- =============================
+           КНИГА
+      ============================== -->
 
       <div
         id="knowledgeBook"
@@ -1963,56 +3153,79 @@ body.dark .card {
           •
         </div>
 
-        <div class="book-mouth"></div>
+        <div class="book-mouth">
+        </div>
 
-        <div class="book-tongue"></div>
+        <div class="book-tongue">
+        </div>
 
-        <div class="book-crack c1"></div>
-        <div class="book-crack c2"></div>
-        <div class="book-crack c3"></div>
+        <div class="book-crack c1">
+        </div>
 
-        <div class="book-pages"></div>
+        <div class="book-crack c2">
+        </div>
+
+        <div class="book-crack c3">
+        </div>
+
+        <div class="book-pages">
+        </div>
 
       </div>
 
+
+      <!-- удар -->
 
       <div
         id="bookImpact"
         class="impact">
+
         💥
+
       </div>
 
 
-      <div
-        class="paper-bit p1">
+      <!-- бумажки -->
+
+      <div class="paper-bit p1">
       </div>
 
-      <div
-        class="paper-bit p2">
+      <div class="paper-bit p2">
       </div>
 
-      <div
-        class="paper-bit p3">
+      <div class="paper-bit p3">
       </div>
 
     </div>
 
-    <div class="cat-hint">
+
+    <div
+      style="
+        font-size:14px;
+        opacity:.7;
+        margin-bottom:18px;
+      ">
+
       Нажми на котика. Он явно ещё не закончил.
+
     </div>
 
-    <br>
 
     <button
       class="main-button"
       onclick="closeKnowledgeFinal()">
+
       Так ей и надо
+
     </button>
+
 
     <button
       class="secondary-button"
       onclick="startNewKnowledgeRound()">
+
       Пройти ещё раз
+
     </button>
 
   </div>
@@ -2027,6 +3240,7 @@ body.dark .card {
 ========================================================= */
 
 const NEED = 3;
+
 
 function load(key) {
 
@@ -2043,6 +3257,7 @@ function load(key) {
   }
 }
 
+
 function save(key,data) {
 
   localStorage.setItem(
@@ -2051,20 +3266,32 @@ function save(key,data) {
   );
 }
 
+
 let knowledgeData =
-  load("trainerKnowledgeV2");
+  load(
+    "trainerKnowledgeV2"
+  );
+
 
 let caseData =
-  load("trainerCases");
+  load(
+    "trainerCases"
+  );
 
 
 function hideScreens() {
 
-  document.getElementById("home").classList.add("hidden");
+  document
+    .getElementById("home")
+    .classList.add("hidden");
 
-  document.getElementById("knowledge").classList.add("hidden");
+  document
+    .getElementById("knowledge")
+    .classList.add("hidden");
 
-  document.getElementById("cases").classList.add("hidden");
+  document
+    .getElementById("cases")
+    .classList.add("hidden");
 }
 
 
@@ -2083,18 +3310,22 @@ function goHome() {
   updateHome();
 }
 
+
 /* =========================================================
    ТЕМА
 ========================================================= */
 
 let selectedTheme =
-  localStorage.getItem("trainerTheme") ||
+  localStorage.getItem(
+    "trainerTheme"
+  ) ||
   "light";
 
 
 function selectTheme(theme) {
 
-  selectedTheme = theme;
+  selectedTheme =
+    theme;
 
   localStorage.setItem(
     "trainerTheme",
@@ -2109,10 +3340,13 @@ function selectTheme(theme) {
 
 function applyTheme() {
 
-  document.body.classList.toggle(
-    "dark",
-    selectedTheme === "dark"
-  );
+  document
+    .body
+    .classList
+    .toggle(
+      "dark",
+      selectedTheme === "dark"
+    );
 }
 
 
@@ -2143,15 +3377,19 @@ function updateThemeButtons() {
   );
 }
 
+
 /* =========================================================
    ЗНАНИЯ
 ========================================================= */
 
-let currentKnowledge = null;
+let currentKnowledge =
+  null;
 
-let knowledgeSeconds = 0;
+let knowledgeSeconds =
+  0;
 
-let knowledgeInterval = null;
+let knowledgeInterval =
+  null;
 
 
 function openKnowledge() {
@@ -2170,20 +3408,28 @@ function openKnowledge() {
 
 function getAvailableKnowledge() {
 
-  let result = [];
+  const result =
+    [];
 
-  for (let i=1;i<=10;i++) {
+  for (
+    let i = 1;
+    i <= 10;
+    i++
+  ) {
 
     const data =
       knowledgeData[i];
 
-    const attempts =
+    const count =
       data &&
       Array.isArray(data.results)
+
         ? data.results.length
+
         : 0;
 
-    if (attempts < NEED) {
+    if (count < NEED) {
+
       result.push(i);
     }
   }
@@ -2215,17 +3461,25 @@ function nextKnowledge() {
     ];
 
   document
-    .getElementById("knowledgeNumber")
+    .getElementById(
+      "knowledgeNumber"
+    )
     .textContent =
     currentKnowledge;
 
   document
-    .getElementById("knowledgeResult")
-    .classList.add("hidden");
+    .getElementById(
+      "knowledgeResult"
+    )
+    .classList
+    .add("hidden");
 
   document
-    .getElementById("knowledgeActions")
-    .classList.remove("hidden");
+    .getElementById(
+      "knowledgeActions"
+    )
+    .classList
+    .remove("hidden");
 
   startKnowledgeTimer();
 }
@@ -2235,36 +3489,66 @@ function finishKnowledge(success) {
 
   stopKnowledgeTimer();
 
-  if (!knowledgeData[currentKnowledge]) {
+  if (
+    !knowledgeData[
+      currentKnowledge
+    ]
+  ) {
 
-    knowledgeData[currentKnowledge] = {
-      results:[],
-      attempts:0,
-      best:null
+    knowledgeData[
+      currentKnowledge
+    ] = {
+
+      results: [],
+      attempts: 0,
+      best: null
+
     };
   }
 
   const data =
-    knowledgeData[currentKnowledge];
+    knowledgeData[
+      currentKnowledge
+    ];
 
-  if (!Array.isArray(data.results)) {
-    data.results = [];
+  if (
+    !Array.isArray(
+      data.results
+    )
+  ) {
+
+    data.results =
+      [];
   }
 
-  if (data.results.length >= NEED) {
+  if (
+    data.results.length >=
+    NEED
+  ) {
+
     return;
   }
 
   data.results.push(
-    success ? "good" : "bad"
+    success
+      ? "good"
+      : "bad"
   );
 
-  data.attempts++;
+  data.attempts =
+    (
+      data.attempts ||
+      0
+    ) +
+    1;
 
   if (
     data.best === null ||
-    knowledgeSeconds < data.best
+    data.best === undefined ||
+    knowledgeSeconds <
+    data.best
   ) {
+
     data.best =
       knowledgeSeconds;
   }
@@ -2275,25 +3559,35 @@ function finishKnowledge(success) {
   );
 
   document
-    .getElementById("knowledgeActions")
-    .classList.add("hidden");
+    .getElementById(
+      "knowledgeActions"
+    )
+    .classList
+    .add("hidden");
 
   document
-    .getElementById("knowledgeResultText")
+    .getElementById(
+      "knowledgeResultText"
+    )
     .textContent =
     success
       ? "Засчитано ✓"
       : "Отмечено как не верно";
 
   document
-    .getElementById("knowledgeResult")
-    .classList.remove("hidden");
+    .getElementById(
+      "knowledgeResult"
+    )
+    .classList
+    .remove("hidden");
 
   renderKnowledgeTracker();
 
   updateHome();
 
-  if (allKnowledgeCompleted()) {
+  if (
+    allKnowledgeCompleted()
+  ) {
 
     setTimeout(
       showKnowledgeFinal,
@@ -2305,11 +3599,15 @@ function finishKnowledge(success) {
 
 function startKnowledgeTimer() {
 
-  knowledgeSeconds = 0;
+  knowledgeSeconds =
+    0;
 
   document
-    .getElementById("knowledgeTimer")
-    .textContent = 0;
+    .getElementById(
+      "knowledgeTimer"
+    )
+    .textContent =
+    0;
 
   knowledgeInterval =
     setInterval(
@@ -2318,7 +3616,9 @@ function startKnowledgeTimer() {
         knowledgeSeconds++;
 
         document
-          .getElementById("knowledgeTimer")
+          .getElementById(
+            "knowledgeTimer"
+          )
           .textContent =
           knowledgeSeconds;
 
@@ -2330,14 +3630,17 @@ function startKnowledgeTimer() {
 
 function stopKnowledgeTimer() {
 
-  if (knowledgeInterval) {
+  if (
+    knowledgeInterval
+  ) {
 
     clearInterval(
       knowledgeInterval
     );
   }
 
-  knowledgeInterval = null;
+  knowledgeInterval =
+    null;
 }
 
 
@@ -2348,25 +3651,38 @@ function renderKnowledgeTracker() {
       "knowledgeTracker"
     );
 
-  container.innerHTML = "";
+  container.innerHTML =
+    "";
 
-  for (let i=1;i<=10;i++) {
+  for (
+    let i = 1;
+    i <= 10;
+    i++
+  ) {
 
     const data =
       knowledgeData[i] ||
       {
-        results:[],
-        attempts:0,
-        best:null
+
+        results: [],
+        attempts: 0,
+        best: null
+
       };
 
     const results =
-      Array.isArray(data.results)
+      Array.isArray(
+        data.results
+      )
+
         ? data.results
+
         : [];
 
     const row =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
     row.className =
       "knowledge-row" +
@@ -2377,7 +3693,9 @@ function renderKnowledgeTracker() {
       );
 
     const title =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
     title.className =
       "knowledge-title";
@@ -2385,45 +3703,74 @@ function renderKnowledgeTracker() {
     title.textContent =
       "Задание " + i;
 
+
     const circles =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
     circles.className =
       "knowledge-circles";
 
-    for (let j=0;j<NEED;j++) {
+
+    for (
+      let j = 0;
+      j < NEED;
+      j++
+    ) {
 
       const dot =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
 
       dot.className =
         "tracker-dot";
 
-      if (results[j] === "good") {
+      if (
+        results[j] === "good"
+      ) {
 
-        dot.classList.add("good");
+        dot.classList.add(
+          "good"
+        );
       }
 
-      if (results[j] === "bad") {
+      if (
+        results[j] === "bad"
+      ) {
 
-        dot.classList.add("bad");
+        dot.classList.add(
+          "bad"
+        );
       }
 
-      circles.appendChild(dot);
+      circles.appendChild(
+        dot
+      );
     }
 
+
     const attempts =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
     attempts.className =
       "knowledge-meta";
 
     attempts.textContent =
       "Попыток: " +
-      (data.attempts || 0);
+      (
+        data.attempts ||
+        0
+      );
+
 
     const best =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
     best.className =
       "knowledge-meta";
@@ -2431,32 +3778,57 @@ function renderKnowledgeTracker() {
     best.textContent =
       "Лучшее: " +
       (
-        data.best === null
+        data.best === null ||
+        data.best === undefined
+
           ? "—"
-          : data.best + " сек."
+
+          : data.best +
+            " сек."
       );
 
-    row.appendChild(title);
-    row.appendChild(circles);
-    row.appendChild(attempts);
-    row.appendChild(best);
 
-    container.appendChild(row);
+    row.appendChild(
+      title
+    );
+
+    row.appendChild(
+      circles
+    );
+
+    row.appendChild(
+      attempts
+    );
+
+    row.appendChild(
+      best
+    );
+
+    container.appendChild(
+      row
+    );
   }
 }
 
 
 function allKnowledgeCompleted() {
 
-  for (let i=1;i<=10;i++) {
+  for (
+    let i = 1;
+    i <= 10;
+    i++
+  ) {
 
     const data =
       knowledgeData[i];
 
     if (
       !data ||
-      !Array.isArray(data.results) ||
-      data.results.length < NEED
+      !Array.isArray(
+        data.results
+      ) ||
+      data.results.length <
+      NEED
     ) {
 
       return false;
@@ -2474,10 +3846,12 @@ function resetKnowledge() {
       "Точно сбросить прогресс знаний?"
     )
   ) {
+
     return;
   }
 
-  knowledgeData = {};
+  knowledgeData =
+    {};
 
   save(
     "trainerKnowledgeV2",
@@ -2491,19 +3865,25 @@ function resetKnowledge() {
   nextKnowledge();
 }
 
+
 /* =========================================================
    РУЛЕТКА
 ========================================================= */
 
-let currentCase = null;
+let currentCase =
+  null;
 
-let caseSeconds = 0;
+let caseSeconds =
+  0;
 
-let caseInterval = null;
+let caseInterval =
+  null;
 
-let wheelRotation = 0;
+let wheelRotation =
+  0;
 
-let spinning = false;
+let spinning =
+  false;
 
 
 function openCases() {
@@ -2512,7 +3892,8 @@ function openCases() {
 
   document
     .getElementById("cases")
-    .classList.remove("hidden");
+    .classList
+    .remove("hidden");
 
   prepareWheel();
 
@@ -2526,9 +3907,14 @@ function openCases() {
 
 function availableCases() {
 
-  let result = [];
+  const result =
+    [];
 
-  for (let i=1;i<=10;i++) {
+  for (
+    let i = 1;
+    i <= 10;
+    i++
+  ) {
 
     const data =
       caseData[i];
@@ -2537,6 +3923,7 @@ function availableCases() {
       !data ||
       data.success < NEED
     ) {
+
       result.push(i);
     }
   }
@@ -2576,7 +3963,10 @@ function positionNumbers(rotation) {
         const baseAngle =
           -90 +
           18 +
-          (number-1) * 36;
+          (
+            number - 1
+          ) *
+          36;
 
         const angle =
           baseAngle +
@@ -2623,11 +4013,15 @@ function spinWheel() {
     return;
   }
 
-  spinning = true;
+  spinning =
+    true;
 
   document
-    .getElementById("spinButton")
-    .disabled = true;
+    .getElementById(
+      "spinButton"
+    )
+    .disabled =
+    true;
 
   currentCase =
     available[
@@ -2639,20 +4033,40 @@ function spinWheel() {
 
   const sectorCenter =
     18 +
-    (currentCase-1) * 36;
+    (
+      currentCase -
+      1
+    ) *
+    36;
 
   const normalized =
-    ((wheelRotation % 360)+360)%360;
+    (
+      (
+        wheelRotation %
+        360
+      ) +
+      360
+    ) %
+    360;
 
   const desired =
-    (360-sectorCenter)%360;
+    (
+      360 -
+      sectorCenter
+    ) %
+    360;
 
   let difference =
     desired -
     normalized;
 
-  if (difference < 0) {
-    difference += 360;
+  if (
+    difference <
+    0
+  ) {
+
+    difference +=
+      360;
   }
 
   const start =
@@ -2660,10 +4074,11 @@ function spinWheel() {
 
   const target =
     wheelRotation +
-    5*360 +
+    5 * 360 +
     difference;
 
-  const duration = 4000;
+  const duration =
+    4000;
 
   const startTime =
     performance.now();
@@ -2673,10 +4088,12 @@ function spinWheel() {
       "wheel"
     );
 
+
   function animate(now) {
 
     const elapsed =
-      now - startTime;
+      now -
+      startTime;
 
     const progress =
       Math.min(
@@ -2688,13 +4105,17 @@ function spinWheel() {
     const eased =
       1 -
       Math.pow(
-        1-progress,
+        1 -
+        progress,
         4
       );
 
     const rotation =
       start +
-      (target-start) *
+      (
+        target -
+        start
+      ) *
       eased;
 
     wheel.style.transform =
@@ -2702,9 +4123,14 @@ function spinWheel() {
       rotation +
       "deg)";
 
-    positionNumbers(rotation);
+    positionNumbers(
+      rotation
+    );
 
-    if (progress < 1) {
+    if (
+      progress <
+      1
+    ) {
 
       requestAnimationFrame(
         animate
@@ -2731,23 +4157,34 @@ function spinWheel() {
 function showCase() {
 
   const data =
-    caseData[currentCase] ||
-    {success:0};
+    caseData[
+      currentCase
+    ] ||
+    {
+      success: 0
+    };
 
   document
-    .getElementById("caseNumber")
+    .getElementById(
+      "caseNumber"
+    )
     .textContent =
     currentCase;
 
   document
-    .getElementById("caseProgress")
+    .getElementById(
+      "caseProgress"
+    )
     .textContent =
     data.success +
     " / 3";
 
   document
-    .getElementById("caseWork")
-    .classList.remove("hidden");
+    .getElementById(
+      "caseWork"
+    )
+    .classList
+    .remove("hidden");
 
   startCaseTimer();
 }
@@ -2757,20 +4194,31 @@ function finishCase(success) {
 
   stopCaseTimer();
 
-  if (!caseData[currentCase]) {
+  if (
+    !caseData[
+      currentCase
+    ]
+  ) {
 
-    caseData[currentCase] = {
-      success:0,
-      attempts:0,
-      best:null
+    caseData[
+      currentCase
+    ] = {
+
+      success: 0,
+      attempts: 0,
+      best: null
+
     };
   }
 
   const data =
-    caseData[currentCase];
+    caseData[
+      currentCase
+    ];
 
   const wasCompleted =
-    data.success >= NEED;
+    data.success >=
+    NEED;
 
   data.attempts++;
 
@@ -2778,15 +4226,20 @@ function finishCase(success) {
 
     data.success++;
 
-    if (data.success > NEED) {
+    if (
+      data.success >
+      NEED
+    ) {
 
-      data.success = NEED;
+      data.success =
+        NEED;
     }
   }
 
   if (
     data.best === null ||
-    caseSeconds < data.best
+    caseSeconds <
+    data.best
   ) {
 
     data.best =
@@ -2799,25 +4252,37 @@ function finishCase(success) {
   );
 
   document
-    .getElementById("caseWork")
-    .classList.add("hidden");
+    .getElementById(
+      "caseWork"
+    )
+    .classList
+    .add("hidden");
 
   document
-    .getElementById("caseResultText")
+    .getElementById(
+      "caseResultText"
+    )
     .textContent =
     success
       ? "Кейс засчитан ✓"
       : "Кейс не засчитан";
 
   document
-    .getElementById("caseResult")
-    .classList.remove("hidden");
+    .getElementById(
+      "caseResult"
+    )
+    .classList
+    .remove("hidden");
 
   const justCompleted =
     !wasCompleted &&
-    data.success >= NEED;
+    data.success >=
+    NEED;
 
-  if (justCompleted) {
+  if (
+    justCompleted
+  ) {
+
     smallCelebration();
   }
 
@@ -2842,29 +4307,43 @@ function prepareWheel() {
 
   stopCaseTimer();
 
-  currentCase = null;
+  currentCase =
+    null;
 
   document
-    .getElementById("caseWork")
-    .classList.add("hidden");
+    .getElementById(
+      "caseWork"
+    )
+    .classList
+    .add("hidden");
 
   document
-    .getElementById("caseResult")
-    .classList.add("hidden");
+    .getElementById(
+      "caseResult"
+    )
+    .classList
+    .add("hidden");
 
   document
-    .getElementById("spinButton")
-    .disabled = false;
+    .getElementById(
+      "spinButton"
+    )
+    .disabled =
+    false;
 }
 
 
 function startCaseTimer() {
 
-  caseSeconds = 0;
+  caseSeconds =
+    0;
 
   document
-    .getElementById("caseTimer")
-    .textContent = 0;
+    .getElementById(
+      "caseTimer"
+    )
+    .textContent =
+    0;
 
   caseInterval =
     setInterval(
@@ -2873,7 +4352,9 @@ function startCaseTimer() {
         caseSeconds++;
 
         document
-          .getElementById("caseTimer")
+          .getElementById(
+            "caseTimer"
+          )
           .textContent =
           caseSeconds;
 
@@ -2885,14 +4366,17 @@ function startCaseTimer() {
 
 function stopCaseTimer() {
 
-  if (caseInterval) {
+  if (
+    caseInterval
+  ) {
 
     clearInterval(
       caseInterval
     );
   }
 
-  caseInterval = null;
+  caseInterval =
+    null;
 }
 
 
@@ -2903,30 +4387,43 @@ function renderCaseStats() {
       "caseStats"
     );
 
-  container.innerHTML = "";
+  container.innerHTML =
+    "";
 
-  for (let i=1;i<=10;i++) {
+  for (
+    let i = 1;
+    i <= 10;
+    i++
+  ) {
 
     const data =
       caseData[i] ||
       {
-        success:0,
-        attempts:0,
-        best:null
+
+        success: 0,
+        attempts: 0,
+        best: null
+
       };
 
     const div =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
     div.className =
       "stat" +
       (
-        data.success >= NEED
+        data.success >=
+        NEED
+
           ? " completed"
+
           : ""
       );
 
     div.innerHTML =
+
       "<strong>Кейс " +
       i +
       "</strong><br>" +
@@ -2942,12 +4439,16 @@ function renderCaseStats() {
       "Лучшее время: " +
       (
         data.best === null
+
           ? "—"
+
           : data.best +
             " сек."
       );
 
-    container.appendChild(div);
+    container.appendChild(
+      div
+    );
   }
 }
 
@@ -2959,10 +4460,12 @@ function resetCases() {
       "Точно сбросить прогресс кейсов?"
     )
   ) {
+
     return;
   }
 
-  caseData = {};
+  caseData =
+    {};
 
   save(
     "trainerCases",
@@ -2979,11 +4482,16 @@ function resetCases() {
 
 function allCasesCompleted() {
 
-  for (let i=1;i<=10;i++) {
+  for (
+    let i = 1;
+    i <= 10;
+    i++
+  ) {
 
     if (
       !caseData[i] ||
-      caseData[i].success < NEED
+      caseData[i].success <
+      NEED
     ) {
 
       return false;
@@ -2993,6 +4501,7 @@ function allCasesCompleted() {
   return true;
 }
 
+
 /* =========================================================
    НАСТРОЙКИ
 ========================================================= */
@@ -3000,8 +4509,11 @@ function allCasesCompleted() {
 function openSettings() {
 
   document
-    .getElementById("settingsOverlay")
-    .classList.remove("hidden");
+    .getElementById(
+      "settingsOverlay"
+    )
+    .classList
+    .remove("hidden");
 
   updatePointerOptions();
 
@@ -3012,8 +4524,11 @@ function openSettings() {
 function closeSettings() {
 
   document
-    .getElementById("settingsOverlay")
-    .classList.add("hidden");
+    .getElementById(
+      "settingsOverlay"
+    )
+    .classList
+    .add("hidden");
 }
 
 
@@ -3049,11 +4564,18 @@ function updatePointerOptions() {
     .forEach(
       function(button) {
 
-        button.classList.toggle(
-          "selected",
-          button.dataset.pointer ===
-          selectedPointer
-        );
+        button
+          .classList
+          .toggle(
+
+            "selected",
+
+            button
+              .dataset
+              .pointer ===
+            selectedPointer
+
+          );
       }
     );
 }
@@ -3066,70 +4588,107 @@ function applyPointer() {
       "pointerVisual"
     );
 
-  visual.className = "";
-  visual.innerHTML = "";
+  visual.className =
+    "";
 
-  if (selectedPointer === "classic") {
+  visual.innerHTML =
+    "";
+
+  if (
+    selectedPointer ===
+    "classic"
+  ) {
 
     visual.className =
       "pointer-classic";
   }
 
-  if (selectedPointer === "pizza") {
+
+  if (
+    selectedPointer ===
+    "pizza"
+  ) {
 
     visual.className =
       "pointer-picture";
 
     const shape =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
     shape.className =
       "pizza-pointer";
 
-    visual.appendChild(shape);
+    visual.appendChild(
+      shape
+    );
   }
 
-  if (selectedPointer === "finger") {
+
+  if (
+    selectedPointer ===
+    "finger"
+  ) {
 
     visual.className =
       "pointer-picture";
 
     const shape =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
     shape.className =
       "finger-pointer";
 
-    visual.appendChild(shape);
+    visual.appendChild(
+      shape
+    );
   }
 
-  if (selectedPointer === "kids") {
+
+  if (
+    selectedPointer ===
+    "kids"
+  ) {
 
     visual.className =
       "pointer-picture";
 
     const shape =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
     shape.className =
       "kids-pointer";
 
-    visual.appendChild(shape);
+    visual.appendChild(
+      shape
+    );
   }
 }
 
+
 /* =========================================================
-   КОТ БЬЁТ КНИГУ
+   КОТ ДУБАСИТ КНИГУ
 ========================================================= */
 
-let bookDamage = 0;
+let bookDamage =
+  0;
 
-let catBusy = false;
+let catBusy =
+  false;
 
 
 function resetBook() {
 
-  bookDamage = 0;
+  bookDamage =
+    0;
+
+  catBusy =
+    false;
 
   const book =
     document.getElementById(
@@ -3140,54 +4699,107 @@ function resetBook() {
     "book";
 
   document
-    .getElementById("bookEyeLeft")
+    .getElementById(
+      "bookEyeLeft"
+    )
     .textContent =
     "•";
 
   document
-    .getElementById("bookEyeRight")
+    .getElementById(
+      "bookEyeRight"
+    )
     .textContent =
     "•";
 }
 
 
+/*
+  Каждый удар:
+  1. Кот замахивается.
+  2. Бита физически доезжает до книги.
+  3. 💥 и тряска.
+  4. Кот начинает отводить биту.
+  5. Только ТОГДА применяется ухудшение книги.
+*/
+
 function catAttack() {
 
-  if (catBusy) {
+  if (
+    catBusy
+  ) {
+
     return;
   }
 
-  catBusy = true;
+  catBusy =
+    true;
+
 
   const cat =
     document.getElementById(
       "catAttackButton"
     );
 
+
   const book =
     document.getElementById(
       "knowledgeBook"
     );
+
 
   const impact =
     document.getElementById(
       "bookImpact"
     );
 
+
   const attacks = [
+
     {
-      cat:"attack-overhead",
-      book:"hit-1"
+      cat:
+        "attack-side",
+
+      duration:
+        650,
+
+      contact:
+        320,
+
+      damage:
+        430
     },
+
     {
-      cat:"attack-side",
-      book:"hit-2"
+      cat:
+        "attack-overhead",
+
+      duration:
+        720,
+
+      contact:
+        360,
+
+      damage:
+        485
     },
+
     {
-      cat:"attack-heavy",
-      book:"hit-3"
+      cat:
+        "attack-heavy",
+
+      duration:
+        800,
+
+      contact:
+        400,
+
+      damage:
+        540
     }
+
   ];
+
 
   const attack =
     attacks[
@@ -3197,72 +4809,113 @@ function catAttack() {
       )
     ];
 
+
   cat.classList.remove(
-    "attack-overhead",
     "attack-side",
+    "attack-overhead",
     "attack-heavy"
   );
 
+
   book.classList.remove(
-    "hit-1",
-    "hit-2",
-    "hit-3"
+    "contact"
   );
+
 
   impact.classList.remove(
     "show"
   );
 
+
   void cat.offsetWidth;
+
+
+  /* замах */
 
   cat.classList.add(
     attack.cat
   );
 
-  book.classList.add(
-    attack.book
-  );
 
-  impact.classList.add(
-    "show"
-  );
-
-  flyPaper();
-
-  bookDamage++;
+  /* момент настоящего контакта */
 
   setTimeout(
     function() {
-
-      applyBookDamage();
-
-    },
-    230
-  );
-
-  setTimeout(
-    function() {
-
-      cat.classList.remove(
-        "attack-overhead",
-        "attack-side",
-        "attack-heavy"
-      );
 
       book.classList.remove(
-        "hit-1",
-        "hit-2",
-        "hit-3"
+        "contact"
       );
+
+      void book.offsetWidth;
+
+      book.classList.add(
+        "contact"
+      );
+
 
       impact.classList.remove(
         "show"
       );
 
-      catBusy = false;
+      void impact.offsetWidth;
+
+      impact.classList.add(
+        "show"
+      );
+
+
+      flyPaper();
 
     },
-    620
+    attack.contact
+  );
+
+
+  /*
+    Бита уже начала отходить —
+    теперь книжка становится хуже.
+  */
+
+  setTimeout(
+    function() {
+
+      bookDamage++;
+
+      applyBookDamage();
+
+    },
+    attack.damage
+  );
+
+
+  /* окончание движения */
+
+  setTimeout(
+    function() {
+
+      cat.classList.remove(
+        "attack-side",
+        "attack-overhead",
+        "attack-heavy"
+      );
+
+
+      book.classList.remove(
+        "contact"
+      );
+
+
+      impact.classList.remove(
+        "show"
+      );
+
+
+      catBusy =
+        false;
+
+    },
+    attack.duration +
+    40
   );
 }
 
@@ -3274,6 +4927,7 @@ function applyBookDamage() {
       "knowledgeBook"
     );
 
+
   book.classList.remove(
     "damage-1",
     "damage-2",
@@ -3281,50 +4935,70 @@ function applyBookDamage() {
     "dead"
   );
 
-  if (bookDamage === 1) {
+
+  if (
+    bookDamage === 1
+  ) {
 
     book.classList.add(
       "damage-1"
     );
   }
 
-  if (bookDamage === 2) {
+
+  if (
+    bookDamage === 2
+  ) {
 
     book.classList.add(
       "damage-2"
     );
   }
 
-  if (bookDamage === 3) {
+
+  if (
+    bookDamage === 3
+  ) {
 
     book.classList.add(
       "damage-3"
     );
 
     document
-      .getElementById("bookEyeLeft")
+      .getElementById(
+        "bookEyeLeft"
+      )
       .textContent =
       "×";
 
     document
-      .getElementById("bookEyeRight")
+      .getElementById(
+        "bookEyeRight"
+      )
       .textContent =
       "•";
   }
 
-  if (bookDamage >= 4) {
+
+  if (
+    bookDamage >= 4
+  ) {
 
     book.classList.add(
       "dead"
     );
 
     document
-      .getElementById("bookEyeLeft")
+      .getElementById(
+        "bookEyeLeft"
+      )
       .textContent =
       "X";
 
     document
-      .getElementById("bookEyeRight")
+      .getElementById(
+        "bookEyeRight"
+      )
       .textContent =
       "X";
   }
@@ -3344,25 +5018,33 @@ function flyPaper() {
           "fly"
         );
 
+
         piece.style.setProperty(
           "--paper-x",
+
           (
-            Math.random()*160 -
-            80
+            Math.random() *
+            180 -
+            90
           ) +
           "px"
         );
+
 
         piece.style.setProperty(
           "--paper-y",
+
           (
-            -60 -
-            Math.random()*80
+            -70 -
+            Math.random() *
+            95
           ) +
           "px"
         );
 
+
         void piece.offsetWidth;
+
 
         piece.classList.add(
           "fly"
@@ -3370,6 +5052,7 @@ function flyPaper() {
       }
     );
 }
+
 
 /* =========================================================
    КОНФЕТТИ
@@ -3382,6 +5065,7 @@ function createConfetti(
 ) {
 
   const colors = [
+
     "#ff686b",
     "#ffd93d",
     "#6bcb77",
@@ -3390,11 +5074,13 @@ function createConfetti(
     "#ff86a6",
     "#10afc9",
     "#ff9f1c"
+
   ];
 
+
   for (
-    let i=0;
-    i<amount;
+    let i = 0;
+    i < amount;
     i++
   ) {
 
@@ -3403,19 +5089,25 @@ function createConfetti(
         "div"
       );
 
+
     piece.className =
       "confetti";
 
+
     piece.style.left =
-      Math.random()*100 +
+      Math.random() *
+      100 +
       "vw";
+
 
     piece.style.top =
       (
         -20 -
-        Math.random()*150
+        Math.random() *
+        150
       ) +
       "px";
+
 
     piece.style.background =
       colors[
@@ -3425,14 +5117,18 @@ function createConfetti(
         )
       ];
 
+
     piece.style.setProperty(
       "--x",
+
       (
-        Math.random()*250 -
+        Math.random() *
+        250 -
         125
       ) +
       "px"
     );
+
 
     const duration =
       durationMin +
@@ -3442,21 +5138,28 @@ function createConfetti(
         durationMin
       );
 
+
     piece.style.setProperty(
       "--time",
+
       duration +
       "ms"
     );
+
 
     document.body.appendChild(
       piece
     );
 
+
     setTimeout(
       function() {
+
         piece.remove();
+
       },
-      duration + 300
+      duration +
+      300
     );
   }
 }
@@ -3471,6 +5174,7 @@ function smallCelebration() {
   );
 }
 
+
 /* =========================================================
    ФИНАЛЫ
 ========================================================= */
@@ -3481,9 +5185,9 @@ function showCasesFinal() {
     .getElementById(
       "finalCasesOverlay"
     )
-    .classList.remove(
-      "hidden"
-    );
+    .classList
+    .remove("hidden");
+
 
   createConfetti(
     180,
@@ -3499,15 +5203,15 @@ function closeCasesFinal() {
     .getElementById(
       "finalCasesOverlay"
     )
-    .classList.add(
-      "hidden"
-    );
+    .classList
+    .add("hidden");
 }
 
 
 function startNewCaseRound() {
 
-  caseData = {};
+  caseData =
+    {};
 
   save(
     "trainerCases",
@@ -3532,9 +5236,9 @@ function showKnowledgeFinal() {
     .getElementById(
       "finalKnowledgeOverlay"
     )
-    .classList.remove(
-      "hidden"
-    );
+    .classList
+    .remove("hidden");
+
 
   createConfetti(
     160,
@@ -3550,15 +5254,15 @@ function closeKnowledgeFinal() {
     .getElementById(
       "finalKnowledgeOverlay"
     )
-    .classList.add(
-      "hidden"
-    );
+    .classList
+    .add("hidden");
 }
 
 
 function startNewKnowledgeRound() {
 
-  knowledgeData = {};
+  knowledgeData =
+    {};
 
   save(
     "trainerKnowledgeV2",
@@ -3574,37 +5278,53 @@ function startNewKnowledgeRound() {
   nextKnowledge();
 }
 
+
 /* =========================================================
    ГЛАВНАЯ
 ========================================================= */
 
 function updateHome() {
 
-  let knowledgeDone = 0;
-  let casesDone = 0;
+  let knowledgeDone =
+    0;
 
-  for (let i=1;i<=10;i++) {
+  let casesDone =
+    0;
+
+
+  for (
+    let i = 1;
+    i <= 10;
+    i++
+  ) {
 
     const k =
       knowledgeData[i];
 
+
     if (
       k &&
-      Array.isArray(k.results) &&
-      k.results.length >= NEED
+      Array.isArray(
+        k.results
+      ) &&
+      k.results.length >=
+      NEED
     ) {
 
       knowledgeDone++;
     }
 
+
     if (
       caseData[i] &&
-      caseData[i].success >= NEED
+      caseData[i].success >=
+      NEED
     ) {
 
       casesDone++;
     }
   }
+
 
   document
     .getElementById(
@@ -3613,6 +5333,7 @@ function updateHome() {
     .textContent =
     knowledgeDone +
     " / 10";
+
 
   document
     .getElementById(
@@ -3623,6 +5344,7 @@ function updateHome() {
     " / 10";
 }
 
+
 /* =========================================================
    СТАРТ
 ========================================================= */
@@ -3632,6 +5354,7 @@ applyTheme();
 applyPointer();
 
 updateHome();
+
 
 window.addEventListener(
   "resize",
