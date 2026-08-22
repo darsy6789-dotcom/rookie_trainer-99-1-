@@ -4,1153 +4,228 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Тренажёр новичка</title>
-
 <style>
 *{box-sizing:border-box}
-
 :root{
-  --page-bg:#f4f5f9;
-  --text:#202124;
-  --card-bg:#fff;
-  --soft-bg:#f2f3f6;
-  --soft-bg-2:#e7e8ec;
-  --main:#202124;
-  --main-text:#fff;
-  --success:#39ad73;
-  --success2:#39d87a;
-  --fail:#e45b70;
-  --backdrop:rgba(0,0,0,.55);
-  --grid-empty:#ebedf0;
-  --grid-1:#9be9a8;
-  --grid-2:#40c463;
-  --grid-3:#30a14e;
-  --grid-4:#216e39;
+  --page-bg:#f4f5f9;--text:#202124;--card-bg:#fff;--soft-bg:#f2f3f6;--soft-bg-2:#e7e8ec;
+  --main:#202124;--main-text:#fff;--success:#39ad73;--success2:#39d87a;--fail:#e45b70;
+  --backdrop:rgba(0,0,0,.55);--grid-empty:#ebedf0;--grid-1:#9be9a8;--grid-2:#40c463;--grid-3:#30a14e;--grid-4:#216e39
 }
-
 body.dark{
-  --page-bg:#111216;
-  --text:#f3f3f5;
-  --card-bg:#1c1d22;
-  --soft-bg:#292a30;
-  --soft-bg-2:#303138;
-  --main:#f3f3f5;
-  --main-text:#111216;
-  --backdrop:rgba(0,0,0,.75);
-  --grid-empty:#2d333b;
+  --page-bg:#111216;--text:#f3f3f5;--card-bg:#1c1d22;--soft-bg:#292a30;--soft-bg-2:#303138;
+  --main:#f3f3f5;--main-text:#111216;--backdrop:rgba(0,0,0,.75);--grid-empty:#2d333b
 }
-
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:var(--page-bg);
-  color:var(--text);
-  transition:.2s;
-}
-
-button{
-  font-family:inherit;
-  border:0;
-  border-radius:11px;
-  padding:12px 18px;
-  font-size:15px;
-  cursor:pointer;
-  transition:.12s;
-}
-
+body{margin:0;font-family:Arial,sans-serif;background:var(--page-bg);color:var(--text);transition:.2s}
+button{font-family:inherit;border:0;border-radius:11px;padding:12px 18px;font-size:15px;cursor:pointer;transition:.12s}
 button:hover{transform:translateY(-1px)}
-
-button:disabled{
-  opacity:.55;
-  cursor:default;
-  transform:none;
-}
-
-.container{
-  width:min(920px,calc(100% - 30px));
-  margin:auto;
-  padding:30px 0 70px;
-}
-
-.card{
-  background:var(--card-bg);
-  border-radius:20px;
-  padding:26px;
-  margin-top:20px;
-  box-shadow:0 8px 30px rgba(0,0,0,.08);
-}
-
-body.dark .card{
-  box-shadow:0 8px 30px rgba(0,0,0,.35);
-}
-
+button:disabled{opacity:.55;cursor:default;transform:none}
+.container{width:min(920px,calc(100% - 30px));margin:auto;padding:30px 0 70px}
+.card{background:var(--card-bg);border-radius:20px;padding:26px;margin-top:20px;box-shadow:0 8px 30px rgba(0,0,0,.08)}
+body.dark .card{box-shadow:0 8px 30px rgba(0,0,0,.35)}
 .hidden{display:none!important}
+.main-button{background:var(--main);color:var(--main-text)}
+.success-button{background:var(--success);color:white}
+.fail-button{background:var(--fail);color:white}
+.secondary-button{background:var(--soft-bg-2);color:var(--text)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.timer{font-size:29px;font-weight:800;margin:18px 0}
+.big-number{font-size:48px;font-weight:800;margin:25px 0}
+.result-message{margin-top:20px;padding:16px;border-radius:12px;background:var(--soft-bg)}
 
-.main-button{
-  background:var(--main);
-  color:var(--main-text);
-}
+/* ? */
+.help-widget{position:fixed;right:18px;top:18px;z-index:3000}
+.help-button{width:44px;height:44px;padding:0;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--main);color:var(--main-text);font-size:23px;font-weight:900;box-shadow:0 5px 18px rgba(0,0,0,.18)}
+.help-tooltip{position:absolute;right:52px;top:50%;transform:translateY(-50%) translateX(5px);white-space:nowrap;padding:8px 11px;border-radius:9px;background:var(--main);color:var(--main-text);opacity:0;pointer-events:none;transition:.16s}
+.help-widget:hover .help-tooltip{opacity:1;transform:translateY(-50%)}
 
-.success-button{
-  background:var(--success);
-  color:white;
-}
-
-.fail-button{
-  background:var(--fail);
-  color:white;
-}
-
-.secondary-button{
-  background:var(--soft-bg-2);
-  color:var(--text);
-}
-
-.actions{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-top:20px;
-}
-
-.timer{
-  font-size:29px;
-  font-weight:800;
-  margin:18px 0;
-}
-
-.big-number{
-  font-size:48px;
-  font-weight:800;
-  margin:25px 0;
-}
-
-.result-message{
-  margin-top:20px;
-  padding:16px;
-  border-radius:12px;
-  background:var(--soft-bg);
-}
-
-/* ---------------- ПОДСКАЗКА ---------------- */
-
-.help-widget{
-  position:fixed;
-  right:18px;
-  top:18px;
-  z-index:3000;
-}
-
-.help-button{
-  width:44px;
-  height:44px;
-  padding:0;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:var(--main);
-  color:var(--main-text);
-  font-size:23px;
-  font-weight:900;
-  box-shadow:0 5px 18px rgba(0,0,0,.18);
-}
-
-.help-tooltip{
-  position:absolute;
-  right:52px;
-  top:50%;
-  transform:translateY(-50%) translateX(5px);
-  white-space:nowrap;
-  padding:8px 11px;
-  border-radius:9px;
-  background:var(--main);
-  color:var(--main-text);
-  opacity:0;
-  pointer-events:none;
-  transition:.16s;
-}
-
-.help-widget:hover .help-tooltip{
-  opacity:1;
-  transform:translateY(-50%);
-}
-
-/* ---------------- ТРЕКЕР ЗНАНИЙ ---------------- */
-
-.knowledge-tracker{
-  display:grid;
-  gap:12px;
-  margin-top:20px;
-}
-
-.knowledge-row{
-  display:grid;
-  grid-template-columns:130px 1fr auto auto;
-  gap:14px;
-  align-items:center;
-  background:var(--soft-bg);
-  border-radius:12px;
-  padding:12px 14px;
-}
-
-.knowledge-row.done{
-  background:rgba(57,216,122,.18);
-}
-
+/* knowledge tracker */
+.knowledge-tracker{display:grid;gap:12px;margin-top:20px}
+.knowledge-row{display:grid;grid-template-columns:130px 1fr auto auto;gap:14px;align-items:center;background:var(--soft-bg);border-radius:12px;padding:12px 14px}
+.knowledge-row.done{background:rgba(57,216,122,.18)}
 .knowledge-title{font-weight:800}
+.knowledge-circles{display:flex;gap:8px}
+.tracker-dot{width:22px;height:22px;border-radius:50%;border:2px solid #aeb1ba;background:var(--card-bg)}
+.tracker-dot.good{background:#32d176;border-color:#20b961}
+.tracker-dot.bad{background:#f16474;border-color:#d94b5d}
+.knowledge-meta{font-size:13px;opacity:.7}
 
-.knowledge-circles{
-  display:flex;
-  gap:8px;
-}
+/* wheel */
+.wheel-area{display:flex;flex-direction:column;align-items:center;margin:28px auto 30px}
+.pointer-holder{height:60px;display:flex;justify-content:center;align-items:flex-end;margin-bottom:-8px;z-index:20}
+.pointer-classic{width:0;height:0;border-left:19px solid transparent;border-right:19px solid transparent;border-top:38px solid var(--text)}
+.pointer-picture{width:58px;height:58px;position:relative;display:flex;justify-content:center;align-items:center}
+.pizza-pointer{width:0;height:0;border-left:24px solid transparent;border-right:24px solid transparent;border-top:48px solid #f7c948;position:relative}
+.pizza-pointer::before{content:"";position:absolute;width:46px;height:8px;top:-49px;left:-23px;background:#c77b30;border-radius:6px}
+.pizza-pointer::after{content:"";position:absolute;width:7px;height:7px;border-radius:50%;background:#d94b45;top:-38px;left:-11px;box-shadow:17px 9px 0 #d94b45,7px 21px 0 #d94b45}
+.finger-pointer{width:58px;height:58px;position:relative}
+.finger-pointer::before{content:"☝️";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(180deg);font-size:52px;line-height:1}
+.kids-pointer{position:relative;width:28px;height:48px;background:#8dd7ff;border:3px solid #202124;border-radius:50% 50% 12px 12px}
+.kids-pointer::before,.kids-pointer::after{content:"";position:absolute;width:13px;height:13px;top:-5px;background:#8dd7ff;border:3px solid #202124;border-radius:50%}
+.kids-pointer::before{left:-10px}.kids-pointer::after{right:-10px}
+.wheel-shell{position:relative;width:390px;height:390px}
+.wheel{position:absolute;inset:0;border-radius:50%;border:8px solid var(--card-bg);box-shadow:0 8px 30px rgba(0,0,0,.18),0 0 0 3px var(--text);
+background:conic-gradient(#ff686b 0 36deg,#ffd93d 36deg 72deg,#6bcb77 72deg 108deg,#4d96ff 108deg 144deg,#9747e5 144deg 180deg,#ff86a6 180deg 216deg,#10afc9 216deg 252deg,#ff9f1c 252deg 288deg,#75df8d 288deg 324deg,#bd70ee 324deg 360deg)}
+.number-layer{position:absolute;inset:0;pointer-events:none}
+.wheel-number{position:absolute;width:42px;height:42px;margin-left:-21px;margin-top:-21px;display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:900;color:#151515}
+.wheel-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:70px;height:70px;border-radius:50%;border:5px solid var(--text);background:var(--card-bg);z-index:10}
+.case-result{text-align:center;font-size:25px;font-weight:800;margin-top:22px}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:10px;margin-top:18px}
+.stat{background:var(--soft-bg);border-radius:12px;padding:13px}
+.stat.completed{background:var(--success2);color:#102b1b;border:2px solid #20b961;box-shadow:0 4px 14px rgba(57,216,122,.30)}
+.stat.completed::after{content:" ✓";font-weight:bold}
 
-.tracker-dot{
-  width:22px;
-  height:22px;
-  border-radius:50%;
-  border:2px solid #aeb1ba;
-  background:var(--card-bg);
-}
-
-.tracker-dot.good{
-  background:#32d176;
-  border-color:#20b961;
-}
-
-.tracker-dot.bad{
-  background:#f16474;
-  border-color:#d94b5d;
-}
-
-.knowledge-meta{
-  font-size:13px;
-  opacity:.7;
-}
-
-/* ---------------- РУЛЕТКА ---------------- */
-
-.wheel-area{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  margin:28px auto 30px;
-}
-
-.pointer-holder{
-  height:60px;
-  display:flex;
-  justify-content:center;
-  align-items:flex-end;
-  margin-bottom:-8px;
-  z-index:20;
-}
-
-.pointer-classic{
-  width:0;
-  height:0;
-  border-left:19px solid transparent;
-  border-right:19px solid transparent;
-  border-top:38px solid var(--text);
-}
-
-.pointer-picture{
-  width:58px;
-  height:58px;
-  position:relative;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-
-.pizza-pointer{
-  width:0;
-  height:0;
-  border-left:24px solid transparent;
-  border-right:24px solid transparent;
-  border-top:48px solid #f7c948;
-  position:relative;
-}
-
-.pizza-pointer::before{
-  content:"";
-  position:absolute;
-  width:46px;
-  height:8px;
-  top:-49px;
-  left:-23px;
-  background:#c77b30;
-  border-radius:6px;
-}
-
-.pizza-pointer::after{
-  content:"";
-  position:absolute;
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background:#d94b45;
-  top:-38px;
-  left:-11px;
-  box-shadow:
-    17px 9px 0 #d94b45,
-    7px 21px 0 #d94b45;
-}
-
-.finger-pointer{
-  width:58px;
-  height:58px;
-  position:relative;
-}
-
-.finger-pointer::before{
-  content:"☝️";
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%) rotate(180deg);
-  font-size:52px;
-  line-height:1;
-}
-
-.kids-pointer{
-  position:relative;
-  width:28px;
-  height:48px;
-  background:#8dd7ff;
-  border:3px solid #202124;
-  border-radius:50% 50% 12px 12px;
-}
-
-.kids-pointer::before,
-.kids-pointer::after{
-  content:"";
-  position:absolute;
-  width:13px;
-  height:13px;
-  top:-5px;
-  background:#8dd7ff;
-  border:3px solid #202124;
-  border-radius:50%;
-}
-
-.kids-pointer::before{left:-10px}
-.kids-pointer::after{right:-10px}
-
-.wheel-shell{
-  position:relative;
-  width:390px;
-  height:390px;
-}
-
-.wheel{
-  position:absolute;
-  inset:0;
-  border-radius:50%;
-  border:8px solid var(--card-bg);
-  box-shadow:
-    0 8px 30px rgba(0,0,0,.18),
-    0 0 0 3px var(--text);
-
-  background:conic-gradient(
-    #ff686b 0 36deg,
-    #ffd93d 36deg 72deg,
-    #6bcb77 72deg 108deg,
-    #4d96ff 108deg 144deg,
-    #9747e5 144deg 180deg,
-    #ff86a6 180deg 216deg,
-    #10afc9 216deg 252deg,
-    #ff9f1c 252deg 288deg,
-    #75df8d 288deg 324deg,
-    #bd70ee 324deg 360deg
-  );
-}
-
-.number-layer{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-}
-
-.wheel-number{
-  position:absolute;
-  width:42px;
-  height:42px;
-  margin-left:-21px;
-  margin-top:-21px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:21px;
-  font-weight:900;
-  color:#151515;
-}
-
-.wheel-center{
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
-  width:70px;
-  height:70px;
-  border-radius:50%;
-  border:5px solid var(--text);
-  background:var(--card-bg);
-  z-index:10;
-}
-
-.case-result{
-  text-align:center;
-  font-size:25px;
-  font-weight:800;
-  margin-top:22px;
-}
-
-.stats-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(135px,1fr));
-  gap:10px;
-  margin-top:18px;
-}
-
-.stat{
-  background:var(--soft-bg);
-  border-radius:12px;
-  padding:13px;
-}
-
-.stat.completed{
-  background:var(--success2);
-  color:#102b1b;
-  border:2px solid #20b961;
-  box-shadow:0 4px 14px rgba(57,216,122,.30);
-}
-
-.stat.completed::after{
-  content:" ✓";
-  font-weight:bold;
-}
-
-/* ---------------- НАСТРОЙКИ ---------------- */
-
-.modal-background{
-  position:fixed;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:var(--backdrop);
-  z-index:4000;
-}
-
-.settings-modal{
-  width:min(600px,calc(100% - 30px));
-  max-height:92vh;
-  overflow:auto;
-  padding:26px;
-  border-radius:22px;
-  background:var(--card-bg);
-  color:var(--text);
-  box-shadow:0 15px 60px rgba(0,0,0,.3);
-}
-
-.settings-top{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  margin-bottom:18px;
-  position:sticky;
-  top:-26px;
-  background:var(--card-bg);
-  z-index:5;
-  padding:18px 0 12px;
-}
-
+/* settings */
+.modal-background{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--backdrop);z-index:4000}
+.settings-modal{width:min(600px,calc(100% - 30px));max-height:92vh;overflow:auto;padding:26px;border-radius:22px;background:var(--card-bg);color:var(--text);box-shadow:0 15px 60px rgba(0,0,0,.3)}
+.settings-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;position:sticky;top:-26px;background:var(--card-bg);z-index:5;padding:18px 0 12px}
 .settings-top h2{margin:0}
+.settings-top-actions{display:flex;gap:8px;align-items:center}
+.settings-save{background:var(--main);color:var(--main-text);font-weight:700}
+.settings-close{width:42px;height:42px;padding:0;border-radius:50%;background:var(--soft-bg-2);color:var(--text);font-size:22px;font-weight:800;line-height:1}
 
-.settings-top-actions{
-  display:flex;
-  gap:8px;
-  align-items:center;
-}
+.theme-options{display:flex;gap:10px;margin-bottom:25px}
+.theme-option{flex:1;background:var(--soft-bg);color:var(--text);border:2px solid transparent}
+.theme-option.selected{border-color:var(--text);font-weight:800}
+.pointer-option{width:100%;display:flex;gap:15px;align-items:center;margin:8px 0;background:var(--soft-bg);color:var(--text);text-align:left}
+.pointer-option.selected{outline:3px solid var(--text)}
+.pointer-preview{width:45px;font-size:28px;text-align:center}
 
-.settings-save{
-  background:var(--main);
-  color:var(--main-text);
-  font-weight:700;
-}
-
-.settings-close{
-  width:42px;
-  height:42px;
-  padding:0;
-  border-radius:50%;
-  background:var(--soft-bg-2);
-  color:var(--text);
-  font-size:22px;
-  font-weight:800;
-  line-height:1;
-}
-
-.theme-options{
-  display:flex;
-  gap:10px;
-  margin-bottom:25px;
-}
-
-.theme-option{
-  flex:1;
-  background:var(--soft-bg);
-  color:var(--text);
-  border:2px solid transparent;
-}
-
-.theme-option.selected{
-  border-color:var(--text);
-  font-weight:800;
-}
-
-.pointer-option{
-  width:100%;
-  display:flex;
-  gap:15px;
-  align-items:center;
-  margin:8px 0;
-  background:var(--soft-bg);
-  color:var(--text);
-  text-align:left;
-}
-
-.pointer-option.selected{
-  outline:3px solid var(--text);
-}
-
-.pointer-preview{
-  width:45px;
-  font-size:28px;
-  text-align:center;
-}
-
-/* ---------------- ИМЯ ---------------- */
-
-.profile-box{
-  margin:8px 0 26px;
-}
-
-.name-input{
-  flex:1;
-  min-width:0;
-  border:2px solid transparent;
-  background:var(--soft-bg);
-  color:var(--text);
-  border-radius:11px;
-  padding:12px 14px;
-  font:inherit;
-  outline:none;
-}
-
-.name-input:focus{
-  border-color:var(--text);
-}
-
-.name-joke{
-  margin-top:9px;
-  padding:9px 11px;
-  border-radius:9px;
-  background:var(--soft-bg);
-  font-size:13px;
-  display:none;
-}
-
+/* profile */
+.profile-box{margin:8px 0 26px}
+.name-row{display:flex;gap:8px;align-items:center}
+.name-input{flex:1;min-width:0;border:2px solid transparent;background:var(--soft-bg);color:var(--text);border-radius:11px;padding:12px 14px;font:inherit;outline:none}
+.name-input:focus{border-color:var(--text)}
+.info-mini{position:relative;width:38px;height:38px;padding:0;border-radius:50%;background:var(--soft-bg-2);color:var(--text);font-weight:900;font-size:18px}
+.name-joke{margin-top:9px;padding:9px 11px;border-radius:9px;background:var(--soft-bg);font-size:13px;display:none}
 .name-joke.show{display:block}
+.save-name{margin-top:10px}
+.saved-name-note{font-size:13px;opacity:.72;margin-left:8px}
+.name-editor{display:flex;align-items:center;gap:8px}
+.name-display{flex:1;min-height:46px;display:flex;align-items:center;padding:12px 14px;border-radius:11px;background:var(--soft-bg);color:var(--text);font-weight:700}
+.name-edit-btn,.name-save-mini{width:38px;height:38px;padding:0;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--soft-bg-2);color:var(--text);font-size:17px}
+.name-info-mini{width:38px;height:38px;padding:0;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--soft-bg-2);color:var(--text);font-size:18px;font-weight:900}
+.name-admin-mini{width:30px;height:30px;padding:0;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--soft-bg-2);color:var(--text);font-size:11px;font-weight:900;opacity:.48;box-shadow:none}
+.name-admin-mini:hover{opacity:.9;transform:none}
 
-.saved-name-note{
-  font-size:13px;
-  opacity:.72;
-  margin-left:8px;
-}
-
-.name-editor{
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-
-.name-display{
-  flex:1;
-  min-height:46px;
-  display:flex;
-  align-items:center;
-  padding:12px 14px;
-  border-radius:11px;
-  background:var(--soft-bg);
-  color:var(--text);
-  font-weight:700;
-}
-
-.name-edit-btn,
-.name-save-mini,
-.name-info-mini{
-  width:38px;
-  height:38px;
-  padding:0;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:var(--soft-bg-2);
-  color:var(--text);
-}
-
-.name-edit-btn{font-size:17px}
-
-.name-save-mini{
-  font-size:18px;
-  font-weight:900;
-}
-
-.name-info-mini{
-  font-size:18px;
-  font-weight:900;
-}
-
-.name-admin-mini{
-  width:30px;
-  height:30px;
-  padding:0;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:var(--soft-bg-2);
-  color:var(--text);
-  font-size:11px;
-  font-weight:900;
-  opacity:.48;
-  box-shadow:none;
-}
-
-.name-admin-mini:hover{
-  opacity:.9;
-  transform:none;
-}
-
-.admin-panel{
-  display:none;
-  margin-top:8px;
-}
-
+.name-save-mini{font-size:18px;font-weight:900}
+.admin-secret-wrap{margin-top:10px;display:flex;justify-content:flex-end}
+.admin-secret-btn{width:22px;height:22px;padding:0;border-radius:50%;background:var(--soft-bg-2);color:var(--text);opacity:.48;box-shadow:none;font-size:10px;font-weight:900}
+.admin-secret-btn:hover{opacity:.75;transform:none}
+.admin-secret-btn::after{content:"A";display:block;color:var(--text);font-size:10px;line-height:22px;text-align:center;font-weight:900}
+.admin-panel{display:none;margin-top:8px}
 .admin-panel.show{display:block}
 
-.admin-toggle-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  margin-top:14px;
-  padding:12px 14px;
-  border-radius:12px;
-  background:var(--soft-bg);
-}
-
+.admin-toggle-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;padding:12px 14px;border-radius:12px;background:var(--soft-bg)}
 .admin-toggle-label{font-weight:700}
-
-.admin-toggle-note{
-  font-size:12px;
-  opacity:.68;
-  margin-top:3px;
-}
-
-.switch{
-  position:relative;
-  width:52px;
-  height:30px;
-  flex:0 0 auto;
-}
-
-.switch input{
-  opacity:0;
-  width:0;
-  height:0;
-}
-
-.switch-slider{
-  position:absolute;
-  inset:0;
-  border-radius:999px;
-  background:#b9bdc7;
-  cursor:pointer;
-  transition:.2s;
-}
-
-.switch-slider::before{
-  content:"";
-  position:absolute;
-  width:22px;
-  height:22px;
-  left:4px;
-  top:4px;
-  border-radius:50%;
-  background:#fff;
-  transition:.2s;
-  box-shadow:0 1px 4px rgba(0,0,0,.25);
-}
-
-.switch input:checked + .switch-slider{
-  background:#39ad73;
-}
-
-.switch input:checked + .switch-slider::before{
-  transform:translateX(22px);
-}
-
-/* ---------------- 21 ДЕНЬ ---------------- */
-
-.attendance-grid{
-  display:grid;
-  grid-template-columns:repeat(7,18px);
-  gap:5px;
-  margin-top:12px;
-}
-
-.attendance-cell{
-  width:18px;
-  height:18px;
-  border-radius:4px;
-  background:var(--grid-empty);
-  border:1px solid rgba(0,0,0,.06);
-}
-
-.attendance-cell.level1{background:var(--grid-1)}
-.attendance-cell.level2{background:var(--grid-2)}
-.attendance-cell.level3{background:var(--grid-3)}
-.attendance-cell.level4{background:var(--grid-4)}
-
-.habit-progress{
-  height:10px;
-  border-radius:999px;
-  overflow:hidden;
-  background:var(--soft-bg);
-  margin-top:12px;
-}
-
-.habit-progress-fill{
-  height:100%;
-  width:0;
-  background:var(--success);
-  transition:.3s;
-}
-
-/* ---------------- КОТИК И КНИГА ---------------- */
-
-.knowledge-final-modal{
-  width:min(880px,calc(100% - 30px));
-  text-align:center;
-}
-
-.battle-scene{
-  position:relative;
-  width:min(760px,100%);
-  height:320px;
-  margin:25px auto 5px;
-  overflow:hidden;
-}
-
-.cat-button{
-  position:absolute;
-  left:30px;
-  bottom:45px;
-  width:350px;
-  height:235px;
-  background:transparent;
-  padding:0;
-  border:0;
-  transform-origin:55% 75%;
-}
-
-.cat-button:hover{
-  transform:none;
-}
-
-.cat-body{
-  position:absolute;
-  left:38px;
-  bottom:15px;
-  width:175px;
-  height:145px;
-  background:#fff;
-  border:7px solid #202124;
-  border-radius:52% 48% 45% 45%;
-}
-
-.cat-head{
-  position:absolute;
-  left:128px;
-  top:26px;
-  width:118px;
-  height:112px;
-  background:#fff;
-  border:7px solid #202124;
-  border-radius:46%;
-  z-index:5;
-}
-
-.cat-ear-left,
-.cat-ear-right{
-  position:absolute;
-  width:44px;
-  height:55px;
-  top:-30px;
-  background:#fff;
-  border:7px solid #202124;
-  z-index:-1;
-}
-
-.cat-ear-left{
-  left:2px;
-  transform:rotate(-18deg);
-}
-
-.cat-ear-right{
-  right:2px;
-  transform:rotate(18deg);
-}
-
-.cat-ear-left::after,
-.cat-ear-right::after{
-  content:"";
-  position:absolute;
-  width:18px;
-  height:25px;
-  background:#ffb8c5;
-  left:7px;
-  top:9px;
-}
-
-.cat-eye{
-  position:absolute;
-  width:34px;
-  height:8px;
-  top:43px;
-  border-radius:10px;
-  background:#202124;
-}
-
-.cat-eye.left{
-  left:15px;
-  transform:rotate(18deg);
-}
-
-.cat-eye.right{
-  right:15px;
-  transform:rotate(-18deg);
-}
-
-.cat-nose{
-  position:absolute;
-  left:50%;
-  top:63px;
-  transform:translateX(-50%);
-  width:0;
-  height:0;
-  border-left:7px solid transparent;
-  border-right:7px solid transparent;
-  border-top:8px solid #e68c9d;
-}
-
-.cat-mouth{
-  position:absolute;
-  left:50%;
-  top:69px;
-  width:34px;
-  height:18px;
-  transform:translateX(-50%);
-  border-bottom:5px solid #202124;
-  border-radius:50%;
-}
-
-.cat-tail{
-  position:absolute;
-  left:-34px;
-  bottom:30px;
-  width:85px;
-  height:70px;
-  border:7px solid #202124;
-  border-right:0;
-  border-radius:60px 0 0 60px;
-  background:#fff;
-}
-
-.cat-leg{
-  position:absolute;
-  bottom:-12px;
-  width:54px;
-  height:42px;
-  background:#fff;
-  border:7px solid #202124;
-  border-radius:20px 20px 30px 30px;
-}
-
-.cat-leg.left{left:45px}
-.cat-leg.right{right:28px}
-
-.cat-arm{
-  position:absolute;
-  width:92px;
-  height:32px;
-  background:#fff;
-  border:7px solid #202124;
-  border-radius:25px;
-  z-index:8;
-  transform-origin:15px 16px;
-}
-
-.cat-arm.left{
-  left:173px;
-  top:116px;
-  transform:rotate(5deg);
-}
-
-.cat-arm.right{
-  left:168px;
-  top:142px;
-  transform:rotate(8deg);
-}
-
-.bat{
-  position:absolute;
-  left:222px;
-  top:121px;
-  width:190px;
-  height:30px;
-  border-radius:20px;
-  background:#c8752b;
-  border:7px solid #202124;
-  transform-origin:18px 15px;
-  z-index:10;
-}
-
-.book{
-  position:absolute;
-  right:35px;
-  bottom:55px;
-  width:175px;
-  height:125px;
-  background:#654a87;
-  border:7px solid #202124;
-  border-radius:9px;
-  transform:rotate(20deg);
-  transition:.2s;
-}
-
-.book::after{
-  content:"";
-  position:absolute;
-  left:8px;
-  right:8px;
-  height:17px;
-  bottom:-19px;
-  background:#e5dfc7;
-  border:5px solid #202124;
-  border-top:0;
-  border-radius:0 0 5px 5px;
-}
-
-.book-face{
-  position:absolute;
-  inset:0;
-}
-
-.book-eye{
-  position:absolute;
-  top:39px;
-  font-size:30px;
-  font-weight:900;
-}
-
-.book-eye.left{left:45px}
-.book-eye.right{right:45px}
-
-.book-mouth{
-  position:absolute;
-  left:50%;
-  top:78px;
-  width:42px;
-  height:20px;
-  transform:translateX(-50%);
-  border-top:5px solid #202124;
-  border-radius:50%;
-}
-
-.book.damage-1{
-  transform:rotate(25deg) translate(8px,4px);
-}
-
-.book.damage-2{
-  transform:rotate(31deg) translate(15px,8px) scale(.96);
-}
-
-.book.damage-3{
-  transform:rotate(38deg) translate(23px,13px) scale(.92);
-}
-
-.book.dead{
-  transform:rotate(47deg) translate(35px,22px) scale(.88);
-  filter:saturate(.55);
-}
-
-.book.contact{
-  animation:bookHit .22s ease;
-}
-
-@keyframes bookHit{
-  0%{transform:rotate(20deg)}
-  40%{transform:rotate(38deg) translate(28px,5px)}
-  100%{}
-}
-
-.attack-side .bat{
-  animation:batSide .74s ease;
-}
-
-.attack-overhead .bat{
-  animation:batOverhead .82s ease;
-}
-
-.attack-heavy .bat{
-  animation:batHeavy .9s ease;
-}
-
-.attack-side .cat-arm,
-.attack-overhead .cat-arm,
-.attack-heavy .cat-arm{
-  animation:armsPush .7s ease;
-}
-
-@keyframes batSide{
-  0%{transform:rotate(-12deg)}
-  50%{transform:rotate(5deg) translateX(115px)}
-  100%{transform:rotate(-12deg)}
-}
-
-@keyframes batOverhead{
-  0%{transform:rotate(-48deg) translate(-20px,-35px)}
-  55%{transform:rotate(14deg) translate(115px,28px)}
-  100%{transform:rotate(-48deg) translate(-20px,-35px)}
-}
-
-@keyframes batHeavy{
-  0%{transform:rotate(-20deg)}
-  38%{transform:rotate(-42deg) translate(-15px,-10px)}
-  62%{transform:rotate(9deg) translate(125px,10px)}
-  100%{transform:rotate(-20deg)}
-}
-
-@keyframes armsPush{
-  0%,100%{margin-left:0}
-  50%{margin-left:35px}
-}
-
-.impact{
-  position:absolute;
-  right:185px;
-  bottom:155px;
-  font-size:46px;
-  opacity:0;
-  pointer-events:none;
-}
-
-.impact.show{
-  animation:impactPop .45s ease;
-}
-
-@keyframes impactPop{
-  0%{opacity:0;transform:scale(.3)}
-  35%{opacity:1;transform:scale(1.3)}
-  100%{opacity:0;transform:scale(.8)}
-}
-
-.paper-bit{
-  position:absolute;
-  right:120px;
-  bottom:95px;
-  width:16px;
-  height:10px;
-  background:#e5dfc7;
-  opacity:0;
-}
-
-.paper-bit.fly{
-  animation:paperFly .7s ease;
-}
-
-@keyframes paperFly{
-  0%{
-    opacity:1;
-    transform:translate(0,0) rotate(0);
-  }
-  100%{
-    opacity:0;
-    transform:translate(var(--paper-x),var(--paper-y)) rotate(250deg);
-  }
-}
-
-/* ---------------- ПОЗДРАВЛЕНИЯ ---------------- */
-
-.final-modal{
-  width:min(760px,calc(100% - 30px));
-  text-align:center;
-}
-
-.final-title{
-  font-size:48px;
-  line-height:1.05;
-  margin:5px 0 20px;
-  font-weight:900;
-}
-
-.final-subtitle{
-  font-size:24px;
-}
-
-.confetti{
-  position:fixed;
-  width:10px;
-  height:18px;
-  z-index:9999;
-  pointer-events:none;
-  animation:fall var(--time) linear forwards;
-}
-
-@keyframes fall{
-  to{
-    transform:translate(var(--x),110vh) rotate(720deg);
-  }
-}
-
-@media(max-width:650px){
-  .wheel-shell{
-    width:310px;
-    height:310px;
-  }
-
-  .knowledge-row{
-    grid-template-columns:1fr;
-  }
-
-  .battle-scene{
-    transform:scale(.78);
-    transform-origin:top center;
-    margin-bottom:-65px;
-  }
-
-  .final-title{
-    font-size:36px;
-  }
+.admin-toggle-note{font-size:12px;opacity:.68;margin-top:3px}
+.switch{position:relative;width:52px;height:30px;flex:0 0 auto}
+.switch input{opacity:0;width:0;height:0}
+.switch-slider{position:absolute;inset:0;border-radius:999px;background:#b9bdc7;cursor:pointer;transition:.2s}
+.switch-slider::before{content:"";position:absolute;width:22px;height:22px;left:4px;top:4px;border-radius:50%;background:#fff;transition:.2s;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.switch input:checked + .switch-slider{background:#39ad73}
+.switch input:checked + .switch-slider::before{transform:translateX(22px)}
+
+
+/* 21-day habit tracker */
+.attendance-wrap{margin:14px 0 26px}
+.attendance-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:12px}
+.attendance-title{font-weight:800}
+.attendance-summary{font-size:13px;opacity:.72;margin-top:4px}
+.attendance-grid{display:grid;grid-template-columns:repeat(7,30px);grid-template-rows:repeat(3,30px);gap:8px;width:max-content;max-width:100%;padding:4px 2px 10px}
+.attendance-cell{width:30px;height:30px;border-radius:7px;background:var(--grid-empty);position:relative;border:1px solid rgba(127,127,127,.18)}
+.attendance-cell.active{background:var(--grid-3);border-color:var(--grid-4)}
+.attendance-cell.missed{background:#e45b70;border-color:#c33e52}
+.attendance-cell.today{outline:3px solid var(--text);outline-offset:2px}
+.attendance-cell:hover::after{content:attr(data-tip);position:absolute;bottom:38px;left:50%;transform:translateX(-50%);white-space:nowrap;background:#111;color:#fff;padding:6px 8px;border-radius:7px;font-size:12px;z-index:20}
+.attendance-legend{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:12px;opacity:.82;margin-top:4px}
+.legend-item{display:flex;align-items:center;gap:5px}
+.legend-box{width:13px;height:13px;border-radius:3px;background:var(--grid-empty);border:1px solid rgba(127,127,127,.25)}
+.legend-box.active{background:var(--grid-3)}.legend-box.missed{background:#e45b70}
+.habit-progress{margin-top:12px;height:10px;border-radius:999px;background:var(--soft-bg);overflow:hidden}
+.habit-progress-fill{height:100%;width:0;background:var(--grid-3);border-radius:999px;transition:width .25s ease}
+.habit-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.day-labels{display:grid;grid-template-columns:repeat(7,30px);gap:8px;width:max-content;margin:0 0 3px 2px;font-size:10px;opacity:.55;text-align:center}
+
+/* finals */
+.final-overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:15px;background:var(--backdrop);z-index:5000}
+.final-card{width:min(780px,100%);max-height:96vh;overflow:auto;padding:34px 25px;border-radius:26px;background:var(--card-bg);color:var(--text);text-align:center;box-shadow:0 20px 80px rgba(0,0,0,.35);animation:finalPop .45s ease}
+.final-card h2{margin:0 0 12px;font-size:clamp(30px,6vw,52px)}
+.final-card p{font-size:23px}
+@keyframes finalPop{0%{transform:scale(.5) rotate(-4deg);opacity:0}70%{transform:scale(1.06) rotate(1deg)}100%{transform:scale(1);opacity:1}}
+
+/* cat battle */
+.cat-battle{position:relative;width:min(700px,100%);height:320px;margin:0 auto 12px;overflow:visible}
+.cat-button{position:absolute;left:0;bottom:10px;width:410px;height:285px;padding:0;background:transparent;border:0;transform-origin:42% 78%;z-index:10}
+.cat-button:hover{transform:scale(1.01)}
+.cat-svg{width:100%;height:100%;overflow:visible}
+.cat-white{fill:#fff;stroke:#202124;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+.cat-face{fill:none;stroke:#202124;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+.cat-arm{fill:#fff;stroke:#202124;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+.cat-tail-line{fill:none;stroke:#202124;stroke-width:20;stroke-linecap:round}
+.cat-tail-white{fill:none;stroke:#fff;stroke-width:12;stroke-linecap:round}
+.cat-body-group,.cat-head-group,.front-arm,.back-arm,.tail-group,.bat-group{transform-box:fill-box}
+.cat-body-group{transform-origin:45% 70%}.cat-head-group{transform-origin:60% 65%}.front-arm,.back-arm{transform-origin:left center}.tail-group{transform-origin:85% 50%}.bat-group{transform-origin:13% 50%}
+
+/* book */
+.book{position:absolute;right:28px;bottom:48px;width:175px;height:128px;background:#8247d6;border:5px solid #202124;border-radius:8px 15px 15px 8px;transform:rotate(3deg);transition:transform .2s ease,filter .2s ease;z-index:5}
+.book-pages{position:absolute;width:153px;height:23px;left:8px;bottom:-20px;border:4px solid #202124;border-radius:0 0 10px 10px;background:repeating-linear-gradient(0deg,#f6e5be 0 3px,#e1c98f 3px 5px);z-index:-1;transition:.2s}
+.book-eye{position:absolute;top:34px;width:30px;height:30px;color:#202124;font-size:29px;font-weight:900;line-height:28px}.book-eye.left{left:35px}.book-eye.right{right:35px}
+.book-mouth{position:absolute;left:64px;top:79px;width:38px;height:18px;border-bottom:4px solid #202124;border-radius:50%;transform:rotate(-4deg)}
+.book-tongue{position:absolute;left:69px;top:84px;width:25px;height:19px;border:3px solid #202124;border-radius:0 0 13px 13px;background:#f47796;opacity:0;transform:rotate(7deg)}
+.book-crack{position:absolute;width:4px;height:36px;background:#202124;opacity:0}.book-crack.c1{left:22px;top:11px;transform:rotate(22deg)}.book-crack.c2{right:28px;top:63px;transform:rotate(-29deg)}.book-crack.c3{left:82px;top:7px;transform:rotate(-17deg)}
+.book.damage-1{transform:rotate(9deg) translate(7px,2px)}.book.damage-1 .c1{opacity:1}
+.book.damage-2{transform:rotate(-7deg) translate(13px,8px) scale(.97);filter:saturate(.84)}.book.damage-2 .c1,.book.damage-2 .c2{opacity:1}.book.damage-2 .book-pages{transform:translateY(4px) rotate(2deg)}
+.book.damage-3{transform:rotate(15deg) translate(18px,16px) scale(.94,.89);filter:saturate(.62) brightness(.9)}.book.damage-3 .book-crack{opacity:1}.book.damage-3 .book-pages{transform:translate(5px,7px) rotate(5deg)}
+.book.dead{transform:rotate(24deg) translate(24px,27px) scale(.90,.80);filter:saturate(.38) brightness(.74)}.book.dead .book-crack{opacity:1}.book.dead .book-pages{transform:translate(10px,11px) rotate(8deg)}
+.book.dead .book-mouth{border-bottom:0;border-top:4px solid #202124;top:68px;transform:rotate(-8deg)}.book.dead .book-tongue{opacity:1}
+
+/* impact */
+.impact{position:absolute;right:175px;bottom:112px;z-index:30;font-size:58px;opacity:0;pointer-events:none}.impact.show{animation:impactBoom .44s ease}
+.paper-bit{position:absolute;width:21px;height:15px;border:2px solid #202124;background:#f6e5be;opacity:0;z-index:25}
+.paper-bit.p1{right:180px;bottom:155px}.paper-bit.p2{right:95px;bottom:195px}.paper-bit.p3{right:65px;bottom:110px}.paper-bit.fly{animation:paperFly .72s ease}
+
+/* attack pose animations */
+.cat-button.attack-side .cat-body-group{animation:bodySide .74s ease}.cat-button.attack-side .cat-head-group{animation:headSide .74s ease}.cat-button.attack-side .front-arm{animation:frontArmSide .74s ease}.cat-button.attack-side .back-arm{animation:backArmSide .74s ease}.cat-button.attack-side .tail-group{animation:tailSide .74s ease}.cat-button.attack-side .bat-group{animation:batSide .74s ease}
+.cat-button.attack-overhead .cat-body-group{animation:bodyOver .82s ease}.cat-button.attack-overhead .cat-head-group{animation:headOver .82s ease}.cat-button.attack-overhead .front-arm{animation:frontArmOver .82s ease}.cat-button.attack-overhead .back-arm{animation:backArmOver .82s ease}.cat-button.attack-overhead .tail-group{animation:tailOver .82s ease}.cat-button.attack-overhead .bat-group{animation:batOver .82s ease}
+.cat-button.attack-heavy .cat-body-group{animation:bodyHeavy .9s ease}.cat-button.attack-heavy .cat-head-group{animation:headHeavy .9s ease}.cat-button.attack-heavy .front-arm{animation:frontArmHeavy .9s ease}.cat-button.attack-heavy .back-arm{animation:backArmHeavy .9s ease}.cat-button.attack-heavy .tail-group{animation:tailHeavy .9s ease}.cat-button.attack-heavy .bat-group{animation:batHeavy .9s ease}
+
+@keyframes bodySide{0%,100%{transform:none}24%{transform:translate(-12px,2px) rotate(-6deg)}50%{transform:translate(58px,0) rotate(5deg)}70%{transform:translate(35px,0) rotate(2deg)}}
+@keyframes headSide{0%,100%{transform:none}24%{transform:translate(-4px,0) rotate(-3deg)}50%{transform:translate(13px,0) rotate(4deg)}}
+@keyframes frontArmSide{0%,100%{transform:none}24%{transform:rotate(-18deg) translateX(-3px)}50%{transform:rotate(7deg) translateX(20px)}}
+@keyframes backArmSide{0%,100%{transform:none}24%{transform:rotate(-10deg)}50%{transform:rotate(5deg) translateX(15px)}}
+@keyframes tailSide{0%,100%{transform:none}24%{transform:rotate(-18deg)}50%{transform:rotate(18deg)}}
+@keyframes batSide{0%,100%{transform:none}24%{transform:rotate(-23deg)}50%{transform:rotate(8deg) translateX(32px)}70%{transform:rotate(2deg) translateX(16px)}}
+
+@keyframes bodyOver{0%,100%{transform:none}22%{transform:translate(-8px,-7px) rotate(-7deg)}50%{transform:translate(48px,12px) rotate(5deg)}70%{transform:translate(28px,5px) rotate(2deg)}}
+@keyframes headOver{0%,100%{transform:none}22%{transform:translateY(-5px) rotate(-4deg)}50%{transform:translate(8px,6px) rotate(3deg)}}
+@keyframes frontArmOver{0%,100%{transform:none}22%{transform:rotate(-48deg) translate(-3px,-5px)}50%{transform:rotate(12deg) translate(20px,8px)}}
+@keyframes backArmOver{0%,100%{transform:none}22%{transform:rotate(-38deg) translate(-2px,-4px)}50%{transform:rotate(9deg) translate(16px,6px)}}
+@keyframes tailOver{0%,100%{transform:none}22%{transform:rotate(-25deg)}50%{transform:rotate(14deg)}}
+@keyframes batOver{0%,100%{transform:none}22%{transform:rotate(-72deg) translate(-4px,-6px)}50%{transform:rotate(25deg) translateX(28px)}70%{transform:rotate(8deg) translateX(10px)}}
+
+@keyframes bodyHeavy{0%,100%{transform:none}20%{transform:translate(-16px,-6px) rotate(-10deg) scale(1.02)}50%{transform:translate(66px,17px) rotate(7deg) scale(.99)}72%{transform:translate(38px,8px) rotate(3deg)}}
+@keyframes headHeavy{0%,100%{transform:none}20%{transform:translate(-4px,-5px) rotate(-5deg)}50%{transform:translate(14px,7px) rotate(5deg)}}
+@keyframes frontArmHeavy{0%,100%{transform:none}20%{transform:rotate(-58deg) translate(-5px,-6px)}50%{transform:rotate(15deg) translate(27px,10px)}}
+@keyframes backArmHeavy{0%,100%{transform:none}20%{transform:rotate(-44deg) translate(-2px,-5px)}50%{transform:rotate(11deg) translate(20px,8px)}}
+@keyframes tailHeavy{0%,100%{transform:none}20%{transform:rotate(-32deg)}50%{transform:rotate(22deg)}}
+@keyframes batHeavy{0%,100%{transform:none}20%{transform:rotate(-90deg) translate(-7px,-8px)}50%{transform:rotate(34deg) translateX(38px)}72%{transform:rotate(11deg) translateX(14px)}}
+
+.book.contact{animation:bookContact .32s ease}
+@keyframes bookContact{0%{translate:0 0}20%{translate:15px -4px}40%{translate:-8px 4px}60%{translate:10px 2px}80%{translate:-4px 2px}100%{translate:0 0}}
+@keyframes impactBoom{0%{opacity:0;transform:scale(.2) rotate(-20deg)}32%{opacity:1;transform:scale(1.5) rotate(7deg)}100%{opacity:0;transform:scale(.8) rotate(18deg)}}
+@keyframes paperFly{0%{opacity:1;transform:translate(0,0) rotate(0)}100%{opacity:0;transform:translate(var(--paper-x),var(--paper-y)) rotate(260deg)}}
+
+/* confetti */
+.confetti{position:fixed;width:10px;height:16px;z-index:6000;pointer-events:none;animation:confettiFall var(--time) linear forwards}
+@keyframes confettiFall{0%{transform:translate(0,-30px) rotate(0);opacity:1}100%{transform:translate(var(--x),105vh) rotate(900deg);opacity:0}}
+
+@media(max-width:700px){
+  .knowledge-row{grid-template-columns:1fr}
+  .wheel-shell{width:300px;height:300px}
+  .cat-battle{width:700px;transform:scale(.73);transform-origin:top center;margin-left:calc(50% - 350px);margin-bottom:-70px}
 }
 </style>
 </head>
-
 <body>
 
 <div class="help-widget">
@@ -1159,3560 +234,755 @@ body.dark .card{
 </div>
 
 <div class="container">
+<h1>Тренажёр новичка</h1>
 
-  <!-- ГЛАВНАЯ -->
-  <section id="home">
-    <h1>Тренажёр новичка</h1>
-    <p>Прокачка скорости поиска знаний и практики кейсов.</p>
-
-    <div class="card">
-      <h2>Номера знаний</h2>
-      <p>Тренировка поиска нужного номера знания.</p>
-      <p><strong>Пройдено:</strong> <span id="homeKnowledgeProgress">0 / 10</span></p>
-      <button class="main-button" onclick="openKnowledge()">Начать тренировку</button>
-    </div>
-
-    <div class="card">
-      <h2>Треня кейсов</h2>
-      <p>Крути рулетку и отрабатывай выпавший кейс.</p>
-      <p><strong>Пройдено:</strong> <span id="homeCaseProgress">0 / 10</span></p>
-      <button class="main-button" onclick="openCases()">Крутить рулетку</button>
-    </div>
-  </section>
-
-  <!-- ЗНАНИЯ -->
-  <section id="knowledge" class="hidden">
-    <button class="secondary-button" onclick="goHome()">← На главную</button>
-
-    <div class="card">
-      <h2>Номера знаний</h2>
-
-      <div class="timer">
-        Время: <span id="knowledgeTimer">0</span> сек.
-      </div>
-
-      <h3 id="knowledgeQuestion">Задание 1</h3>
-
-      <p>
-        Найди нужное знание самостоятельно.
-        Когда закончишь — отметь результат.
-      </p>
-
-      <div class="actions">
-        <button class="success-button" onclick="finishKnowledge(true)">✓ Верно</button>
-        <button class="fail-button" onclick="finishKnowledge(false)">✕ Неверно</button>
-      </div>
-
-      <div id="knowledgeResult" class="result-message hidden"></div>
-
-      <div class="actions">
-        <button id="nextKnowledgeButton" class="main-button hidden" onclick="nextKnowledge()">
-          Следующее задание
-        </button>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>Трекер</h2>
-      <div id="knowledgeTracker" class="knowledge-tracker"></div>
-
-      <div class="actions">
-        <button class="secondary-button" onclick="resetKnowledge()">Сбросить прогресс</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- КЕЙСЫ -->
-  <section id="cases" class="hidden">
-    <button class="secondary-button" onclick="goHome()">← На главную</button>
-
-    <div class="card">
-      <h2>Рулетка кейсов</h2>
-
-      <div class="wheel-area">
-
-        <div class="pointer-holder">
-          <div id="pointerVisual" class="pointer-classic"></div>
-        </div>
-
-        <div id="wheelShell" class="wheel-shell">
-          <div id="wheel" class="wheel"></div>
-
-          <div class="number-layer">
-            <div class="wheel-number" data-number="1">1</div>
-            <div class="wheel-number" data-number="2">2</div>
-            <div class="wheel-number" data-number="3">3</div>
-            <div class="wheel-number" data-number="4">4</div>
-            <div class="wheel-number" data-number="5">5</div>
-            <div class="wheel-number" data-number="6">6</div>
-            <div class="wheel-number" data-number="7">7</div>
-            <div class="wheel-number" data-number="8">8</div>
-            <div class="wheel-number" data-number="9">9</div>
-            <div class="wheel-number" data-number="10">10</div>
-          </div>
-
-          <div class="wheel-center"></div>
-        </div>
-
-        <button id="spinButton" class="main-button" onclick="spinWheel()" style="margin-top:30px">
-          🎲 Крутить рулетку
-        </button>
-      </div>
-
-      <div id="caseWork" class="hidden">
-        <div class="case-result">
-          Выпал кейс № <span id="caseNumber"></span>
-        </div>
-
-        <p style="text-align:center">
-          Закрепление: <strong id="caseProgress">0 / 3</strong>
-        </p>
-
-        <div class="timer" style="text-align:center">
-          Время: <span id="caseTimer">0</span> сек.
-        </div>
-
-        <div class="actions" style="justify-content:center">
-          <button class="success-button" onclick="finishCase(true)">✓ Решено</button>
-          <button class="fail-button" onclick="finishCase(false)">✕ Не решено</button>
-        </div>
-      </div>
-
-      <div id="caseResult" class="result-message hidden">
-        <strong id="caseResultText"></strong>
-
-        <div class="actions">
-          <button class="main-button" onclick="prepareWheel()">Крутить ещё</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>Прогресс кейсов</h2>
-      <div id="caseStats" class="stats-grid"></div>
-
-      <div class="actions">
-        <button class="secondary-button" onclick="resetCases()">Сбросить прогресс</button>
-      </div>
-    </div>
-  </section>
+<div id="home">
+  <div class="card">
+    <h2>Что тренируем?</h2>
+    <button class="main-button" onclick="openKnowledge()">Номера знаний</button>
+    <button class="main-button" onclick="openCases()">Треня кейсов</button>
+  </div>
+  <div class="card">
+    <h3>Прогресс</h3>
+    <p>Номера знаний: <strong id="homeKnowledgeProgress">0 / 10</strong></p>
+    <p>Кейсы: <strong id="homeCaseProgress">0 / 10</strong></p>
+  </div>
 </div>
-<!-- НАСТРОЙКИ -->
-<div id="settingsBackground" class="modal-background hidden">
-  <div class="settings-modal">
 
+<div id="knowledge" class="hidden">
+  <button class="secondary-button" onclick="goHome()">← На главную</button>
+  <div class="card">
+    <h2>Номера знаний</h2>
+    <div class="big-number">Задание № <span id="knowledgeNumber">1</span></div>
+    <div class="timer">⏱ <span id="knowledgeTimer">0</span> сек.</div>
+    <div id="knowledgeActions" class="actions">
+      <button class="success-button" onclick="finishKnowledge(true)">✓ Верно</button>
+      <button class="fail-button" onclick="finishKnowledge(false)">✕ Не верно</button>
+    </div>
+    <div id="knowledgeResult" class="result-message hidden">
+      <strong id="knowledgeResultText"></strong><br><br>
+      <button class="main-button" onclick="nextKnowledge()">Следующее</button>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Трекер знаний</h3>
+    <div id="knowledgeTracker" class="knowledge-tracker"></div>
+    <br>
+    <button class="secondary-button" onclick="resetKnowledge()">Сбросить прогресс знаний</button>
+  </div>
+</div>
+
+<div id="cases" class="hidden">
+  <button class="secondary-button" onclick="goHome()">← На главную</button>
+  <div class="card">
+    <h2>Рулетка кейсов</h2>
+    <div class="wheel-area">
+      <div class="pointer-holder"><div id="pointerVisual" class="pointer-classic"></div></div>
+      <div id="wheelShell" class="wheel-shell">
+        <div id="wheel" class="wheel"></div>
+        <div class="number-layer">
+          <div class="wheel-number" data-number="1">1</div><div class="wheel-number" data-number="2">2</div>
+          <div class="wheel-number" data-number="3">3</div><div class="wheel-number" data-number="4">4</div>
+          <div class="wheel-number" data-number="5">5</div><div class="wheel-number" data-number="6">6</div>
+          <div class="wheel-number" data-number="7">7</div><div class="wheel-number" data-number="8">8</div>
+          <div class="wheel-number" data-number="9">9</div><div class="wheel-number" data-number="10">10</div>
+        </div>
+        <div class="wheel-center"></div>
+      </div>
+    </div>
+    <div style="text-align:center"><button id="spinButton" class="main-button" onclick="spinWheel()">🎲 Крутить рулетку</button></div>
+    <div id="caseWork" class="hidden">
+      <div class="case-result">Выпал кейс № <span id="caseNumber"></span></div>
+      <p style="text-align:center">Закрепление: <strong id="caseProgress">0 / 3</strong></p>
+      <div class="timer" style="text-align:center">⏱ <span id="caseTimer">0</span> сек.</div>
+      <div class="actions" style="justify-content:center">
+        <button class="success-button" onclick="finishCase(true)">✓ Верно</button>
+        <button class="fail-button" onclick="finishCase(false)">✕ Не верно</button>
+      </div>
+    </div>
+    <div id="caseResult" class="result-message hidden" style="text-align:center">
+      <strong id="caseResultText"></strong><br><br>
+      <button class="main-button" onclick="prepareWheel()">Крутить ещё</button>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Прогресс кейсов</h3>
+    <div id="caseStats" class="stats-grid"></div><br>
+    <button class="secondary-button" onclick="resetCases()">Сбросить прогресс</button>
+  </div>
+</div>
+</div>
+
+<div id="settingsOverlay" class="modal-background hidden">
+  <div class="settings-modal">
     <div class="settings-top">
       <h2>Настройки</h2>
-
       <div class="settings-top-actions">
         <button class="settings-save" onclick="saveSettings()">Сохранить</button>
-        <button class="settings-close" onclick="closeSettings()">×</button>
+        <button class="settings-close" onclick="closeSettingsWithoutSave()" aria-label="Закрыть настройки">×</button>
       </div>
     </div>
 
-    <!-- ТЕМА -->
     <h3>Тема</h3>
-
     <div class="theme-options">
-      <button
-        id="lightThemeButton"
-        class="theme-option"
-        onclick="chooseTheme('light')"
-      >
-        ☀️ Светлая
-      </button>
-
-      <button
-        id="darkThemeButton"
-        class="theme-option"
-        onclick="chooseTheme('dark')"
-      >
-        🌙 Тёмная
-      </button>
+      <button id="lightThemeButton" class="theme-option" onclick="selectTheme('light')">☀️ Светлая</button>
+      <button id="darkThemeButton" class="theme-option" onclick="selectTheme('dark')">🌙 Тёмная</button>
     </div>
 
-    <!-- УКАЗАТЕЛЬ РУЛЕТКИ -->
-    <h3>Выбор указателя</h3>
-
-    <button
-      id="pointerClassicButton"
-      class="pointer-option"
-      onclick="choosePointer('classic')"
-    >
-      <span class="pointer-preview">▼</span>
-      <span>
-        <strong>Классика</strong><br>
-        <small>Стрелочка. Серьёзно и по делу.</small>
-      </span>
-    </button>
-
-    <button
-      id="pointerPizzaButton"
-      class="pointer-option"
-      onclick="choosePointer('pizza')"
-    >
-      <span class="pointer-preview">🍕</span>
-      <span>
-        <strong>Если ты голоден — вот тебе пицца</strong><br>
-        <small>Тренироваться на голодный желудок нельзя.</small>
-      </span>
-    </button>
-
-    <button
-      id="pointerFingerButton"
-      class="pointer-option"
-      onclick="choosePointer('finger')"
-    >
-      <span class="pointer-preview">☝️</span>
-      <span>
-        <strong>Дикий пальчик</strong><br>
-        <small>Он выберет твою судьбу.</small>
-      </span>
-    </button>
-
-    <button
-      id="pointerKidsButton"
-      class="pointer-option"
-      onclick="choosePointer('kids')"
-    >
-      <span class="pointer-preview">👀</span>
-      <span>
-        <strong>Писюнчик версии kids</strong><br>
-        <small>Ничего такого. Просто указатель.</small>
-      </span>
-    </button>
-
-    <!-- ИМЯ -->
+    <h3>Как я могу к тебе обращаться?</h3>
     <div class="profile-box">
-      <h3>Как я могу к тебе обращаться?</h3>
 
-      <!-- Имя ещё не сохранено -->
+      <!-- Если имя ещё не сохранено — поле доступно сразу -->
       <div id="nameCreate" class="name-editor">
-        <input
-          id="trainerNameInput"
-          class="name-input"
-          type="text"
-          maxlength="30"
-          autocomplete="off"
-        >
-
-        <button
-          class="name-info-mini"
-          onclick="toggleNameJoke()"
-          title="Подсказка"
-        >
-          !
-        </button>
-
-        <button
-          class="name-save-mini"
-          onclick="saveNameAndStay()"
-          title="Сохранить имя"
-        >
-          ✓
-        </button>
-
-        <button
-          class="name-admin-mini"
-          onclick="toggleAdminPanel()"
-          title="Админ"
-        >
-          A
-        </button>
+        <input id="trainerNameInput" class="name-input" type="text" maxlength="30">
+        <button class="name-info-mini" onclick="toggleNameJoke()" title="Подсказка">!</button>
+        <button class="name-save-mini" onclick="saveNameAndStay()" title="Сохранить имя">✓</button>
+        <button class="name-admin-mini" onclick="toggleAdminPanel()" title="Админ">A</button>
       </div>
 
-      <!-- Имя уже сохранено -->
+      <!-- После сохранения показываем имя + карандаш для изменения -->
       <div id="nameView" class="name-editor hidden">
         <div id="trainerNameDisplay" class="name-display"></div>
-
-        <button
-          class="name-info-mini"
-          onclick="toggleNameJoke()"
-          title="Подсказка"
-        >
-          !
-        </button>
-
-        <button
-          class="name-edit-btn"
-          onclick="startNameEdit()"
-          title="Изменить имя"
-        >
-          ✎
-        </button>
-
-        <button
-          class="name-admin-mini"
-          onclick="toggleAdminPanel()"
-          title="Админ"
-        >
-          A
-        </button>
+        <button class="name-info-mini" onclick="toggleNameJoke()" title="Подсказка">!</button>
+        <button class="name-edit-btn" onclick="startNameEdit()" title="Изменить имя">✎</button>
+        <button class="name-admin-mini" onclick="toggleAdminPanel()" title="Админ">A</button>
       </div>
 
-      <div id="nameJoke" class="name-joke">
-        Только не проси меня называть тебя «Мой господин» )))))
-        Если ооочень надо, то проси и умоляй об этом админа
-      </div>
+      <div id="nameJoke" class="name-joke">Только не проси меня называть тебя «Мой господин» ))))) Если ооочень надо, то проси и умоляй об этом админа</div>
+      <div style="margin-top:10px"><span id="savedNameNote" class="saved-name-note"></span></div>
 
-      <span id="savedNameNote" class="saved-name-note"></span>
-
-      <!-- СКРЫТАЯ АДМИНСКАЯ НАСТРОЙКА -->
       <div id="adminPanel" class="admin-panel">
         <div class="admin-toggle-row">
-
           <div>
-            <div class="admin-toggle-label">
-              Админ разрешил ругаться
-            </div>
-
-            <div class="admin-toggle-note">
-              Тогда фильтр имени отключается полностью 😈
-            </div>
+            <div class="admin-toggle-label">Админ разрешил ругаться</div>
+            <div class="admin-toggle-note">Если включено — ограничения на имя отключаются.</div>
           </div>
-
-          <label class="switch">
-            <input
-              id="adminRudeToggle"
-              type="checkbox"
-              onchange="saveAdminRude()"
-            >
+          <label class="switch" title="Разрешить любое имя">
+            <input id="adminRudeToggle" type="checkbox" onchange="toggleAdminRude()">
             <span class="switch-slider"></span>
           </label>
-
         </div>
+      </div>
+
+    </div>
+
+    <h3>Привычка — 21 день</h3>
+    <div class="attendance-wrap">
+      <div class="attendance-head">
+        <div>
+          <div class="attendance-title" id="habitTitle">Формируем привычку</div>
+          <div class="attendance-summary" id="attendanceSummary"></div>
+        </div>
+      </div>
+      <div class="day-labels">
+        <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span>
+      </div>
+      <div id="attendanceGrid" class="attendance-grid"></div>
+      <div class="habit-progress"><div id="habitProgressFill" class="habit-progress-fill"></div></div>
+      <div class="attendance-legend">
+        <span class="legend-item"><span class="legend-box active"></span> тренировалась</span>
+        <span class="legend-item"><span class="legend-box missed"></span> пропуск</span>
+        <span class="legend-item"><span class="legend-box"></span> ещё впереди</span>
+      </div>
+      <div class="habit-actions">
+        <button class="secondary-button" onclick="restartHabit()">Начать 21 день заново</button>
       </div>
     </div>
 
-    <!-- 21 ДЕНЬ -->
-    <h3>Трекер посещаемости</h3>
-
-    <p>
-      21 день — формируем привычку заходить и тренироваться.
-    </p>
-
-    <div id="attendanceGrid" class="attendance-grid"></div>
-
-    <div class="habit-progress">
-      <div id="habitProgressFill" class="habit-progress-fill"></div>
-    </div>
-
-    <p>
-      <strong id="attendanceText">0 / 21 дней</strong>
-    </p>
-
+    <h3>Выбор указателя</h3>
+    <button class="pointer-option" data-pointer="classic" onclick="selectPointer('classic')"><span class="pointer-preview">▼</span><strong>Классика</strong></button>
+    <button class="pointer-option" data-pointer="pizza" onclick="selectPointer('pizza')"><span class="pointer-preview">🍕</span><strong>Если ты голоден — вот тебе пицца</strong></button>
+    <button class="pointer-option" data-pointer="finger" onclick="selectPointer('finger')"><span class="pointer-preview">☝️</span><strong>Дикий пальчик</strong></button>
+    <button class="pointer-option" data-pointer="kids" onclick="selectPointer('kids')"><span class="pointer-preview">🩵</span><strong>Писюнчик версии Kids</strong></button>
   </div>
 </div>
 
-
-<!-- ФИНАЛ КЕЙСОВ -->
-<div id="caseFinalBackground" class="modal-background hidden">
-
-  <div class="settings-modal final-modal">
-
-    <div class="final-title">
-      РЫДАЛ, НО СДАЛ!!!
-    </div>
-
-    <div
-      id="caseFinalPraise"
-      class="final-subtitle"
-    >
-      Ты умничка!! 🎉
-    </div>
-
-    <p>
-      Все 10 кейсов пройдены по 3 раза.
-    </p>
-
-    <div class="actions" style="justify-content:center">
-      <button
-        class="main-button"
-        onclick="closeCaseFinal()"
-      >
-        Так и было задумано
-      </button>
-
-      <button
-        class="secondary-button"
-        onclick="resetCasesFromFinal()"
-      >
-        Пройти ещё раз
-      </button>
-    </div>
-
+<div id="finalCasesOverlay" class="final-overlay hidden">
+  <div class="final-card">
+    <h2>РЫДАЛ, НО СДАЛ!!!</h2>
+    <p id="caseFinalPraise">Ты умничка!! 🎉</p>
+    <button class="main-button" onclick="closeCasesFinal()">Урааа!</button>
+    <button class="secondary-button" onclick="startNewCaseRound()">Начать новый круг</button>
   </div>
 </div>
 
+<div id="finalKnowledgeOverlay" class="final-overlay hidden">
+  <div class="final-card">
+    <h2>БАЗА ЗНАНИЙ БОЛЬШЕ НЕ СТРАШНА!!!</h2>
+    <p id="knowledgeFinalPraise">Теперь она боится тебя. 🧠🔥</p>
 
-<!-- ФИНАЛ БАЗЫ ЗНАНИЙ -->
-<div id="knowledgeFinalBackground" class="modal-background hidden">
+    <div class="cat-battle">
+      <button id="catAttackButton" class="cat-button" onclick="catAttack()" aria-label="Котик бьёт книгу">
+        <svg class="cat-svg" viewBox="0 0 350 240" aria-hidden="true">
+          <!-- Хвост уходит ПОД туловище: основание специально заведено внутрь силуэта -->
+          <g class="tail-group">
+            <path d="M75 151
+                     C43 174 14 160 18 132
+                     C21 111 40 103 58 113
+                     C45 116 39 126 42 138
+                     C46 151 59 155 78 143
+                     Z"
+                  fill="#fff" stroke="#202124" stroke-width="6"
+                  stroke-linejoin="round"/>
+          </g>
 
-  <div class="settings-modal knowledge-final-modal">
+          <g class="cat-body-group">
+            <path class="cat-white" d="M62 98 Q75 68 112 64 Q151 59 181 79 Q199 93 201 125 Q204 163 180 183 Q150 202 104 193 Q69 186 60 153 Q52 120 62 98 Z"/>
+            <!-- задние лапки -->
+            <path class="cat-white" d="M91 173 Q73 193 88 204 Q107 211 122 189 L127 172 Z"/>
+            <path class="cat-white" d="M148 177 Q148 198 167 200 Q185 197 183 176 Z"/>
+            <!-- крестик на пузике -->
+            <path d="M103 132 L137 161" stroke="#d0d0d0" stroke-width="8" stroke-linecap="round"/>
+            <path d="M137 132 L103 161" stroke="#d0d0d0" stroke-width="8" stroke-linecap="round"/>
+          </g>
 
-    <div class="final-title">
-      БАЗА ЗНАНИЙ БОЛЬШЕ НЕ СТРАШНА!!!
-    </div>
+          <!-- Голова в 3/4 вправо: кот смотрит на книгу -->
+          <g class="cat-head-group">
+            <path class="cat-white" d="M151 82 L159 43 L183 65 Q207 54 231 66 L258 44 L251 86 Q265 101 259 121 Q253 142 229 148 Q202 154 181 142 Q160 131 155 112 Q151 97 151 82 Z"/>
+            <path d="M165 55 L180 69 L165 72 Z" fill="#f3b4ba"/>
+            <path d="M249 56 L235 69 L248 73 Z" fill="#f3b4ba"/>
 
-    <div
-      id="knowledgeFinalPraise"
-      class="final-subtitle"
-    >
-      Теперь она боится тебя. 🧠🔥
-    </div>
+            <!-- злой глаз направлен вправо -->
+            <path d="M216 95 Q230 88 240 95 Q230 109 216 95Z" fill="#202124"/>
+            <path class="cat-face" d="M211 84 L241 90"/>
 
+            <!-- аккуратный носик на кончике морды -->
+            <path d="M252 104 L260 108 L253 113 Z"
+                  fill="#f09aaa" stroke="#202124" stroke-width="2.5"
+                  stroke-linejoin="round"/>
+            <path class="cat-face" d="M254 113 Q252 121 244 123"/>
+            <path class="cat-face" d="M254 113 Q260 119 266 116"/>
+            <path class="cat-face" d="M260 104 L278 100"/>
+            <path class="cat-face" d="M261 111 L280 113"/>
+          </g>
 
-    <!-- КОТИК ПРОТИВ КНИГИ -->
-    <div id="battleScene" class="battle-scene">
+          <!-- ДАЛЬНЯЯ лапа: начинается от груди, идёт над рукоятью -->
+          <g class="back-arm">
+            <path class="cat-arm" d="M148 126 Q169 116 192 120 L222 126 Q234 129 232 139 Q229 147 218 145 L190 139 Q169 142 151 136 Z"/>
+          </g>
 
-      <button
-        id="catButton"
-        class="cat-button"
-        onclick="catAttack()"
-        title="Котик явно ещё не закончил"
-      >
+          <!-- БЛИЖНЯЯ лапа: ниже, хорошо отделена от дальней -->
+          <g class="front-arm">
+            <path class="cat-arm" d="M145 148 Q169 138 195 142 L226 149 Q238 152 235 162 Q232 170 220 167 L190 160 Q168 163 148 157 Z"/>
+          </g>
 
-        <div class="cat-tail"></div>
-
-        <div class="cat-body">
-
-          <div class="cat-leg left"></div>
-          <div class="cat-leg right"></div>
-
-        </div>
-
-        <div class="cat-head">
-
-          <div class="cat-ear-left"></div>
-          <div class="cat-ear-right"></div>
-
-          <div class="cat-eye left"></div>
-          <div class="cat-eye right"></div>
-
-          <div class="cat-nose"></div>
-          <div class="cat-mouth"></div>
-
-        </div>
-
-        <div class="cat-arm left"></div>
-        <div class="cat-arm right"></div>
-
-        <div class="bat"></div>
-
+          <!-- Бита проходит между двумя лапами -->
+          <g class="bat-group">
+            <rect x="205" y="137" width="46" height="15" rx="7" fill="#8d532d" stroke="#202124" stroke-width="5" transform="rotate(-8 205 137)"/>
+            <path d="M242 132 L326 113 Q339 110 342 121 Q344 132 330 135 L247 154 Z" fill="#c57a39" stroke="#202124" stroke-width="5" stroke-linejoin="round"/>
+          </g>
+        </svg>
       </button>
 
-
-      <div id="book" class="book">
-
-        <div class="book-face">
-
-          <div class="book-eye left">×</div>
-          <div class="book-eye right">×</div>
-
-          <div class="book-mouth"></div>
-
-        </div>
-
+      <div id="knowledgeBook" class="book">
+        <div id="bookEyeLeft" class="book-eye left">•</div>
+        <div id="bookEyeRight" class="book-eye right">•</div>
+        <div class="book-mouth"></div>
+        <div class="book-tongue"></div>
+        <div class="book-crack c1"></div><div class="book-crack c2"></div><div class="book-crack c3"></div>
+        <div class="book-pages"></div>
       </div>
 
-
-      <div id="impact" class="impact">
-        💥
-      </div>
-
-      <div id="paperBit1" class="paper-bit"></div>
-      <div id="paperBit2" class="paper-bit"></div>
-      <div id="paperBit3" class="paper-bit"></div>
-
+      <div id="bookImpact" class="impact">💥</div>
+      <div class="paper-bit p1"></div><div class="paper-bit p2"></div><div class="paper-bit p3"></div>
     </div>
 
-
-    <p style="opacity:.65">
-      Нажми на котика. Он явно ещё не закончил.
-    </p>
-
-
-    <div class="actions" style="justify-content:center">
-
-      <button
-        class="main-button"
-        onclick="closeKnowledgeFinal()"
-      >
-        Так ей и надо
-      </button>
-
-      <button
-        class="secondary-button"
-        onclick="resetKnowledgeFromFinal()"
-      >
-        Пройти ещё раз
-      </button>
-
-    </div>
-
+    <div style="font-size:14px;opacity:.7;margin-bottom:18px">Нажми на котика. Он явно ещё не закончил.</div>
+    <button class="main-button" onclick="closeKnowledgeFinal()">Так ей и надо</button>
+    <button class="secondary-button" onclick="startNewKnowledgeRound()">Пройти ещё раз</button>
   </div>
 </div>
-
 
 <script>
+const NEED=3;
+function load(key){try{return JSON.parse(localStorage.getItem(key))||{}}catch{return{}}}
+function save(key,data){localStorage.setItem(key,JSON.stringify(data))}
+let knowledgeData=load("trainerKnowledgeV2");
+let caseData=load("trainerCases");
+const trainerNameInput=document.getElementById("trainerNameInput"),
+      trainerNameDisplay=document.getElementById("trainerNameDisplay"),
+      nameCreate=document.getElementById("nameCreate"),
+      nameView=document.getElementById("nameView"),
+      nameJoke=document.getElementById("nameJoke"),
+      savedNameNote=document.getElementById("savedNameNote"),
+      adminPanel=document.getElementById("adminPanel"),
+      adminRudeToggle=document.getElementById("adminRudeToggle"),
+      attendanceGrid=document.getElementById("attendanceGrid"),
+      attendanceSummary=document.getElementById("attendanceSummary"),
+      habitProgressFill=document.getElementById("habitProgressFill"),
+      habitTitle=document.getElementById("habitTitle"),
+      caseFinalPraise=document.getElementById("caseFinalPraise"),
+      knowledgeFinalPraise=document.getElementById("knowledgeFinalPraise");
 
-/* =========================================================
-   ОСНОВНЫЕ ЭЛЕМЕНТЫ
-========================================================= */
+function hideScreens(){home.classList.add("hidden");knowledge.classList.add("hidden");cases.classList.add("hidden")}
+function goHome(){stopKnowledgeTimer();stopCaseTimer();hideScreens();home.classList.remove("hidden");updateHome()}
 
-const home = document.getElementById("home");
-const knowledge = document.getElementById("knowledge");
-const cases = document.getElementById("cases");
-
-const settingsBackground =
-  document.getElementById("settingsBackground");
-
-const caseFinalBackground =
-  document.getElementById("caseFinalBackground");
-
-const knowledgeFinalBackground =
-  document.getElementById("knowledgeFinalBackground");
-
-
-/* =========================================================
-   НАВИГАЦИЯ
-========================================================= */
-
-function hideMainSections(){
-  home.classList.add("hidden");
-  knowledge.classList.add("hidden");
-  cases.classList.add("hidden");
-}
-
-function goHome(){
-  stopKnowledgeTimer();
-  stopCaseTimer();
-
-  hideMainSections();
-  home.classList.remove("hidden");
-
-  updateHomeProgress();
-}
-
-function openKnowledge(){
-  hideMainSections();
-  knowledge.classList.remove("hidden");
-
-  renderKnowledgeTracker();
-  startKnowledgeQuestion();
-}
-
-function openCases(){
-  hideMainSections();
-  cases.classList.remove("hidden");
-
-  renderCaseStats();
-  prepareWheel();
-}
-
-
-/* =========================================================
-   НАСТРОЙКИ
-========================================================= */
-
-let pendingTheme =
-  localStorage.getItem("trainerTheme") || "light";
-
-let pendingPointer =
-  localStorage.getItem("trainerPointer") || "classic";
-
-
-function openSettings(){
-
-  pendingTheme =
-    localStorage.getItem("trainerTheme") || "light";
-
-  pendingPointer =
-    localStorage.getItem("trainerPointer") || "classic";
-
-  settingsBackground.classList.remove("hidden");
-
-  updateThemeButtons();
-  updatePointerButtons();
-
-  loadTrainerName();
-  renderAttendance();
-}
-
-
-function closeSettings(){
-  settingsBackground.classList.add("hidden");
-
-  document
-    .getElementById("adminPanel")
-    .classList.remove("show");
-
-  document
-    .getElementById("nameJoke")
-    .classList.remove("show");
-}
-
-
-function saveSettings(){
-
-  localStorage.setItem(
-    "trainerTheme",
-    pendingTheme
-  );
-
-  localStorage.setItem(
-    "trainerPointer",
-    pendingPointer
-  );
-
-  applyTheme();
-  applyPointer();
-
-  closeSettings();
-}
-
-
-/* =========================================================
-   ТЕМА
-========================================================= */
-
-function chooseTheme(theme){
-  pendingTheme = theme;
-  updateThemeButtons();
-}
-
-
+/* theme */
+let selectedTheme=localStorage.getItem("trainerTheme")||"light";
+function selectTheme(theme){selectedTheme=theme;localStorage.setItem("trainerTheme",theme);applyTheme();updateThemeButtons()}
+function applyTheme(){document.body.classList.toggle("dark",selectedTheme==="dark")}
 function updateThemeButtons(){
-
-  const light =
-    document.getElementById("lightThemeButton");
-
-  const dark =
-    document.getElementById("darkThemeButton");
-
-  light.classList.toggle(
-    "selected",
-    pendingTheme === "light"
-  );
-
-  dark.classList.toggle(
-    "selected",
-    pendingTheme === "dark"
-  );
+  if(!lightThemeButton||!darkThemeButton)return;
+  lightThemeButton.classList.toggle("selected",selectedTheme==="light");
+  darkThemeButton.classList.toggle("selected",selectedTheme==="dark");
 }
 
-
-function applyTheme(){
-
-  const theme =
-    localStorage.getItem("trainerTheme") || "light";
-
-  document.body.classList.toggle(
-    "dark",
-    theme === "dark"
-  );
+/* profile + 21-day habit */
+function normalizedName(value){
+  return value.trim().toLowerCase().replace(/[«»"'.,!?]/g,"").replace(/\s+/g," ");
 }
-
-
-/* =========================================================
-   УКАЗАТЕЛЬ РУЛЕТКИ
-========================================================= */
-
-function choosePointer(pointer){
-  pendingPointer = pointer;
-  updatePointerButtons();
-}
-
-
-function updatePointerButtons(){
-
-  const names = [
-    "Classic",
-    "Pizza",
-    "Finger",
-    "Kids"
-  ];
-
-  names.forEach(name=>{
-
-    const button =
-      document.getElementById(
-        `pointer${name}Button`
-      );
-
-    if(!button) return;
-
-    button.classList.remove("selected");
-
-  });
-
-
-  const selectedName =
-    pendingPointer.charAt(0).toUpperCase() +
-    pendingPointer.slice(1);
-
-  const selectedButton =
-    document.getElementById(
-      `pointer${selectedName}Button`
-    );
-
-  if(selectedButton){
-    selectedButton.classList.add("selected");
-  }
-}
-
-
-function applyPointer(){
-
-  const pointer =
-    localStorage.getItem("trainerPointer")
-    || "classic";
-
-  const visual =
-    document.getElementById("pointerVisual");
-
-  visual.className = "";
-
-  if(pointer === "classic"){
-
-    visual.className =
-      "pointer-classic";
-
-  }
-
-  if(pointer === "pizza"){
-
-    visual.className =
-      "pointer-picture";
-
-    visual.innerHTML =
-      '<div class="pizza-pointer"></div>';
-
-    return;
-  }
-
-  if(pointer === "finger"){
-
-    visual.className =
-      "pointer-picture";
-
-    visual.innerHTML =
-      '<div class="finger-pointer"></div>';
-
-    return;
-  }
-
-  if(pointer === "kids"){
-
-    visual.className =
-      "pointer-picture";
-
-    visual.innerHTML =
-      '<div class="kids-pointer"></div>';
-
-    return;
-  }
-
-  visual.innerHTML = "";
-}
-
-
-/* =========================================================
-   ИМЯ
-========================================================= */
-
-const trainerNameInput =
-  document.getElementById("trainerNameInput");
-
-const trainerNameDisplay =
-  document.getElementById("trainerNameDisplay");
-
-const nameCreate =
-  document.getElementById("nameCreate");
-
-const nameView =
-  document.getElementById("nameView");
-
-const nameJoke =
-  document.getElementById("nameJoke");
-
-const savedNameNote =
-  document.getElementById("savedNameNote");
-
-const adminPanel =
-  document.getElementById("adminPanel");
-
-const adminRudeToggle =
-  document.getElementById("adminRudeToggle");
-
-
 /*
   Пасхалки для конкретных вариантов имени.
-  Если ключ совпал — сообщение показывается,
-  а имя НЕ сохраняется.
+  Если ключ совпал — сообщение показывается, а имя НЕ сохраняется.
 */
-
 const SPECIAL_NAME_RESPONSES = {
+  "хуй": "....))))))))))))))",
+  "мой господин": "Только не заставляй меня называть тебя так)))",
+  "господин": "Мы тренируемся, а не присягаем тебе на верность",
+  "царь": "Царь пока только в голове. Пиши имя",
+  "бог": "Самооценка — 10/10. А теперь пиши мне имя)",
 
-  "хуй":
-    "....))))))))))))))",
+  "соси": "Не отвлекайся на мечты",
 
-  "мой господин":
-    "Только не заставляй меня называть тебя так)))",
+  "пидор": "Давайте жить дружно",
+  "пидр": "Давайте жить дружно",
+  "пидорас": "Давайте жить дружно",
+  "гандон": "Давайте жить дружно",
 
-  "господин":
-    "Мы тренируемся, а не присягаем тебе на верность",
+  "бля": "Согласен, иногда этим словом я могу описать свое состояние.. Так че там с именем?",
+  "блять": "Согласен, иногда этим словом я могу описать свое состояние.. Так че там с именем?",
 
-  "царь":
-    "Царь пока только в голове. Пиши имя",
+  "уебок": "Врагов вспоминаешь? Имя пиши давай",
+  "уебан": "Врагов вспоминаешь? Имя пиши давай",
 
-  "бог":
-    "Самооценка — 10/10. А теперь пиши мне имя)",
+  "долбоеб": "Сильное заявление. Проверять мы это, конечно же, не будем.",
 
-  "соси":
-    "Не отвлекайся на мечты",
-
-  "пидор":
-    "Давайте жить дружно",
-
-  "пидр":
-    "Давайте жить дружно",
-
-  "пидорас":
-    "Давайте жить дружно",
-
-  "гандон":
-    "Давайте жить дружно",
-
-  "бля":
-    "Согласен, иногда этим словом я могу описать свое состояние.. Так че там с именем?",
-
-  "блять":
-    "Согласен, иногда этим словом я могу описать свое состояние.. Так че там с именем?",
-
-  "уебок":
-    "Врагов вспоминаешь? Имя пиши давай",
-
-  "уебан":
-    "Врагов вспоминаешь? Имя пиши давай",
-
-  "долбоеб":
-    "Сильное заявление. Проверять мы это, конечно же, не будем.",
-
-  "никто":
-    "Инкогнито сегодня не принимаем",
-
-  "аноним":
-    "ШПИОН!!",
-
-  "стажер":
-    "Это пока должность. А имя?)))"
+  "никто": "Инкогнито сегодня не принимаем",
+  "аноним": "ШПИОН!!",
+  "стажер": "Это пока должность. А имя?)))"
 };
 
-
-function normalizedName(value){
-
-  return value
-    .trim()
-    .toLowerCase()
-    .replace(/ё/g,"е")
-    .replace(/[.,!?;:"'`(){}\[\]]/g,"")
-    .replace(/\s+/g," ");
-}
-
-
 function getSpecialNameResponse(value){
+  const raw=value.trim().toLowerCase();
 
-  const raw =
-    value.trim().toLowerCase();
-
-  /*
-    ВАЖНО:
-    три точки проверяются ДО удаления
-    знаков пунктуации.
-  */
-
-  if(raw === "..."){
+  // Пасхалка именно на три точки.
+  if(raw==="..."){
     return "....))))))))))))))";
   }
 
-  const n =
-    normalizedName(value);
-
+  const n=normalizedName(value);
   return SPECIAL_NAME_RESPONSES[n] || "";
 }
-
-
+function isForbiddenTitle(value){
+  const n=normalizedName(value);
+  return ["царь","господин","мой господин"].includes(n);
+}
 function hasRudeName(value){
+  const compact=normalizedName(value)
+    .replace(/ё/g,"е")
+    .replace(/[\s_\-]+/g,"");
 
-  const compact =
-    normalizedName(value)
-      .replace(/ё/g,"е")
-      .replace(/[\s_\-]+/g,"");
-
-  const rudeRoots = [
-
-    "хуй",
-    "хуе",
-    "хуя",
-    "хую",
-    "хуи",
-
+  const rudeRoots=[
+    "хуй","хуе","хуя","хую","хуи",
     "пизд",
-
-    "еб",
-    "еба",
-    "ебл",
-    "ебн",
-
-    "бляд",
-    "блят",
-
-    "сука",
-    "сучк",
-    "сучар",
-
+    "еб","еба","ебл","ебн",
+    "бляд","блят",
+    "сука","сучк","сучар",
     "урод",
-
-    "дура",
-    "дуро",
-    "дурень",
-
-    "мудак",
-    "мудил",
-
+    "дура","дуро","дурень",
+    "мудак","мудил",
     "шлюх"
   ];
 
-  return rudeRoots.some(
-    root => compact.includes(root)
-  );
+  return rudeRoots.some(root=>compact.includes(root));
 }
-
-
 function adminAllowsAnyName(){
-
-  return (
-    localStorage.getItem(
-      "trainerAdminRude"
-    ) === "true"
-  );
+  return localStorage.getItem("trainerAdminAllowsRude")==="true";
 }
-
-
-function toggleNameJoke(){
-
-  nameJoke.textContent =
-    "Только не проси меня называть тебя «Мой господин» ))))) Если ооочень надо, то проси и умоляй об этом админа";
-
-  nameJoke.classList.toggle("show");
-}
-
-
-function toggleAdminPanel(){
-
-  adminPanel.classList.toggle("show");
-}
-
-
-function loadAdminRude(){
-
-  adminRudeToggle.checked =
-    adminAllowsAnyName();
-}
-
-
-function saveAdminRude(){
-
-  localStorage.setItem(
-    "trainerAdminRude",
-    adminRudeToggle.checked
-      ? "true"
-      : "false"
-  );
-}
-
-
-function saveTrainerName(){
-
-  const name =
-    trainerNameInput.value.trim();
-
-  const adminMode =
-    adminAllowsAnyName();
-
-
-  if(!adminMode){
-
-    const specialResponse =
-      getSpecialNameResponse(name);
-
-
-    if(specialResponse){
-
-      nameJoke.textContent =
-        specialResponse;
-
-      nameJoke.classList.add("show");
-
-      savedNameNote.textContent = "";
-
-      return false;
-    }
-
-
-    if(hasRudeName(name)){
-
-      nameJoke.textContent =
-        "Не обзывай себя))";
-
-      nameJoke.classList.add("show");
-
-      savedNameNote.textContent = "";
-
-      return false;
-    }
-  }
-
-
-  if(!name){
-
-    localStorage.removeItem(
-      "trainerName"
-    );
-
-    savedNameNote.textContent = "";
-
-  }else{
-
-    localStorage.setItem(
-      "trainerName",
-      name
-    );
-
-    savedNameNote.textContent =
-      `Хелоу, ${name}))`;
-  }
-
-
-  if(adminMode){
-
-    nameJoke.textContent =
-      "Админ разрешил. Имя сохранено 😈";
-
+function toggleAdminRude(){
+  localStorage.setItem("trainerAdminAllowsRude",adminRudeToggle.checked?"true":"false");
+  if(adminRudeToggle.checked){
+    nameJoke.textContent="Админ разрешил. Теперь можно хоть как 😈";
     nameJoke.classList.add("show");
-
   }else{
-
-    nameJoke.textContent =
-      "Только не проси меня называть тебя «Мой господин» ))))) Если ооочень надо, то проси и умоляй об этом админа";
-
+    nameJoke.textContent="Только не проси меня называть тебя «Мой господин» ))))) Если ооочень надо, то проси и умоляй об этом админа";
     nameJoke.classList.remove("show");
   }
-
-
-  updateFinalNames();
-
-  return true;
 }
-
-
+function loadAdminRude(){
+  adminRudeToggle.checked=adminAllowsAnyName();
+}
+function toggleAdminPanel(){
+  adminPanel.classList.toggle("show");
+}
+function startNameEdit(){
+  const current=localStorage.getItem("trainerName")||"";
+  trainerNameInput.value=current;
+  nameView.classList.add("hidden");
+  nameCreate.classList.remove("hidden");
+  trainerNameInput.focus();
+  trainerNameInput.select();
+}
+function stopNameEdit(){
+  loadTrainerName();
+}
 function saveNameAndStay(){
-
-  const ok =
-    saveTrainerName();
+  const ok=saveTrainerName();
 
   if(ok){
     loadTrainerName();
   }
-
-  /*
-    Если имя отклонено —
-    ничего не перерисовываем.
-    Поэтому шуточный ответ остаётся
-    под полем.
-  */
+  // Если имя отклонено, ничего не перерисовываем:
+  // оставляем введённый текст и показываем именно ответ-пасхалку.
 }
-
-
-function loadTrainerName(){
-
-  loadAdminRude();
-
-  let name =
-    localStorage.getItem(
-      "trainerName"
-    ) || "";
-
-
-  /*
-    Если старая версия каким-то образом
-    сохранила запрещённое имя,
-    удаляем его.
-  */
-
-  if(
-    !adminAllowsAnyName()
-    &&
-    name
-    &&
-    (
-      getSpecialNameResponse(name)
-      ||
-      hasRudeName(name)
-    )
-  ){
-
-    localStorage.removeItem(
-      "trainerName"
-    );
-
-    name = "";
-  }
-
-
-  if(name){
-
-    trainerNameDisplay.textContent =
-      name;
-
-    trainerNameInput.value =
-      name;
-
-    nameCreate.classList.add(
-      "hidden"
-    );
-
-    nameView.classList.remove(
-      "hidden"
-    );
-
-    savedNameNote.textContent =
-      `Хелоу, ${name}))`;
-
-  }else{
-
-    trainerNameDisplay.textContent =
-      "";
-
-    trainerNameInput.value =
-      "";
-
-    nameView.classList.add(
-      "hidden"
-    );
-
-    nameCreate.classList.remove(
-      "hidden"
-    );
-
-    savedNameNote.textContent =
-      "";
-  }
-
-
-  updateFinalNames();
-}
-
-
-function startNameEdit(){
-
-  const name =
-    localStorage.getItem(
-      "trainerName"
-    ) || "";
-
-  trainerNameInput.value =
-    name;
-
-  nameView.classList.add(
-    "hidden"
-  );
-
-  nameCreate.classList.remove(
-    "hidden"
-  );
-
-  nameJoke.classList.remove(
-    "show"
-  );
-
-  savedNameNote.textContent =
-    "";
-
-  setTimeout(
-    ()=>trainerNameInput.focus(),
-    50
-  );
-}
-
-
-/*
-  ENTER тоже сохраняет имя.
-*/
-
-trainerNameInput.addEventListener(
-  "keydown",
-  function(event){
-
-    if(event.key === "Enter"){
-
-      event.preventDefault();
-
+function bindNameEnter(){
+  trainerNameInput.addEventListener("keydown",function(e){
+    if(e.key==="Enter"){
+      e.preventDefault();
       saveNameAndStay();
     }
+  });
+}
+function toggleNameJoke(){nameJoke.classList.toggle("show")}
+function loadTrainerName(){
+  loadAdminRude();
+
+  let name=localStorage.getItem("trainerName")||"";
+
+  if(
+    !adminAllowsAnyName() &&
+    name &&
+    (getSpecialNameResponse(name) || hasRudeName(name))
+  ){
+    localStorage.removeItem("trainerName");
+    name="";
   }
-);
 
+  if(name){
+    trainerNameDisplay.textContent=name;
+    trainerNameInput.value=name;
+    nameCreate.classList.add("hidden");
+    nameView.classList.remove("hidden");
+    savedNameNote.textContent=`Хелоу, ${name}))`;
+  }else{
+    trainerNameDisplay.textContent="";
+    trainerNameInput.value="";
+    nameView.classList.add("hidden");
+    nameCreate.classList.remove("hidden");
+    savedNameNote.textContent="";
+  }
 
-/* =========================================================
-   ИМЯ В ПОЗДРАВЛЕНИЯХ
-========================================================= */
+  updateFinalNames();
+}
+function saveTrainerName(){
+  const name=trainerNameInput.value.trim();
+  const adminMode=adminAllowsAnyName();
 
-const caseFinalPraise =
-  document.getElementById(
-    "caseFinalPraise"
-  );
+  if(!adminMode){
+    const specialResponse=getSpecialNameResponse(name);
 
-const knowledgeFinalPraise =
-  document.getElementById(
-    "knowledgeFinalPraise"
-  );
+    if(specialResponse){
+      nameJoke.textContent=specialResponse;
+      nameJoke.classList.add("show");
+      savedNameNote.textContent="";
+      return false;
+    }
 
+    if(hasRudeName(name)){
+      nameJoke.textContent="Не обзывай себя))";
+      nameJoke.classList.add("show");
+      savedNameNote.textContent="";
+      return false;
+    }
+  }
+
+  if(!name){
+    localStorage.removeItem("trainerName");
+    savedNameNote.textContent="";
+  }else{
+    localStorage.setItem("trainerName",name);
+    savedNameNote.textContent=`Хелоу, ${name}))`;
+  }
+
+  if(adminMode){
+    nameJoke.textContent="Админ разрешил. Имя сохранено 😈";
+    nameJoke.classList.add("show");
+  }else{
+    nameJoke.textContent="Только не проси меня называть тебя «Мой господин» ))))) Если ооочень надо, то проси и умоляй об этом админа";
+    nameJoke.classList.remove("show");
+  }
+
+  updateFinalNames();
+  return true;
+}
 
 function updateFinalNames(){
-
-  let name =
-    localStorage.getItem(
-      "trainerName"
-    ) || "";
-
+  let name=localStorage.getItem("trainerName")||"";
 
   if(
-    !adminAllowsAnyName()
-    &&
-    name
-    &&
-    (
-      getSpecialNameResponse(name)
-      ||
-      hasRudeName(name)
-    )
+    !adminAllowsAnyName() &&
+    name &&
+    (getSpecialNameResponse(name) || hasRudeName(name))
   ){
-
-    localStorage.removeItem(
-      "trainerName"
-    );
-
-    name = "";
+    localStorage.removeItem("trainerName");
+    name="";
   }
 
+  caseFinalPraise.textContent=name
+    ? `${name}, ты умничка!! 🎉`
+    : "Ты умничка!! 🎉";
 
-  caseFinalPraise.textContent =
-    name
-      ? `${name}, ты умничка!! 🎉`
-      : "Ты умничка!! 🎉";
-
-
-  knowledgeFinalPraise.textContent =
-    name
-      ? `Теперь она боится тебя, ${name}. 🧠🔥`
-      : "Теперь она боится тебя. 🧠🔥";
+  knowledgeFinalPraise.textContent=name
+    ? `Теперь она боится тебя, ${name}. 🧠🔥`
+    : "Теперь она боится тебя. 🧠🔥";
 }
-   /* =========================================================
-   ТРЕКЕР ПОСЕЩАЕМОСТИ — 21 ДЕНЬ
-========================================================= */
-
-const attendanceGrid =
-  document.getElementById(
-    "attendanceGrid"
-  );
-
-const habitProgressFill =
-  document.getElementById(
-    "habitProgressFill"
-  );
-
-const attendanceText =
-  document.getElementById(
-    "attendanceText"
-  );
-
-
-function getDateKey(date){
-
-  const year =
-    date.getFullYear();
-
-  const month =
-    String(
-      date.getMonth() + 1
-    ).padStart(2,"0");
-
-  const day =
-    String(
-      date.getDate()
-    ).padStart(2,"0");
-
-  return `${year}-${month}-${day}`;
+function localDateKey(d=new Date()){
+  const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0"),day=String(d.getDate()).padStart(2,"0");
+  return `${y}-${m}-${day}`;
 }
-
-
-function getHabitData(){
-
-  try{
-
-    return JSON.parse(
-      localStorage.getItem(
-        "trainerHabit"
-      )
-    ) || {};
-
-  }catch{
-
-    return {};
+function dateFromKey(key){
+  const [y,m,d]=key.split("-").map(Number);
+  const x=new Date(y,m-1,d,12,0,0,0);
+  return x;
+}
+function addDays(date,days){
+  const x=new Date(date); x.setHours(12,0,0,0); x.setDate(x.getDate()+days); return x;
+}
+function dayDiff(a,b){
+  const aa=new Date(a); aa.setHours(12,0,0,0);
+  const bb=new Date(b); bb.setHours(12,0,0,0);
+  return Math.round((bb-aa)/86400000);
+}
+function ensureHabit(){
+  let habit=load("trainerHabit21");
+  if(!habit.startDate){
+    habit={startDate:localDateKey(),activeDays:{}};
+  }
+  if(!habit.activeDays)habit.activeDays={};
+  save("trainerHabit21",habit);
+  return habit;
+}
+function recordVisit(){
+  const habit=ensureHabit();
+  const start=dateFromKey(habit.startDate);
+  const today=new Date(); today.setHours(12,0,0,0);
+  const index=dayDiff(start,today);
+  if(index>=0 && index<21){
+    habit.activeDays[localDateKey(today)]=true;
+    save("trainerHabit21",habit);
   }
 }
-
-
-function saveHabitData(data){
-
-  localStorage.setItem(
-    "trainerHabit",
-    JSON.stringify(data)
-  );
-}
-
-
-function registerToday(){
-
-  const data =
-    getHabitData();
-
-  const today =
-    new Date();
-
-  const todayKey =
-    getDateKey(today);
-
-
-  /*
-    Первый запуск трекера.
-  */
-
-  if(!data.startDate){
-
-    data.startDate =
-      todayKey;
-
-    data.days = {};
-  }
-
-
-  if(!data.days){
-    data.days = {};
-  }
-
-
-  /*
-    Один день = одна отметка.
-    F5 сто раз не создаст 100 посещений.
-  */
-
-  data.days[todayKey] =
-    true;
-
-
-  saveHabitData(data);
-}
-
-
 function renderAttendance(){
+  const habit=ensureHabit();
+  const start=dateFromKey(habit.startDate);
+  const today=new Date(); today.setHours(12,0,0,0);
+  attendanceGrid.innerHTML="";
+  let active=0;
+  let elapsed=Math.min(21,Math.max(0,dayDiff(start,today)+1));
 
-  const data =
-    getHabitData();
+  for(let i=0;i<21;i++){
+    const d=addDays(start,i);
+    const key=localDateKey(d);
+    const isActive=!!habit.activeDays[key];
+    const isPast=d<today;
+    const isToday=key===localDateKey(today);
+    if(isActive)active++;
 
+    const cell=document.createElement("div");
+    cell.className="attendance-cell";
+    if(isActive)cell.classList.add("active");
+    else if(isPast)cell.classList.add("missed");
+    if(isToday && i<21)cell.classList.add("today");
 
-  if(!data.startDate){
-
-    registerToday();
-
-    return renderAttendance();
+    const state=isActive?"выполнено ✓":(isPast?"пропущено":"ещё впереди");
+    cell.dataset.tip=`День ${i+1} · ${key} · ${state}`;
+    attendanceGrid.appendChild(cell);
   }
 
+  const currentDay=Math.min(21,Math.max(1,dayDiff(start,today)+1));
+  attendanceSummary.textContent=`День ${currentDay} из 21 · активных дней: ${active} · пройдено по календарю: ${elapsed}`;
+  habitProgressFill.style.width=`${Math.min(100,(active/21)*100)}%`;
 
-  attendanceGrid.innerHTML =
-    "";
-
-
-  const start =
-    new Date(
-      data.startDate +
-      "T12:00:00"
-    );
-
-
-  const today =
-    new Date();
-
-  today.setHours(
-    12,0,0,0
-  );
-
-
-  let completed =
-    0;
-
-
-  for(
-    let i = 0;
-    i < 21;
-    i++
-  ){
-
-    const date =
-      new Date(start);
-
-    date.setDate(
-      start.getDate() + i
-    );
-
-
-    const key =
-      getDateKey(date);
-
-
-    const cell =
-      document.createElement(
-        "div"
-      );
-
-
-    cell.className =
-      "attendance-cell";
-
-
-    const visited =
-      data.days &&
-      data.days[key];
-
-
-    if(visited){
-
-      completed++;
-
-      /*
-        Чем дальше идёт серия,
-        тем ярче зелёный.
-      */
-
-      if(i < 5){
-        cell.classList.add(
-          "level1"
-        );
-      }
-      else if(i < 10){
-        cell.classList.add(
-          "level2"
-        );
-      }
-      else if(i < 16){
-        cell.classList.add(
-          "level3"
-        );
-      }
-      else{
-        cell.classList.add(
-          "level4"
-        );
-      }
-    }
-
-
-    const future =
-      date > today;
-
-
-    let status =
-      "не было тренировки";
-
-
-    if(visited){
-      status =
-        "тренировка была ✓";
-    }
-
-    if(future){
-      status =
-        "ещё впереди";
-    }
-
-
-    cell.title =
-      `День ${i + 1} · ${key} · ${status}`;
-
-
-    attendanceGrid.appendChild(
-      cell
-    );
-  }
-
-
-  attendanceText.textContent =
-    `${completed} / 21 дней`;
-
-
-  const percent =
-    Math.min(
-      100,
-      completed / 21 * 100
-    );
-
-
-  habitProgressFill.style.width =
-    percent + "%";
-
-
-  /*
-    Поздравление за полный цикл.
-  */
-
-  if(completed >= 21){
-
-    attendanceText.textContent =
-      "21 ДЕНЬ. ЭТО УЖЕ НЕ МОТИВАЦИЯ. ЭТО СИСТЕМА. 😎";
+  if(dayDiff(start,today)>=21){
+    habitTitle.textContent=active===21
+      ?"21 ДЕНЬ. ЭТО УЖЕ НЕ МОТИВАЦИЯ. ЭТО СИСТЕМА. 😎"
+      :`21-дневный круг завершён: ${active}/21`;
+  }else{
+    habitTitle.textContent="🔥 Формируем привычку";
   }
 }
-
-
-/* =========================================================
-   ДАННЫЕ ЗНАНИЙ
-========================================================= */
-
-function loadKnowledgeData(){
-
-  try{
-
-    return JSON.parse(
-      localStorage.getItem(
-        "trainerKnowledge"
-      )
-    ) || {};
-
-  }catch{
-
-    return {};
-  }
+function restartHabit(){
+  if(!confirm("Начать новый 21-дневный круг? Текущий трекер будет сброшен."))return;
+  const habit={startDate:localDateKey(),activeDays:{[localDateKey()]:true}};
+  save("trainerHabit21",habit);
+  renderAttendance();
 }
 
-
-function saveKnowledgeData(data){
-
-  localStorage.setItem(
-    "trainerKnowledge",
-    JSON.stringify(data)
-  );
-}
-
-
-let knowledgeData =
-  loadKnowledgeData();
-
-
-let currentKnowledge =
-  null;
-
-let knowledgeSeconds =
-  0;
-
-let knowledgeTimerInterval =
-  null;
-
-
-/* =========================================================
-   ТАЙМЕР ЗНАНИЙ
-========================================================= */
-
-function startKnowledgeTimer(){
-
-  stopKnowledgeTimer();
-
-  knowledgeSeconds =
-    0;
-
-
-  document
-    .getElementById(
-      "knowledgeTimer"
-    )
-    .textContent =
-    "0";
-
-
-  knowledgeTimerInterval =
-    setInterval(
-      ()=>{
-
-        knowledgeSeconds++;
-
-        document
-          .getElementById(
-            "knowledgeTimer"
-          )
-          .textContent =
-          knowledgeSeconds;
-
-      },
-      1000
-    );
-}
-
-
-function stopKnowledgeTimer(){
-
-  if(
-    knowledgeTimerInterval
-  ){
-
-    clearInterval(
-      knowledgeTimerInterval
-    );
-  }
-
-
-  knowledgeTimerInterval =
-    null;
-}
-
-
-/* =========================================================
-   ЗАДАНИЯ ПО ЗНАНИЯМ
-========================================================= */
-
-function getAvailableKnowledge(){
-
-  const available =
-    [];
-
-
-  for(
-    let i = 1;
-    i <= 10;
-    i++
-  ){
-
-    const item =
-      knowledgeData[i];
-
-
-    const attempts =
-      item &&
-      Array.isArray(
-        item.results
-      )
-        ? item.results.length
-        : 0;
-
-
-    if(attempts < 3){
-
-      available.push(i);
-    }
-  }
-
-
-  return available;
-}
-
-
-function startKnowledgeQuestion(){
-
-  const available =
-    getAvailableKnowledge();
-
-
-  if(!available.length){
-
-    showKnowledgeFinal();
-
-    return;
-  }
-
-
-  currentKnowledge =
-    available[
-      Math.floor(
-        Math.random() *
-        available.length
-      )
-    ];
-
-
-  document
-    .getElementById(
-      "knowledgeQuestion"
-    )
-    .textContent =
-    `Задание ${currentKnowledge}`;
-
-
-  document
-    .getElementById(
-      "knowledgeResult"
-    )
-    .classList
-    .add("hidden");
-
-
-  document
-    .getElementById(
-      "nextKnowledgeButton"
-    )
-    .classList
-    .add("hidden");
-
-
-  startKnowledgeTimer();
-}
-
-
-function nextKnowledge(){
-
-  startKnowledgeQuestion();
-}
-
-
+/* knowledge */
+let currentKnowledge=null,knowledgeSeconds=0,knowledgeInterval=null;
+function openKnowledge(){hideScreens();knowledge.classList.remove("hidden");renderKnowledgeTracker();nextKnowledge()}
+function getAvailableKnowledge(){const r=[];for(let i=1;i<=10;i++){const d=knowledgeData[i];const n=d&&Array.isArray(d.results)?d.results.length:0;if(n<NEED)r.push(i)}return r}
+function nextKnowledge(){stopKnowledgeTimer();const a=getAvailableKnowledge();if(!a.length){showKnowledgeFinal();return}currentKnowledge=a[Math.floor(Math.random()*a.length)];knowledgeNumber.textContent=currentKnowledge;knowledgeResult.classList.add("hidden");knowledgeActions.classList.remove("hidden");startKnowledgeTimer()}
 function finishKnowledge(success){
-
   stopKnowledgeTimer();
-
-
-  if(
-    !knowledgeData[
-      currentKnowledge
-    ]
-  ){
-
-    knowledgeData[
-      currentKnowledge
-    ] = {
-
-      results:[],
-
-      attempts:0,
-
-      best:null
-    };
-  }
-
-
-  const item =
-    knowledgeData[
-      currentKnowledge
-    ];
-
-
-  if(
-    !Array.isArray(
-      item.results
-    )
-  ){
-
-    item.results =
-      [];
-  }
-
-
-  /*
-    Максимум три отметки
-    на одно задание.
-  */
-
-  if(
-    item.results.length >= 3
-  ){
-
-    return;
-  }
-
-
-  item.results.push(
-    success
-      ? "good"
-      : "bad"
-  );
-
-
-  item.attempts =
-    (item.attempts || 0) + 1;
-
-
-  /*
-    Лучшее время.
-  */
-
-  if(
-    item.best === null
-    ||
-    item.best === undefined
-    ||
-    knowledgeSeconds <
-    item.best
-  ){
-
-    item.best =
-      knowledgeSeconds;
-  }
-
-
-  saveKnowledgeData(
-    knowledgeData
-  );
-
-
-  const result =
-    document.getElementById(
-      "knowledgeResult"
-    );
-
-
-  result.classList.remove(
-    "hidden"
-  );
-
-
-  result.textContent =
-    success
-      ? "✓ Верно. Засчитано."
-      : "✕ Отмечено как неверно.";
-
-
-  document
-    .getElementById(
-      "nextKnowledgeButton"
-    )
-    .classList
-    .remove("hidden");
-
-
-  renderKnowledgeTracker();
-
-  updateHomeProgress();
-
-
-  /*
-    Маленький фейерверк,
-    когда конкретное задание
-    закрыто три раза.
-  */
-
-  if(
-    item.results.length === 3
-  ){
-
-    createConfetti(
-      30
-    );
-  }
-
-
-  if(
-    getAvailableKnowledge()
-      .length === 0
-  ){
-
-    setTimeout(
-      showKnowledgeFinal,
-      700
-    );
-  }
+  if(!knowledgeData[currentKnowledge])knowledgeData[currentKnowledge]={results:[],attempts:0,best:null};
+  const d=knowledgeData[currentKnowledge]; if(!Array.isArray(d.results))d.results=[]; if(d.results.length>=NEED)return;
+  d.results.push(success?"good":"bad");d.attempts=(d.attempts||0)+1;if(d.best==null||knowledgeSeconds<d.best)d.best=knowledgeSeconds;
+  save("trainerKnowledgeV2",knowledgeData);knowledgeActions.classList.add("hidden");knowledgeResultText.textContent=success?"Засчитано ✓":"Отмечено как не верно";knowledgeResult.classList.remove("hidden");renderKnowledgeTracker();updateHome();
+  if(allKnowledgeCompleted())setTimeout(showKnowledgeFinal,700);
 }
-
-
-/* =========================================================
-   ВИЗУАЛЬНЫЙ ТРЕКЕР ЗНАНИЙ
-========================================================= */
-
+function startKnowledgeTimer(){knowledgeSeconds=0;knowledgeTimer.textContent=0;knowledgeInterval=setInterval(()=>{knowledgeSeconds++;knowledgeTimer.textContent=knowledgeSeconds},1000)}
+function stopKnowledgeTimer(){if(knowledgeInterval)clearInterval(knowledgeInterval);knowledgeInterval=null}
 function renderKnowledgeTracker(){
-
-  const container =
-    document.getElementById(
-      "knowledgeTracker"
-    );
-
-
-  container.innerHTML =
-    "";
-
-
-  for(
-    let i = 1;
-    i <= 10;
-    i++
-  ){
-
-    const item =
-      knowledgeData[i] || {
-
-        results:[],
-
-        attempts:0,
-
-        best:null
-      };
-
-
-    const results =
-      Array.isArray(
-        item.results
-      )
-        ? item.results
-        : [];
-
-
-    const row =
-      document.createElement(
-        "div"
-      );
-
-
-    row.className =
-      "knowledge-row";
-
-
-    if(
-      results.length >= 3
-    ){
-
-      row.classList.add(
-        "done"
-      );
-    }
-
-
-    const title =
-      document.createElement(
-        "div"
-      );
-
-
-    title.className =
-      "knowledge-title";
-
-
-    title.textContent =
-      `Задание ${i}`;
-
-
-    const circles =
-      document.createElement(
-        "div"
-      );
-
-
-    circles.className =
-      "knowledge-circles";
-
-
-    for(
-      let n = 0;
-      n < 3;
-      n++
-    ){
-
-      const dot =
-        document.createElement(
-          "div"
-        );
-
-
-      dot.className =
-        "tracker-dot";
-
-
-      if(
-        results[n] === "good"
-      ){
-
-        dot.classList.add(
-          "good"
-        );
-      }
-
-
-      if(
-        results[n] === "bad"
-      ){
-
-        dot.classList.add(
-          "bad"
-        );
-      }
-
-
-      circles.appendChild(
-        dot
-      );
-    }
-
-
-    const attempts =
-      document.createElement(
-        "div"
-      );
-
-
-    attempts.className =
-      "knowledge-meta";
-
-
-    attempts.textContent =
-      `Попыток: ${item.attempts || 0}`;
-
-
-    const best =
-      document.createElement(
-        "div"
-      );
-
-
-    best.className =
-      "knowledge-meta";
-
-
-    best.textContent =
-      item.best === null
-      ||
-      item.best === undefined
-
-        ? "Лучшее: —"
-
-        : `Лучшее: ${item.best} сек.`;
-
-
-    row.appendChild(
-      title
-    );
-
-    row.appendChild(
-      circles
-    );
-
-    row.appendChild(
-      attempts
-    );
-
-    row.appendChild(
-      best
-    );
-
-
-    container.appendChild(
-      row
-    );
+  knowledgeTracker.innerHTML="";
+  for(let i=1;i<=10;i++){
+    const d=knowledgeData[i]||{results:[],attempts:0,best:null};const results=Array.isArray(d.results)?d.results:[];
+    const row=document.createElement("div");row.className="knowledge-row"+(results.length>=NEED?" done":"");
+    const t=document.createElement("div");t.className="knowledge-title";t.textContent="Задание "+i;
+    const circles=document.createElement("div");circles.className="knowledge-circles";
+    for(let j=0;j<NEED;j++){const dot=document.createElement("div");dot.className="tracker-dot";if(results[j]==="good")dot.classList.add("good");if(results[j]==="bad")dot.classList.add("bad");circles.appendChild(dot)}
+    const a=document.createElement("div");a.className="knowledge-meta";a.textContent="Попыток: "+(d.attempts||0);
+    const b=document.createElement("div");b.className="knowledge-meta";b.textContent="Лучшее: "+(d.best==null?"—":d.best+" сек.");
+    row.append(t,circles,a,b);knowledgeTracker.appendChild(row);
   }
 }
+function allKnowledgeCompleted(){for(let i=1;i<=10;i++){const d=knowledgeData[i];if(!d||!Array.isArray(d.results)||d.results.length<NEED)return false}return true}
+function resetKnowledge(){if(!confirm("Точно сбросить прогресс знаний?"))return;knowledgeData={};save("trainerKnowledgeV2",knowledgeData);renderKnowledgeTracker();updateHome();nextKnowledge()}
 
-
-function resetKnowledge(){
-
-  const yes =
-    confirm(
-      "Сбросить весь прогресс знаний?"
-    );
-
-
-  if(!yes){
-    return;
-  }
-
-
-  knowledgeData =
-    {};
-
-
-  saveKnowledgeData(
-    knowledgeData
-  );
-
-
-  renderKnowledgeTracker();
-
-  updateHomeProgress();
-
-  startKnowledgeQuestion();
+/* cases */
+let currentCase=null,caseSeconds=0,caseInterval=null,wheelRotation=0,spinning=false;
+function openCases(){hideScreens();cases.classList.remove("hidden");prepareWheel();renderCaseStats();positionNumbers(wheelRotation)}
+function availableCases(){const r=[];for(let i=1;i<=10;i++){const d=caseData[i];if(!d||d.success<NEED)r.push(i)}return r}
+function positionNumbers(rotation){
+  const size=wheelShell.offsetWidth,radius=size*.38,center=size/2;
+  document.querySelectorAll(".wheel-number").forEach(el=>{const n=Number(el.dataset.number),a=-90+18+(n-1)*36+rotation,rad=a*Math.PI/180;el.style.left=(center+Math.cos(rad)*radius)+"px";el.style.top=(center+Math.sin(rad)*radius)+"px"})
 }
-
-
-/* =========================================================
-   ДАННЫЕ КЕЙСОВ
-========================================================= */
-
-function loadCaseData(){
-
-  try{
-
-    return JSON.parse(
-      localStorage.getItem(
-        "trainerCases"
-      )
-    ) || {};
-
-  }catch{
-
-    return {};
-  }
-}
-
-
-function saveCaseData(data){
-
-  localStorage.setItem(
-    "trainerCases",
-    JSON.stringify(data)
-  );
-}
-
-
-let caseData =
-  loadCaseData();
-
-
-let currentCase =
-  null;
-
-
-let caseSeconds =
-  0;
-
-
-let caseTimerInterval =
-  null;
-
-
-let wheelRotation =
-  0;
-
-
-let wheelBusy =
-  false;
-
-
-/* =========================================================
-   ТАЙМЕР КЕЙСОВ
-========================================================= */
-
-function startCaseTimer(){
-
-  stopCaseTimer();
-
-
-  caseSeconds =
-    0;
-
-
-  document
-    .getElementById(
-      "caseTimer"
-    )
-    .textContent =
-    "0";
-
-
-  caseTimerInterval =
-    setInterval(
-      ()=>{
-
-        caseSeconds++;
-
-        document
-          .getElementById(
-            "caseTimer"
-          )
-          .textContent =
-          caseSeconds;
-
-      },
-      1000
-    );
-}
-
-
-function stopCaseTimer(){
-
-  if(
-    caseTimerInterval
-  ){
-
-    clearInterval(
-      caseTimerInterval
-    );
-  }
-
-
-  caseTimerInterval =
-    null;
-}
-
-
-/* =========================================================
-   ДОСТУПНЫЕ КЕЙСЫ
-========================================================= */
-
-function getAvailableCases(){
-
-  const available =
-    [];
-
-
-  for(
-    let i = 1;
-    i <= 10;
-    i++
-  ){
-
-    const item =
-      caseData[i];
-
-
-    const success =
-      item
-        ? item.success || 0
-        : 0;
-
-
-    if(success < 3){
-
-      available.push(i);
-    }
-  }
-
-
-  return available;
-}
-
-
-/* =========================================================
-   ЦИФРЫ НА КОЛЕСЕ
-========================================================= */
-
-function positionWheelNumbers(
-  rotation = wheelRotation
-){
-
-  const shell =
-    document.getElementById(
-      "wheelShell"
-    );
-
-
-  if(!shell){
-    return;
-  }
-
-
-  const size =
-    shell.offsetWidth;
-
-
-  const center =
-    size / 2;
-
-
-  const radius =
-    size * .39;
-
-
-  document
-    .querySelectorAll(
-      ".wheel-number"
-    )
-    .forEach(
-      element=>{
-
-        const number =
-          Number(
-            element.dataset.number
-          );
-
-
-        /*
-          Центр каждого сектора.
-        */
-
-        const angle =
-          -90
-          +
-          18
-          +
-          (number - 1) * 36
-          +
-          rotation;
-
-
-        const radians =
-          angle *
-          Math.PI /
-          180;
-
-
-        const x =
-          center
-          +
-          Math.cos(
-            radians
-          ) *
-          radius;
-
-
-        const y =
-          center
-          +
-          Math.sin(
-            radians
-          ) *
-          radius;
-
-
-        element.style.left =
-          x + "px";
-
-
-        element.style.top =
-          y + "px";
-      }
-    );
-}
-
-
-/* =========================================================
-   РУЛЕТКА
-========================================================= */
-
-function prepareWheel(){
-
-  stopCaseTimer();
-
-
-  currentCase =
-    null;
-
-
-  document
-    .getElementById(
-      "caseWork"
-    )
-    .classList
-    .add("hidden");
-
-
-  document
-    .getElementById(
-      "caseResult"
-    )
-    .classList
-    .add("hidden");
-
-
-  document
-    .getElementById(
-      "spinButton"
-    )
-    .disabled =
-    false;
-
-
-  applyPointer();
-
-
-  setTimeout(
-    ()=>positionWheelNumbers(
-      wheelRotation
-    ),
-    30
-  );
-}
-
-
 function spinWheel(){
-
-  if(wheelBusy){
-    return;
-  }
-
-
-  const available =
-    getAvailableCases();
-
-
-  if(!available.length){
-
-    showCaseFinal();
-
-    return;
-  }
-
-
-  wheelBusy =
-    true;
-
-
-  document
-    .getElementById(
-      "spinButton"
-    )
-    .disabled =
-    true;
-
-
-  currentCase =
-    available[
-      Math.floor(
-        Math.random() *
-        available.length
-      )
-    ];
-
-
-  /*
-    Центр выбранного сектора.
-  */
-
-  const sector =
-    18
-    +
-    (currentCase - 1) * 36;
-
-
-  const normalized =
-    (
-      (
-        wheelRotation %
-        360
-      )
-      +
-      360
-    ) %
-    360;
-
-
-  const wanted =
-    (
-      360 -
-      sector
-    ) %
-    360;
-
-
-  let extra =
-    wanted -
-    normalized;
-
-
-  if(extra < 0){
-
-    extra +=
-      360;
-  }
-
-
-  const start =
-    wheelRotation;
-
-
-  const finish =
-    wheelRotation
-    +
-    5 * 360
-    +
-    extra;
-
-
-  const duration =
-    3800;
-
-
-  const started =
-    performance.now();
-
-
-  const wheel =
-    document.getElementById(
-      "wheel"
-    );
-
-
-  function frame(now){
-
-    const progress =
-      Math.min(
-        1,
-        (now - started) /
-        duration
-      );
-
-
-    /*
-      Плавное торможение.
-    */
-
-    const eased =
-      1 -
-      Math.pow(
-        1 - progress,
-        4
-      );
-
-
-    const rotation =
-      start
-      +
-      (
-        finish -
-        start
-      ) *
-      eased;
-
-
-    wheel.style.transform =
-      `rotate(${rotation}deg)`;
-
-
-    positionWheelNumbers(
-      rotation
-    );
-
-
-    if(progress < 1){
-
-      requestAnimationFrame(
-        frame
-      );
-
-    }else{
-
-      wheelRotation =
-        finish;
-
-
-      wheelBusy =
-        false;
-
-
-      showCurrentCase();
-    }
-  }
-
-
-  requestAnimationFrame(
-    frame
-  );
+  if(spinning)return;const a=availableCases();if(!a.length){showCasesFinal();return}spinning=true;spinButton.disabled=true;currentCase=a[Math.floor(Math.random()*a.length)];
+  const sectorCenter=18+(currentCase-1)*36,normalized=((wheelRotation%360)+360)%360,desired=(360-sectorCenter)%360;let diff=desired-normalized;if(diff<0)diff+=360;
+  const start=wheelRotation,target=wheelRotation+5*360+diff,duration=4000,startTime=performance.now();
+  function animate(now){const p=Math.min((now-startTime)/duration,1),e=1-Math.pow(1-p,4),rot=start+(target-start)*e;wheel.style.transform=`rotate(${rot}deg)`;positionNumbers(rot);if(p<1)requestAnimationFrame(animate);else{wheelRotation=target;spinning=false;showCase()}}
+  requestAnimationFrame(animate)
 }
-
-
-/* =========================================================
-   ВЫПАВШИЙ КЕЙС
-========================================================= */
-
-function showCurrentCase(){
-
-  const item =
-    caseData[currentCase]
-    || {
-
-      success:0,
-
-      attempts:0,
-
-      best:null
-    };
-
-
-  document
-    .getElementById(
-      "caseNumber"
-    )
-    .textContent =
-    currentCase;
-
-
-  document
-    .getElementById(
-      "caseProgress"
-    )
-    .textContent =
-    `${item.success || 0} / 3`;
-
-
-  document
-    .getElementById(
-      "caseWork"
-    )
-    .classList
-    .remove("hidden");
-
-
-  startCaseTimer();
-}
-
-
-/* =========================================================
-   РЕЗУЛЬТАТ КЕЙСА
-========================================================= */
-
+function showCase(){const d=caseData[currentCase]||{success:0};caseNumber.textContent=currentCase;caseProgress.textContent=d.success+" / 3";caseWork.classList.remove("hidden");startCaseTimer()}
 function finishCase(success){
-
-  stopCaseTimer();
-
-
-  if(
-    !caseData[
-      currentCase
-    ]
-  ){
-
-    caseData[
-      currentCase
-    ] = {
-
-      success:0,
-
-      attempts:0,
-
-      best:null
-    };
-  }
-
-
-  const item =
-    caseData[
-      currentCase
-    ];
-
-
-  const before =
-    item.success;
-
-
-  item.attempts++;
-
-
-  if(success){
-
-    item.success =
-      Math.min(
-        3,
-        item.success + 1
-      );
-  }
-
-
-  if(
-    item.best === null
-    ||
-    item.best === undefined
-    ||
-    caseSeconds <
-    item.best
-  ){
-
-    item.best =
-      caseSeconds;
-  }
-
-
-  saveCaseData(
-    caseData
-  );
-
-
-  document
-    .getElementById(
-      "caseWork"
-    )
-    .classList
-    .add("hidden");
-
-
-  const result =
-    document.getElementById(
-      "caseResult"
-    );
-
-
-  result.classList.remove(
-    "hidden"
-  );
-
-
-  document
-    .getElementById(
-      "caseResultText"
-    )
-    .textContent =
-    success
-      ? "Кейс засчитан ✓"
-      : "Отмечено как не решено";
-
-
-  /*
-    Первый момент,
-    когда кейс достиг 3/3.
-  */
-
-  const justCompleted =
-    before < 3
-    &&
-    item.success === 3;
-
-
-  if(justCompleted){
-
-    createConfetti(
-      35
-    );
-  }
-
-
-  renderCaseStats();
-
-  updateHomeProgress();
-
-
-  if(
-    getAvailableCases()
-      .length === 0
-  ){
-
-    setTimeout(
-      showCaseFinal,
-      800
-    );
-  }
+  stopCaseTimer();if(!caseData[currentCase])caseData[currentCase]={success:0,attempts:0,best:null};const d=caseData[currentCase],was=d.success>=NEED;d.attempts++;if(success)d.success=Math.min(NEED,d.success+1);if(d.best==null||caseSeconds<d.best)d.best=caseSeconds;save("trainerCases",caseData);
+  caseWork.classList.add("hidden");caseResultText.textContent=success?"Кейс засчитан ✓":"Кейс не засчитан";caseResult.classList.remove("hidden");
+  const just=!was&&d.success>=NEED;if(just)smallCelebration();renderCaseStats();updateHome();if(just&&allCasesCompleted())setTimeout(showCasesFinal,900)
 }
-
-
-/* =========================================================
-   КАРТОЧКИ ПРОГРЕССА КЕЙСОВ
-========================================================= */
-
+function prepareWheel(){stopCaseTimer();currentCase=null;caseWork.classList.add("hidden");caseResult.classList.add("hidden");spinButton.disabled=false}
+function startCaseTimer(){caseSeconds=0;caseTimer.textContent=0;caseInterval=setInterval(()=>{caseSeconds++;caseTimer.textContent=caseSeconds},1000)}
+function stopCaseTimer(){if(caseInterval)clearInterval(caseInterval);caseInterval=null}
 function renderCaseStats(){
+  caseStats.innerHTML="";
+  for(let i=1;i<=10;i++){const d=caseData[i]||{success:0,attempts:0,best:null};const div=document.createElement("div");div.className="stat"+(d.success>=NEED?" completed":"");div.innerHTML=`<strong>Кейс ${i}</strong><br>Закрепление: ${d.success}/3<br>Попыток: ${d.attempts}<br>Лучшее время: ${d.best==null?"—":d.best+" сек."}`;caseStats.appendChild(div)}
+}
+function resetCases(){if(!confirm("Точно сбросить прогресс кейсов?"))return;caseData={};save("trainerCases",caseData);renderCaseStats();updateHome();prepareWheel()}
+function allCasesCompleted(){for(let i=1;i<=10;i++){if(!caseData[i]||caseData[i].success<NEED)return false}return true}
 
-  const container =
-    document.getElementById(
-      "caseStats"
-    );
+/* settings + pointer */
+let settingsNameBeforeOpen="";
+function openSettings(){
+  settingsNameBeforeOpen=localStorage.getItem("trainerName")||"";
+  settingsOverlay.classList.remove("hidden");
+  adminPanel.classList.remove("show");
+  updatePointerOptions();
+  updateThemeButtons();
+  loadTrainerName();
+  loadAdminRude();
+  renderAttendance();
 
-
-  container.innerHTML =
-    "";
-
-
-  for(
-    let i = 1;
-    i <= 10;
-    i++
-  ){
-
-    const item =
-      caseData[i] || {
-
-        success:0,
-
-        attempts:0,
-
-        best:null
-      };
-
-
-    const stat =
-      document.createElement(
-        "div"
-      );
-
-
-    stat.className =
-      "stat";
-
-
-    if(
-      item.success >= 3
-    ){
-
-      stat.classList.add(
-        "completed"
-      );
-    }
-
-
-    stat.innerHTML = `
-
-      <strong>
-        Кейс ${i}
-      </strong>
-
-      <br>
-
-      Закрепление:
-      ${item.success}/3
-
-      <br>
-
-      Попыток:
-      ${item.attempts}
-
-      <br>
-
-      Лучшее:
-      ${
-        item.best === null
-        ||
-        item.best === undefined
-
-          ? "—"
-
-          : item.best + " сек."
-      }
-
-    `;
-
-
-    container.appendChild(
-      stat
-    );
+  if(!localStorage.getItem("trainerName")){
+    setTimeout(()=>trainerNameInput.focus(),50);
   }
 }
-
-
-function resetCases(){
-
-  const yes =
-    confirm(
-      "Сбросить весь прогресс кейсов?"
-    );
-
-
-  if(!yes){
-    return;
+function saveSettings(){
+  if(!nameEdit.classList.contains("hidden")){
+    const ok=saveTrainerName();
+    if(!ok)return;
+    stopNameEdit();
   }
-
-
-  caseData =
-    {};
-
-
-  saveCaseData(
-    caseData
-  );
-
-
-  renderCaseStats();
-
-  updateHomeProgress();
-
-  prepareWheel();
+  closeSettings();
+}
+function closeSettingsWithoutSave(){
+  nameJoke.classList.remove("show");
+  loadTrainerName();
+  closeSettings();
+}
+function closeSettings(){settingsOverlay.classList.add("hidden")}
+let selectedPointer=localStorage.getItem("trainerPointer")||"classic";
+function selectPointer(type){selectedPointer=type;localStorage.setItem("trainerPointer",type);applyPointer();updatePointerOptions()}
+function updatePointerOptions(){document.querySelectorAll(".pointer-option").forEach(b=>b.classList.toggle("selected",b.dataset.pointer===selectedPointer))}
+function applyPointer(){
+  const v=pointerVisual;v.className="";v.innerHTML="";
+  if(selectedPointer==="classic")v.className="pointer-classic";
+  if(selectedPointer==="pizza"){v.className="pointer-picture";const s=document.createElement("div");s.className="pizza-pointer";v.appendChild(s)}
+  if(selectedPointer==="finger"){v.className="pointer-picture";const s=document.createElement("div");s.className="finger-pointer";v.appendChild(s)}
+  if(selectedPointer==="kids"){v.className="pointer-picture";const s=document.createElement("div");s.className="kids-pointer";v.appendChild(s)}
 }
 
-
-/* =========================================================
-   ПРОГРЕСС НА ГЛАВНОЙ
-========================================================= */
-
-function updateHomeProgress(){
-
-  let knowledgeDone =
-    0;
-
-
-  let caseDone =
-    0;
-
-
-  for(
-    let i = 1;
-    i <= 10;
-    i++
-  ){
-
-    const knowledgeItem =
-      knowledgeData[i];
-
-
-    if(
-      knowledgeItem
-      &&
-      Array.isArray(
-        knowledgeItem.results
-      )
-      &&
-      knowledgeItem.results.length
-      >= 3
-    ){
-
-      knowledgeDone++;
-    }
-
-
-    const caseItem =
-      caseData[i];
-
-
-    if(
-      caseItem
-      &&
-      caseItem.success >= 3
-    ){
-
-      caseDone++;
-    }
-  }
-
-
-  document
-    .getElementById(
-      "homeKnowledgeProgress"
-    )
-    .textContent =
-    `${knowledgeDone} / 10`;
-
-
-  document
-    .getElementById(
-      "homeCaseProgress"
-    )
-    .textContent =
-    `${caseDone} / 10`;
-}
-
-
-/* =========================================================
-   КОНФЕТТИ
-========================================================= */
-
-function createConfetti(
-  amount = 60
-){
-
-  const colors = [
-
-    "#ff686b",
-    "#ffd93d",
-    "#6bcb77",
-    "#4d96ff",
-    "#9747e5",
-    "#ff86a6",
-    "#10afc9",
-    "#ff9f1c"
-  ];
-
-
-  for(
-    let i = 0;
-    i < amount;
-    i++
-  ){
-
-    const piece =
-      document.createElement(
-        "div"
-      );
-
-
-    piece.className =
-      "confetti";
-
-
-    piece.style.left =
-      Math.random() *
-      100 +
-      "vw";
-
-
-    piece.style.top =
-      -30 -
-      Math.random() *
-      100 +
-      "px";
-
-
-    piece.style.background =
-      colors[
-        Math.floor(
-          Math.random() *
-          colors.length
-        )
-      ];
-
-
-    const time =
-      1700
-      +
-      Math.random() *
-      2300;
-
-
-    piece.style.setProperty(
-      "--time",
-      time + "ms"
-    );
-
-
-    piece.style.setProperty(
-      "--x",
-      (
-        Math.random() *
-        240 -
-        120
-      ) +
-      "px"
-    );
-
-
-    document.body.appendChild(
-      piece
-    );
-
-
-    setTimeout(
-      ()=>piece.remove(),
-      time + 300
-    );
-  }
-}
-
-
-/* =========================================================
-   ФИНАЛ КЕЙСОВ
-========================================================= */
-
-function showCaseFinal(){
-
-  updateFinalNames();
-
-
-  caseFinalBackground
-    .classList
-    .remove("hidden");
-
-
-  createConfetti(
-    180
-  );
-}
-
-
-function closeCaseFinal(){
-
-  caseFinalBackground
-    .classList
-    .add("hidden");
-}
-
-
-function resetCasesFromFinal(){
-
-  caseData =
-    {};
-
-
-  saveCaseData(
-    caseData
-  );
-
-
-  closeCaseFinal();
-
-  renderCaseStats();
-
-  updateHomeProgress();
-
-  prepareWheel();
-}
-
-
-/* =========================================================
-   ФИНАЛ ЗНАНИЙ
-========================================================= */
-
-let bookDamage =
-  0;
-
-
-let catBusy =
-  false;
-
-
-function showKnowledgeFinal(){
-
-  updateFinalNames();
-
-
-  knowledgeFinalBackground
-    .classList
-    .remove("hidden");
-
-
-  resetBattle();
-
-
-  createConfetti(
-    150
-  );
-}
-
-
-function closeKnowledgeFinal(){
-
-  knowledgeFinalBackground
-    .classList
-    .add("hidden");
-}
-
-
-function resetKnowledgeFromFinal(){
-
-  knowledgeData =
-    {};
-
-
-  saveKnowledgeData(
-    knowledgeData
-  );
-
-
-  closeKnowledgeFinal();
-
-  renderKnowledgeTracker();
-
-  updateHomeProgress();
-
-  startKnowledgeQuestion();
-}
-
-
-/* =========================================================
-   КОТИК БЬЁТ КНИГУ
-========================================================= */
-
-function resetBattle(){
-
-  bookDamage =
-    0;
-
-
-  catBusy =
-    false;
-
-
-  const book =
-    document.getElementById(
-      "book"
-    );
-
-
-  book.className =
-    "book";
-
-
-  document
-    .querySelector(
-      ".book-eye.left"
-    )
-    .textContent =
-    "×";
-
-
-  document
-    .querySelector(
-      ".book-eye.right"
-    )
-    .textContent =
-    "×";
-}
-
-
+/* cat battle */
+let bookDamage=0,catBusy=false;
+function resetBook(){bookDamage=0;catBusy=false;knowledgeBook.className="book";bookEyeLeft.textContent="•";bookEyeRight.textContent="•"}
 function catAttack(){
-
-  if(catBusy){
-
-    return;
-  }
-
-
-  catBusy =
-    true;
-
-
-  const cat =
-    document.getElementById(
-      "catButton"
-    );
-
-
-  const book =
-    document.getElementById(
-      "book"
-    );
-
-
-  const impact =
-    document.getElementById(
-      "impact"
-    );
-
-
-  const attacks = [
-
-    {
-      name:"attack-side",
-      contact:350,
-      damage:500,
-      finish:760
-    },
-
-    {
-      name:"attack-overhead",
-      contact:390,
-      damage:540,
-      finish:840
-    },
-
-    {
-      name:"attack-heavy",
-      contact:430,
-      damage:590,
-      finish:920
-    }
+  if(catBusy)return;catBusy=true;
+  const attacks=[
+    {cls:"attack-side",duration:740,contact:365,damage:500},
+    {cls:"attack-overhead",duration:820,contact:410,damage:555},
+    {cls:"attack-heavy",duration:900,contact:450,damage:610}
   ];
-
-
-  const attack =
-    attacks[
-      Math.floor(
-        Math.random() *
-        attacks.length
-      )
-    ];
-
-
-  cat.classList.remove(
-    "attack-side",
-    "attack-overhead",
-    "attack-heavy"
-  );
-
-
-  void cat.offsetWidth;
-
-
-  cat.classList.add(
-    attack.name
-  );
-
-
-  /*
-    Момент контакта биты с книгой.
-  */
-
-  setTimeout(
-    ()=>{
-
-      book.classList.remove(
-        "contact"
-      );
-
-
-      void book.offsetWidth;
-
-
-      book.classList.add(
-        "contact"
-      );
-
-
-      impact.classList.remove(
-        "show"
-      );
-
-
-      void impact.offsetWidth;
-
-
-      impact.classList.add(
-        "show"
-      );
-
-
-      flyPaper();
-
-    },
-    attack.contact
-  );
-
-
-  /*
-    Книга портится ПОСЛЕ удара,
-    когда бита уже отходит.
-  */
-
-  setTimeout(
-    ()=>{
-
-      bookDamage++;
-
-      applyBookDamage();
-
-    },
-    attack.damage
-  );
-
-
-  setTimeout(
-    ()=>{
-
-      cat.classList.remove(
-        "attack-side",
-        "attack-overhead",
-        "attack-heavy"
-      );
-
-
-      book.classList.remove(
-        "contact"
-      );
-
-
-      impact.classList.remove(
-        "show"
-      );
-
-
-      catBusy =
-        false;
-
-    },
-    attack.finish
-  );
+  const a=attacks[Math.floor(Math.random()*attacks.length)];
+  catAttackButton.classList.remove("attack-side","attack-overhead","attack-heavy");knowledgeBook.classList.remove("contact");bookImpact.classList.remove("show");void catAttackButton.offsetWidth;
+  catAttackButton.classList.add(a.cls);
+  setTimeout(()=>{knowledgeBook.classList.remove("contact");void knowledgeBook.offsetWidth;knowledgeBook.classList.add("contact");bookImpact.classList.remove("show");void bookImpact.offsetWidth;bookImpact.classList.add("show");flyPaper()},a.contact);
+  setTimeout(()=>{bookDamage++;applyBookDamage()},a.damage);
+  setTimeout(()=>{catAttackButton.classList.remove("attack-side","attack-overhead","attack-heavy");knowledgeBook.classList.remove("contact");bookImpact.classList.remove("show");catBusy=false},a.duration+50);
 }
-
-
-/* =========================================================
-   СТАДИИ УБИВАНИЯ КНИГИ
-========================================================= */
-
 function applyBookDamage(){
-
-  const book =
-    document.getElementById(
-      "book"
-    );
-
-
-  book.classList.remove(
-    "damage-1",
-    "damage-2",
-    "damage-3",
-    "dead"
-  );
-
-
-  if(bookDamage === 1){
-
-    book.classList.add(
-      "damage-1"
-    );
-  }
-
-
-  if(bookDamage === 2){
-
-    book.classList.add(
-      "damage-2"
-    );
-  }
-
-
-  if(bookDamage === 3){
-
-    book.classList.add(
-      "damage-3"
-    );
-  }
-
-
-  if(bookDamage >= 4){
-
-    book.classList.add(
-      "dead"
-    );
-
-
-    document
-      .querySelector(
-        ".book-eye.left"
-      )
-      .textContent =
-      "X";
-
-
-    document
-      .querySelector(
-        ".book-eye.right"
-      )
-      .textContent =
-      "X";
-  }
+  knowledgeBook.classList.remove("damage-1","damage-2","damage-3","dead");
+  if(bookDamage===1)knowledgeBook.classList.add("damage-1");
+  if(bookDamage===2)knowledgeBook.classList.add("damage-2");
+  if(bookDamage===3){knowledgeBook.classList.add("damage-3");bookEyeLeft.textContent="×";bookEyeRight.textContent="•"}
+  if(bookDamage>=4){knowledgeBook.classList.add("dead");bookEyeLeft.textContent="X";bookEyeRight.textContent="X"}
 }
-
-
-/* =========================================================
-   БУМАЖКИ ОТ КНИГИ
-========================================================= */
-
 function flyPaper(){
-
-  const papers = [
-
-    document.getElementById(
-      "paperBit1"
-    ),
-
-    document.getElementById(
-      "paperBit2"
-    ),
-
-    document.getElementById(
-      "paperBit3"
-    )
-  ];
-
-
-  papers.forEach(
-    paper=>{
-
-      paper.classList.remove(
-        "fly"
-      );
-
-
-      paper.style.setProperty(
-        "--paper-x",
-
-        (
-          Math.random() *
-          180 -
-          90
-        ) +
-        "px"
-      );
-
-
-      paper.style.setProperty(
-        "--paper-y",
-
-        (
-          -60 -
-          Math.random() *
-          120
-        ) +
-        "px"
-      );
-
-
-      void paper.offsetWidth;
-
-
-      paper.classList.add(
-        "fly"
-      );
-    }
-  );
+  document.querySelectorAll(".paper-bit").forEach(p=>{p.classList.remove("fly");p.style.setProperty("--paper-x",(Math.random()*180-90)+"px");p.style.setProperty("--paper-y",(-70-Math.random()*95)+"px");void p.offsetWidth;p.classList.add("fly")})
 }
 
+/* confetti */
+function createConfetti(amount,min,max){
+  const colors=["#ff686b","#ffd93d","#6bcb77","#4d96ff","#9747e5","#ff86a6","#10afc9","#ff9f1c"];
+  for(let i=0;i<amount;i++){const p=document.createElement("div");p.className="confetti";p.style.left=Math.random()*100+"vw";p.style.top=(-20-Math.random()*150)+"px";p.style.background=colors[Math.floor(Math.random()*colors.length)];p.style.setProperty("--x",(Math.random()*250-125)+"px");const d=min+Math.random()*(max-min);p.style.setProperty("--time",d+"ms");document.body.appendChild(p);setTimeout(()=>p.remove(),d+300)}
+}
+function smallCelebration(){createConfetti(45,1200,2200)}
 
-/* =========================================================
-   ЗАПУСК
-========================================================= */
+/* finals */
+function showCasesFinal(){finalCasesOverlay.classList.remove("hidden");createConfetti(180,2200,4800)}
+function closeCasesFinal(){finalCasesOverlay.classList.add("hidden")}
+function startNewCaseRound(){caseData={};save("trainerCases",caseData);closeCasesFinal();renderCaseStats();updateHome();prepareWheel()}
+function showKnowledgeFinal(){resetBook();finalKnowledgeOverlay.classList.remove("hidden");createConfetti(160,2000,4300)}
+function closeKnowledgeFinal(){finalKnowledgeOverlay.classList.add("hidden")}
+function startNewKnowledgeRound(){knowledgeData={};save("trainerKnowledgeV2",knowledgeData);closeKnowledgeFinal();renderKnowledgeTracker();updateHome();nextKnowledge()}
 
-/*
-  Если старая версия случайно
-  сохранила "..." как настоящее имя,
-  удаляем это.
-*/
-
-if(
-  (
-    localStorage.getItem(
-      "trainerName"
-    ) || ""
-  ).trim() === "..."
-){
-
-  localStorage.removeItem(
-    "trainerName"
-  );
+/* home */
+function updateHome(){
+  let k=0,c=0;
+  for(let i=1;i<=10;i++){const d=knowledgeData[i];if(d&&Array.isArray(d.results)&&d.results.length>=NEED)k++;if(caseData[i]&&caseData[i].success>=NEED)c++}
+  homeKnowledgeProgress.textContent=k+" / 10";homeCaseProgress.textContent=c+" / 10";
 }
 
-
-/*
-  Фиксируем посещение текущего дня.
-*/
-
-registerToday();
-
-
-/*
-  Применяем сохранённые настройки.
-*/
-
+/* start */
+if((localStorage.getItem("trainerName")||"").trim()==="..."){
+  localStorage.removeItem("trainerName");
+}
+recordVisit();
 applyTheme();
-
 applyPointer();
-
-
-/*
-  Загружаем имя.
-*/
-
 loadTrainerName();
-
-
-/*
-  Главный прогресс.
-*/
-
-updateHomeProgress();
-
-
-/*
-  На всякий случай строим
-  цифры колеса после загрузки.
-*/
-
-setTimeout(
-  ()=>positionWheelNumbers(
-    wheelRotation
-  ),
-  100
-);
-
-
-/*
-  При изменении размера окна
-  возвращаем цифры на правильные места.
-*/
-
-window.addEventListener(
-  "resize",
-  ()=>{
-
-    positionWheelNumbers(
-      wheelRotation
-    );
-  }
-);
-
+bindNameEnter();
+updateFinalNames();
+updateHome();
+window.addEventListener("resize",()=>positionNumbers(wheelRotation));
 </script>
-
 </body>
 </html>
