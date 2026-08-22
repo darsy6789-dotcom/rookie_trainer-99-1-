@@ -7,6 +7,7 @@
 <title>Тренажёр новичка</title>
 
 <style>
+
 /* =========================================================
    БАЗА
 ========================================================= */
@@ -16,242 +17,192 @@
 }
 
 :root {
-  --page-bg: #f4f5f9;
-  --text: #202124;
+  --page-bg:#f4f5f9;
+  --text:#202124;
 
-  --card-bg: #ffffff;
-  --soft-bg: #f2f3f6;
-  --soft-bg-2: #e7e8ec;
+  --card-bg:#fff;
+  --soft-bg:#f2f3f6;
+  --soft-bg-2:#e7e8ec;
 
-  --border: #d9dbe1;
+  --border:#d9dbe1;
 
-  --main-btn: #202124;
-  --main-btn-text: #ffffff;
+  --main-btn:#202124;
+  --main-btn-text:#fff;
 
-  --success: #39ad73;
-  --success-bright: #39d87a;
+  --success:#39ad73;
+  --success-bright:#39d87a;
+  --fail:#e45b70;
 
-  --fail: #e45b70;
-
-  --modal-backdrop: rgba(0,0,0,.55);
+  --backdrop:rgba(0,0,0,.55);
 }
 
 body.dark {
-  --page-bg: #111216;
-  --text: #f3f3f5;
+  --page-bg:#111216;
+  --text:#f3f3f5;
 
-  --card-bg: #1c1d22;
-  --soft-bg: #292a30;
-  --soft-bg-2: #303138;
+  --card-bg:#1c1d22;
+  --soft-bg:#292a30;
+  --soft-bg-2:#303138;
 
-  --border: #41434c;
+  --border:#41434c;
 
-  --main-btn: #f3f3f5;
-  --main-btn-text: #111216;
+  --main-btn:#f3f3f5;
+  --main-btn-text:#111216;
 
-  --modal-backdrop: rgba(0,0,0,.72);
+  --backdrop:rgba(0,0,0,.72);
 }
 
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-
-  background: var(--page-bg);
-  color: var(--text);
-
-  transition:
-    background .22s ease,
-    color .22s ease;
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:var(--page-bg);
+  color:var(--text);
+  transition:.2s;
 }
 
 button {
-  font-family: inherit;
-}
-
-.container {
-  width: min(920px, calc(100% - 30px));
-  margin: 0 auto;
-  padding: 30px 0 70px;
-}
-
-h1 {
-  margin-top: 0;
-}
-
-.card {
-  background: var(--card-bg);
-
-  border-radius: 20px;
-  padding: 26px;
-
-  margin-top: 20px;
-
-  box-shadow: 0 8px 30px rgba(0,0,0,.08);
-
-  transition:
-    background .22s ease,
-    color .22s ease;
-}
-
-body.dark .card {
-  box-shadow: 0 8px 30px rgba(0,0,0,.35);
-}
-
-.hidden {
-  display: none !important;
-}
-
-/* =========================================================
-   КНОПКИ
-========================================================= */
-
-button {
-  border: 0;
-  border-radius: 11px;
-
-  padding: 12px 18px;
-
-  font-size: 15px;
-
-  cursor: pointer;
-
-  transition:
-    transform .12s ease,
-    opacity .12s ease,
-    background .2s ease;
+  font-family:inherit;
+  border:0;
+  border-radius:11px;
+  padding:12px 18px;
+  font-size:15px;
+  cursor:pointer;
 }
 
 button:hover {
-  transform: translateY(-1px);
+  transform:translateY(-1px);
 }
 
 button:disabled {
-  cursor: default;
-  opacity: .55;
-  transform: none;
+  opacity:.55;
+  cursor:default;
+  transform:none;
+}
+
+.container {
+  width:min(920px,calc(100% - 30px));
+  margin:0 auto;
+  padding:30px 0 70px;
+}
+
+.card {
+  background:var(--card-bg);
+  border-radius:20px;
+  padding:26px;
+  margin-top:20px;
+  box-shadow:0 8px 30px rgba(0,0,0,.08);
+}
+
+body.dark .card {
+  box-shadow:0 8px 30px rgba(0,0,0,.35);
+}
+
+.hidden {
+  display:none !important;
 }
 
 .main-button {
-  background: var(--main-btn);
-  color: var(--main-btn-text);
-  margin: 4px;
+  background:var(--main-btn);
+  color:var(--main-btn-text);
 }
 
 .success-button {
-  background: var(--success);
-  color: white;
+  background:var(--success);
+  color:#fff;
 }
 
 .fail-button {
-  background: var(--fail);
-  color: white;
+  background:var(--fail);
+  color:#fff;
 }
 
 .secondary-button {
-  background: var(--soft-bg-2);
-  color: var(--text);
+  background:var(--soft-bg-2);
+  color:var(--text);
 }
 
 .actions {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-
-  margin-top: 20px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:20px;
 }
 
 .timer {
-  font-size: 29px;
-  font-weight: 800;
-
-  margin: 18px 0;
+  font-size:29px;
+  font-weight:800;
+  margin:18px 0;
 }
 
 .big-number {
-  font-size: 48px;
-  font-weight: 800;
-
-  margin: 25px 0;
+  font-size:48px;
+  font-weight:800;
+  margin:25px 0;
 }
 
 .result-message {
-  margin-top: 20px;
-  padding: 16px;
-
-  border-radius: 12px;
-
-  background: var(--soft-bg);
+  margin-top:20px;
+  padding:16px;
+  border-radius:12px;
+  background:var(--soft-bg);
 }
 
 /* =========================================================
-   ЗНАК ВОПРОСА / НАСТРОЙКИ
+   ? НАСТРОЙКИ
 ========================================================= */
 
 .help-widget {
-  position: fixed;
-
-  top: 18px;
-  right: 18px;
-
-  z-index: 3000;
+  position:fixed;
+  top:18px;
+  right:18px;
+  z-index:3000;
 }
 
 .help-button {
-  width: 44px;
-  height: 44px;
+  width:44px;
+  height:44px;
+  padding:0;
 
-  padding: 0;
+  border-radius:50%;
 
-  border-radius: 50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background:var(--main-btn);
+  color:var(--main-btn-text);
 
-  font-size: 23px;
-  font-weight: 900;
+  font-size:23px;
+  font-weight:900;
 
-  background: var(--main-btn);
-  color: var(--main-btn-text);
-
-  box-shadow: 0 5px 18px rgba(0,0,0,.18);
+  box-shadow:0 5px 18px rgba(0,0,0,.18);
 }
 
 .help-tooltip {
-  position: absolute;
+  position:absolute;
+  right:52px;
+  top:50%;
 
-  right: 52px;
-  top: 50%;
+  transform:translateY(-50%) translateX(5px);
 
-  transform:
-    translateY(-50%)
-    translateX(5px);
+  padding:8px 11px;
 
-  white-space: nowrap;
+  border-radius:9px;
 
-  padding: 8px 11px;
+  background:var(--main-btn);
+  color:var(--main-btn-text);
 
-  border-radius: 9px;
+  white-space:nowrap;
 
-  background: var(--main-btn);
-  color: var(--main-btn-text);
+  opacity:0;
+  pointer-events:none;
 
-  font-size: 14px;
-
-  opacity: 0;
-  pointer-events: none;
-
-  transition:
-    opacity .16s ease,
-    transform .16s ease;
+  transition:.16s;
 }
 
 .help-widget:hover .help-tooltip {
-  opacity: 1;
-
-  transform:
-    translateY(-50%)
-    translateX(0);
+  opacity:1;
+  transform:translateY(-50%);
 }
 
 /* =========================================================
@@ -259,66 +210,60 @@ button:disabled {
 ========================================================= */
 
 .knowledge-tracker {
-  display: grid;
-  gap: 12px;
-
-  margin-top: 20px;
+  display:grid;
+  gap:12px;
+  margin-top:20px;
 }
 
 .knowledge-row {
-  display: grid;
+  display:grid;
+  grid-template-columns:130px 1fr auto auto;
 
-  grid-template-columns:
-    130px 1fr auto auto;
+  gap:14px;
+  align-items:center;
 
-  gap: 14px;
+  background:var(--soft-bg);
 
-  align-items: center;
-
-  background: var(--soft-bg);
-
-  border-radius: 12px;
-
-  padding: 12px 14px;
+  border-radius:12px;
+  padding:12px 14px;
 }
 
 .knowledge-row.done {
-  background: rgba(57,216,122,.17);
+  background:rgba(57,216,122,.17);
 }
 
 .knowledge-title {
-  font-weight: 800;
+  font-weight:800;
 }
 
 .knowledge-circles {
-  display: flex;
-  gap: 8px;
+  display:flex;
+  gap:8px;
 }
 
 .tracker-dot {
-  width: 22px;
-  height: 22px;
+  width:22px;
+  height:22px;
 
-  border-radius: 50%;
+  border-radius:50%;
 
-  border: 2px solid #aeb1ba;
-
-  background: var(--card-bg);
+  border:2px solid #aeb1ba;
+  background:var(--card-bg);
 }
 
 .tracker-dot.good {
-  background: #32d176;
-  border-color: #20b961;
+  background:#32d176;
+  border-color:#20b961;
 }
 
 .tracker-dot.bad {
-  background: #f16474;
-  border-color: #d94b5d;
+  background:#f16474;
+  border-color:#d94b5d;
 }
 
 .knowledge-meta {
-  font-size: 13px;
-  opacity: .7;
+  font-size:13px;
+  opacity:.7;
 }
 
 /* =========================================================
@@ -326,188 +271,155 @@ button:disabled {
 ========================================================= */
 
 .wheel-area {
-  position: relative;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  margin: 28px auto 30px;
+  margin:28px auto 30px;
 }
 
 .pointer-holder {
-  height: 60px;
+  height:60px;
 
-  position: relative;
+  display:flex;
+  justify-content:center;
+  align-items:flex-end;
 
-  z-index: 20;
+  margin-bottom:-8px;
 
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-
-  margin-bottom: -8px;
+  z-index:20;
 }
-
-/* Классика */
 
 .pointer-classic {
-  width: 0;
-  height: 0;
+  width:0;
+  height:0;
 
-  border-left: 19px solid transparent;
-  border-right: 19px solid transparent;
-  border-top: 38px solid var(--text);
+  border-left:19px solid transparent;
+  border-right:19px solid transparent;
+  border-top:38px solid var(--text);
 }
-
-/* Общий контейнер */
 
 .pointer-picture {
-  position: relative;
+  width:58px;
+  height:58px;
 
-  width: 58px;
-  height: 58px;
+  position:relative;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 
-/* Пицца */
-
 .pizza-pointer {
-  width: 0;
-  height: 0;
+  width:0;
+  height:0;
 
-  border-left: 24px solid transparent;
-  border-right: 24px solid transparent;
-  border-top: 48px solid #f7c948;
+  border-left:24px solid transparent;
+  border-right:24px solid transparent;
+  border-top:48px solid #f7c948;
 
-  position: relative;
+  position:relative;
 }
 
 .pizza-pointer::before {
-  content: "";
+  content:"";
 
-  position: absolute;
+  width:46px;
+  height:8px;
 
-  width: 46px;
-  height: 8px;
+  position:absolute;
 
-  background: #c77b30;
+  top:-49px;
+  left:-23px;
 
-  border-radius: 6px;
-
-  top: -49px;
-  left: -23px;
+  background:#c77b30;
+  border-radius:6px;
 }
 
 .pizza-pointer::after {
-  content: "●  ●";
+  content:"●  ●";
 
-  position: absolute;
+  position:absolute;
 
-  color: #d94b45;
+  top:-39px;
+  left:-15px;
 
-  font-size: 12px;
-
-  white-space: nowrap;
-
-  top: -39px;
-  left: -15px;
+  color:#d94b45;
+  font-size:12px;
 }
 
-/* Дикий пальчик */
-
 .finger-pointer {
-  position: relative;
-
-  width: 58px;
-  height: 58px;
+  width:58px;
+  height:58px;
+  position:relative;
 }
 
 .finger-pointer::before {
-  content: "☝️";
+  content:"☝️";
 
-  position: absolute;
+  position:absolute;
+  left:50%;
+  top:50%;
 
-  left: 50%;
-  top: 50%;
+  transform:translate(-50%,-50%) rotate(180deg);
 
-  transform:
-    translate(-50%, -50%)
-    rotate(180deg);
-
-  font-size: 52px;
-
-  line-height: 1;
-
-  filter:
-    drop-shadow(0 2px 0 white)
-    drop-shadow(0 0 1px #222);
+  font-size:52px;
+  line-height:1;
 }
 
-/* Писюнчик Kids */
-
 .kids-pointer {
-  position: relative;
+  width:28px;
+  height:48px;
 
-  width: 28px;
-  height: 48px;
+  position:relative;
 
-  background: #8dd7ff;
+  background:#8dd7ff;
 
-  border: 3px solid #202124;
-
-  border-radius:
-    50% 50% 12px 12px;
+  border:3px solid #202124;
+  border-radius:50% 50% 12px 12px;
 }
 
 .kids-pointer::before,
 .kids-pointer::after {
-  content: "";
+  content:"";
 
-  position: absolute;
+  position:absolute;
 
-  width: 13px;
-  height: 13px;
+  width:13px;
+  height:13px;
 
-  background: #8dd7ff;
+  top:-5px;
 
-  border: 3px solid #202124;
+  background:#8dd7ff;
 
-  border-radius: 50%;
-
-  top: -5px;
+  border:3px solid #202124;
+  border-radius:50%;
 }
 
 .kids-pointer::before {
-  left: -10px;
+  left:-10px;
 }
 
 .kids-pointer::after {
-  right: -10px;
+  right:-10px;
 }
 
-/* Колесо */
-
 .wheel-shell {
-  width: 390px;
-  height: 390px;
-
-  position: relative;
+  width:390px;
+  height:390px;
+  position:relative;
 }
 
 .wheel {
-  width: 100%;
-  height: 100%;
+  position:absolute;
+  inset:0;
 
-  position: absolute;
-  inset: 0;
+  width:100%;
+  height:100%;
 
-  border-radius: 50%;
+  border-radius:50%;
 
-  border: 8px solid var(--card-bg);
+  border:8px solid var(--card-bg);
 
   box-shadow:
     0 8px 30px rgba(0,0,0,.18),
@@ -515,7 +427,7 @@ button:disabled {
 
   background:
     conic-gradient(
-      #ff686b 0deg 36deg,
+      #ff686b 0 36deg,
       #ffd93d 36deg 72deg,
       #6bcb77 72deg 108deg,
       #4d96ff 108deg 144deg,
@@ -529,572 +441,346 @@ button:disabled {
 }
 
 .number-layer {
-  position: absolute;
-  inset: 0;
-
-  pointer-events: none;
+  position:absolute;
+  inset:0;
+  pointer-events:none;
 }
 
 .wheel-number {
-  position: absolute;
+  position:absolute;
 
-  width: 42px;
-  height: 42px;
+  width:42px;
+  height:42px;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin-left:-21px;
+  margin-top:-21px;
 
-  font-size: 21px;
-  font-weight: 900;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 
-  color: #151515;
+  font-size:21px;
+  font-weight:900;
 
-  left: 50%;
-  top: 50%;
-
-  margin-left: -21px;
-  margin-top: -21px;
+  color:#151515;
 }
 
 .wheel-center {
-  position: absolute;
+  position:absolute;
 
-  left: 50%;
-  top: 50%;
+  left:50%;
+  top:50%;
 
-  transform:
-    translate(-50%, -50%);
+  transform:translate(-50%,-50%);
 
-  width: 70px;
-  height: 70px;
+  width:70px;
+  height:70px;
 
-  border-radius: 50%;
+  border-radius:50%;
 
-  background: var(--card-bg);
+  background:var(--card-bg);
 
-  border: 5px solid var(--text);
+  border:5px solid var(--text);
 
-  z-index: 10;
+  z-index:10;
 }
 
 .case-result {
-  text-align: center;
-
-  font-size: 25px;
-  font-weight: 800;
-
-  margin-top: 22px;
+  text-align:center;
+  font-size:25px;
+  font-weight:800;
+  margin-top:22px;
 }
 
 /* =========================================================
-   СТАТИСТИКА КЕЙСОВ
+   ПРОГРЕСС КЕЙСОВ
 ========================================================= */
 
 .stats-grid {
-  display: grid;
-
-  grid-template-columns:
-    repeat(auto-fit, minmax(135px, 1fr));
-
-  gap: 10px;
-
-  margin-top: 18px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(135px,1fr));
+  gap:10px;
+  margin-top:18px;
 }
 
 .stat {
-  background: var(--soft-bg);
-
-  border-radius: 12px;
-
-  padding: 13px;
-
-  transition:
-    .2s;
+  background:var(--soft-bg);
+  border-radius:12px;
+  padding:13px;
 }
 
 .stat.completed {
-  background: var(--success-bright);
+  background:var(--success-bright);
+  color:#102b1b;
 
-  color: #102b1b;
+  border:2px solid #20b961;
 
-  border: 2px solid #20b961;
-
-  box-shadow:
-    0 4px 14px rgba(57,216,122,.30);
+  box-shadow:0 4px 14px rgba(57,216,122,.30);
 }
 
 .stat.completed::after {
-  content: " ✓";
-
-  font-weight: bold;
+  content:" ✓";
+  font-weight:bold;
 }
 
 /* =========================================================
-   МОДАЛКА НАСТРОЕК
+   НАСТРОЙКИ
 ========================================================= */
 
 .modal-background {
-  position: fixed;
-  inset: 0;
+  position:fixed;
+  inset:0;
 
-  background: var(--modal-backdrop);
+  display:flex;
+  justify-content:center;
+  align-items:center;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background:var(--backdrop);
 
-  z-index: 4000;
+  z-index:4000;
 }
 
 .settings-modal {
-  background: var(--card-bg);
-  color: var(--text);
+  width:min(540px,calc(100% - 30px));
 
-  width:
-    min(540px, calc(100% - 30px));
+  max-height:90vh;
+  overflow:auto;
 
-  border-radius: 22px;
+  padding:26px;
 
-  padding: 26px;
+  border-radius:22px;
 
-  box-shadow:
-    0 15px 60px rgba(0,0,0,.30);
+  background:var(--card-bg);
+  color:var(--text);
 
-  max-height: 90vh;
-
-  overflow-y: auto;
+  box-shadow:0 15px 60px rgba(0,0,0,.3);
 }
 
 .theme-options {
-  display: flex;
-
-  gap: 10px;
-
-  margin: 10px 0 25px;
+  display:flex;
+  gap:10px;
+  margin-bottom:25px;
 }
 
 .theme-option {
-  flex: 1;
+  flex:1;
 
-  background: var(--soft-bg);
+  background:var(--soft-bg);
+  color:var(--text);
 
-  color: var(--text);
-
-  border:
-    2px solid transparent;
+  border:2px solid transparent;
 }
 
 .theme-option.selected {
-  border-color: var(--text);
-
-  font-weight: 800;
+  border-color:var(--text);
+  font-weight:800;
 }
 
 .pointer-option {
-  width: 100%;
+  width:100%;
 
-  display: flex;
+  display:flex;
+  gap:15px;
+  align-items:center;
 
-  align-items: center;
+  margin:8px 0;
 
-  gap: 15px;
+  text-align:left;
 
-  background: var(--soft-bg);
-
-  color: var(--text);
-
-  margin: 8px 0;
-
-  text-align: left;
+  background:var(--soft-bg);
+  color:var(--text);
 }
 
 .pointer-option.selected {
-  outline:
-    3px solid var(--text);
+  outline:3px solid var(--text);
 }
 
 .pointer-preview {
-  width: 45px;
-
-  text-align: center;
-
-  font-size: 28px;
+  width:45px;
+  font-size:28px;
+  text-align:center;
 }
 
 /* =========================================================
-   ФИНАЛЬНЫЕ ПЛАШКИ
+   ФИНАЛЫ
 ========================================================= */
 
 .final-overlay {
-  position: fixed;
-  inset: 0;
+  position:fixed;
+  inset:0;
 
-  background: var(--modal-backdrop);
+  display:flex;
+  justify-content:center;
+  align-items:center;
 
-  display: flex;
+  padding:15px;
 
-  align-items: center;
-  justify-content: center;
+  background:var(--backdrop);
 
-  z-index: 5000;
-
-  padding: 15px;
+  z-index:5000;
 }
 
 .final-card {
-  position: relative;
+  width:min(720px,100%);
 
-  z-index: 5100;
+  max-height:95vh;
+  overflow:auto;
 
-  width:
-    min(680px, 100%);
+  padding:35px 25px;
 
-  max-height: 95vh;
+  border-radius:26px;
 
-  overflow-y: auto;
+  background:var(--card-bg);
+  color:var(--text);
 
-  background: var(--card-bg);
-  color: var(--text);
+  text-align:center;
 
-  border-radius: 26px;
+  box-shadow:0 20px 80px rgba(0,0,0,.35);
 
-  padding: 35px 25px;
-
-  text-align: center;
-
-  box-shadow:
-    0 20px 80px rgba(0,0,0,.35);
-
-  animation:
-    finalPop .45s ease;
+  animation:finalPop .45s ease;
 }
 
 .final-card h2 {
-  font-size:
-    clamp(30px, 6vw, 52px);
-
-  margin:
-    0 0 12px;
+  font-size:clamp(30px,6vw,52px);
+  margin:0 0 12px;
 }
 
 .final-card p {
-  font-size: 23px;
+  font-size:23px;
 }
 
 @keyframes finalPop {
-  0% {
-    transform:
-      scale(.5)
-      rotate(-4deg);
-
-    opacity: 0;
+  from {
+    transform:scale(.5) rotate(-4deg);
+    opacity:0;
   }
 
   70% {
-    transform:
-      scale(1.06)
-      rotate(1deg);
+    transform:scale(1.06) rotate(1deg);
   }
 
-  100% {
-    transform:
-      scale(1);
-
-    opacity: 1;
+  to {
+    transform:scale(1);
+    opacity:1;
   }
 }
 
 /* =========================================================
-   КОТИК + КНИГА
+   ЗЛОЙ КОТ + КНИГА
 ========================================================= */
 
 .cat-battle {
-  position: relative;
+  position:relative;
 
-  width: min(560px, 100%);
-  height: 250px;
+  width:min(620px,100%);
+  height:285px;
 
-  margin:
-    10px auto 20px;
+  margin:10px auto 15px;
 }
 
-/* Котик как кнопка */
-
 .cat-button {
-  position: absolute;
+  position:absolute;
 
-  left: 60px;
-  bottom: 30px;
+  left:25px;
+  bottom:15px;
 
-  width: 180px;
-  height: 180px;
+  width:265px;
+  height:245px;
 
-  padding: 0;
+  padding:0;
 
-  background: transparent;
+  background:transparent;
 
-  border: 0;
+  cursor:pointer;
 
-  cursor: pointer;
-
-  transform-origin:
-    70% 70%;
+  transform-origin:55% 75%;
 }
 
 .cat-button:hover {
-  transform:
-    scale(1.03);
+  transform:scale(1.03);
 }
 
-/* Голова */
-
-.cat-head {
-  position: absolute;
-
-  width: 92px;
-  height: 82px;
-
-  left: 28px;
-  top: 15px;
-
-  background: white;
-
-  border:
-    4px solid #202124;
-
-  border-radius:
-    48% 48% 45% 45%;
-
-  z-index: 5;
+.angry-cat {
+  width:100%;
+  height:100%;
+  overflow:visible;
 }
 
-/* Уши */
-
-.cat-ear {
-  position: absolute;
-
-  width: 34px;
-  height: 34px;
-
-  background: white;
-
-  border:
-    4px solid #202124;
-
-  transform:
-    rotate(45deg);
-
-  top: 4px;
-
-  z-index: 4;
+.cat-fill {
+  fill:#fff;
 }
 
-.cat-ear.left {
-  left: 26px;
+.cat-line {
+  stroke:#202124;
+  stroke-width:7;
+  stroke-linecap:round;
+  stroke-linejoin:round;
 }
 
-.cat-ear.right {
-  left: 91px;
+.cat-face-line {
+  fill:none;
+  stroke:#202124;
+  stroke-width:7;
+  stroke-linecap:round;
 }
 
-/* Лицо */
+/* злые глаза */
 
-.cat-eye {
-  position: absolute;
-
-  width: 9px;
-  height: 12px;
-
-  background: #202124;
-
-  border-radius: 50%;
-
-  top: 43px;
-
-  z-index: 6;
+.cat-eye-angry {
+  fill:#202124;
 }
 
-.cat-eye.left {
-  left: 55px;
+/* бита */
+
+.cat-bat {
+  transform-origin:116px 129px;
 }
 
-.cat-eye.right {
-  left: 89px;
+/* морда злости */
+
+.anger-mark {
+  transform-origin:center;
 }
 
-.cat-mouth {
-  position: absolute;
-
-  left: 70px;
-  top: 61px;
-
-  width: 18px;
-  height: 10px;
-
-  border-bottom:
-    3px solid #202124;
-
-  border-radius:
-    0 0 50% 50%;
-
-  z-index: 6;
-}
-
-/* Тело */
-
-.cat-body {
-  position: absolute;
-
-  width: 95px;
-  height: 90px;
-
-  left: 36px;
-  top: 82px;
-
-  background: white;
-
-  border:
-    4px solid #202124;
-
-  border-radius:
-    45% 45% 35% 35%;
-
-  z-index: 3;
-}
-
-/* Лапы */
-
-.cat-paw {
-  position: absolute;
-
-  width: 48px;
-  height: 24px;
-
-  background: white;
-
-  border:
-    4px solid #202124;
-
-  border-radius: 50%;
-
-  z-index: 8;
-}
-
-.cat-paw.one {
-  left: 92px;
-  top: 96px;
-
-  transform:
-    rotate(-18deg);
-}
-
-.cat-paw.two {
-  left: 105px;
-  top: 116px;
-
-  transform:
-    rotate(-5deg);
-}
-
-/* Хвост */
-
-.cat-tail {
-  position: absolute;
-
-  width: 70px;
-  height: 70px;
-
-  border:
-    12px solid white;
-
-  border-left-color:
-    transparent;
-
-  border-bottom-color:
-    transparent;
-
-  border-radius: 50%;
-
-  left: -5px;
-  top: 95px;
-
-  transform:
-    rotate(-20deg);
-
-  filter:
-    drop-shadow(
-      0 0 0 #202124
-    );
-}
-
-/* Бита */
-
-.bat {
-  position: absolute;
-
-  width: 135px;
-  height: 21px;
-
-  background:
-    linear-gradient(
-      90deg,
-      #8b552e,
-      #d08a45
-    );
-
-  border:
-    4px solid #202124;
-
-  border-radius:
-    10px 18px 18px 10px;
-
-  left: 118px;
-  top: 110px;
-
-  z-index: 7;
-
-  transform-origin:
-    10px center;
-
-  transform:
-    rotate(-12deg);
-}
-
-/* Книга */
+/* книга */
 
 .book {
-  position: absolute;
+  position:absolute;
 
-  right: 70px;
-  bottom: 35px;
+  right:55px;
+  bottom:45px;
 
-  width: 145px;
-  height: 105px;
+  width:165px;
+  height:120px;
 
-  background: #8247d6;
+  background:#8247d6;
 
-  border:
-    5px solid #202124;
+  border:5px solid #202124;
 
-  border-radius:
-    8px 14px 14px 8px;
+  border-radius:8px 14px 14px 8px;
 
-  transform:
-    rotate(7deg);
+  transform:rotate(4deg);
+
+  z-index:4;
 
   transition:
-    transform .2s ease,
-    filter .2s ease;
-
-  z-index: 4;
+    transform .18s,
+    filter .18s,
+    opacity .18s;
 }
 
 .book-pages {
-  position: absolute;
+  position:absolute;
 
-  width: 125px;
-  height: 20px;
+  width:145px;
+  height:22px;
+
+  left:8px;
+  bottom:-19px;
+
+  border:4px solid #202124;
+
+  border-radius:0 0 10px 10px;
 
   background:
     repeating-linear-gradient(
@@ -1103,234 +789,446 @@ button:disabled {
       #e1c98f 3px 5px
     );
 
-  border:
-    4px solid #202124;
-
-  border-radius:
-    0 0 10px 10px;
-
-  bottom: -18px;
-  left: 7px;
-
-  z-index: -1;
+  z-index:-1;
 }
 
-/* лицо книги */
+/* глаза книги */
 
 .book-eye {
-  position: absolute;
+  position:absolute;
 
-  top: 34px;
+  top:35px;
 
-  width: 22px;
-  height: 22px;
+  width:28px;
+  height:28px;
 
-  font-size: 25px;
-  font-weight: 900;
+  font-size:29px;
+  font-weight:900;
+  line-height:28px;
 
-  line-height: 22px;
-
-  color: #202124;
+  color:#202124;
 }
 
 .book-eye.left {
-  left: 32px;
+  left:35px;
 }
 
 .book-eye.right {
-  right: 32px;
+  right:35px;
 }
+
+/* рот книги */
 
 .book-mouth {
-  position: absolute;
+  position:absolute;
 
-  width: 30px;
-  height: 13px;
+  left:61px;
+  top:76px;
 
-  left: 53px;
-  top: 67px;
+  width:36px;
+  height:12px;
 
-  border-top:
-    4px solid #202124;
+  border-top:4px solid #202124;
 
-  border-radius:
-    50%;
+  border-radius:50%;
 }
 
-/* Книга после смерти */
+/* трещины */
+
+.book-crack {
+  position:absolute;
+
+  width:4px;
+  height:34px;
+
+  background:#202124;
+
+  opacity:0;
+
+  transform:rotate(22deg);
+}
+
+.book-crack.c1 {
+  left:24px;
+  top:10px;
+}
+
+.book-crack.c2 {
+  right:27px;
+  top:57px;
+  transform:rotate(-28deg);
+}
+
+.book-crack.c3 {
+  left:76px;
+  top:10px;
+  transform:rotate(-18deg);
+}
+
+/* ухудшение книги */
+
+.book.damage-1 {
+  transform:
+    rotate(9deg)
+    translateX(8px);
+}
+
+.book.damage-1 .c1 {
+  opacity:1;
+}
+
+.book.damage-2 {
+  transform:
+    rotate(-7deg)
+    translate(13px,7px)
+    scale(.97);
+
+  filter:saturate(.85);
+}
+
+.book.damage-2 .c1,
+.book.damage-2 .c2 {
+  opacity:1;
+}
+
+.book.damage-3 {
+  transform:
+    rotate(15deg)
+    translate(17px,15px)
+    scale(.94,.90);
+
+  filter:
+    saturate(.65)
+    brightness(.9);
+}
+
+.book.damage-3 .book-mouth {
+  transform:rotate(10deg);
+}
+
+.book.damage-3 .book-pages {
+  transform:translateY(5px) rotate(3deg);
+}
+
+.book.damage-3 .book-crack {
+  opacity:1;
+}
+
+/* дохлая */
 
 .book.dead {
   transform:
-    rotate(19deg)
-    translateY(14px)
-    scaleY(.94);
+    rotate(23deg)
+    translate(20px,25px)
+    scale(.91,.82);
 
   filter:
-    saturate(.6)
-    brightness(.85);
+    saturate(.45)
+    brightness(.76);
 }
 
 .book.dead .book-mouth {
-  border-top: 0;
+  border-top:0;
+  border-bottom:4px solid #202124;
 
-  border-bottom:
-    4px solid #202124;
+  top:69px;
 
-  top: 61px;
+  transform:rotate(-7deg);
 }
 
-/* 💥 */
+/* язык */
+
+.book-tongue {
+  position:absolute;
+
+  width:25px;
+  height:18px;
+
+  left:66px;
+  top:81px;
+
+  border-radius:0 0 12px 12px;
+
+  background:#f47796;
+
+  border:3px solid #202124;
+
+  opacity:0;
+
+  transform:rotate(6deg);
+}
+
+.book.dead .book-tongue {
+  opacity:1;
+}
+
+/* бумажки */
+
+.paper-bit {
+  position:absolute;
+
+  width:20px;
+  height:14px;
+
+  background:#f6e5be;
+
+  border:2px solid #202124;
+
+  opacity:0;
+
+  z-index:20;
+}
+
+.paper-bit.p1 {
+  right:185px;
+  bottom:130px;
+}
+
+.paper-bit.p2 {
+  right:105px;
+  bottom:175px;
+}
+
+.paper-bit.p3 {
+  right:65px;
+  bottom:115px;
+}
+
+/* удар */
 
 .impact {
-  position: absolute;
+  position:absolute;
 
-  right: 185px;
-  bottom: 100px;
+  right:195px;
+  bottom:105px;
 
-  font-size: 52px;
+  font-size:55px;
 
-  opacity: 0;
+  opacity:0;
 
-  transform:
-    scale(.2)
-    rotate(-20deg);
-
-  pointer-events: none;
-
-  z-index: 20;
+  z-index:30;
 }
 
-/* анимации */
+/* разные виды атак */
 
-.cat-button.attacking {
-  animation:
-    catSwing .42s ease;
+.cat-button.attack-overhead {
+  animation:catOverhead .48s ease;
 }
 
-.cat-button.attacking .bat {
-  animation:
-    batSwing .42s ease;
+.cat-button.attack-overhead .cat-bat {
+  animation:batOverhead .48s ease;
 }
 
-.book.hit {
-  animation:
-    bookHit .42s ease;
+.cat-button.attack-side {
+  animation:catSide .42s ease;
+}
+
+.cat-button.attack-side .cat-bat {
+  animation:batSide .42s ease;
+}
+
+.cat-button.attack-heavy {
+  animation:catHeavy .58s ease;
+}
+
+.cat-button.attack-heavy .cat-bat {
+  animation:batHeavy .58s ease;
+}
+
+.book.hit-1 {
+  animation:bookHit1 .42s ease;
+}
+
+.book.hit-2 {
+  animation:bookHit2 .46s ease;
+}
+
+.book.hit-3 {
+  animation:bookHit3 .56s ease;
 }
 
 .impact.show {
-  animation:
-    impactBoom .45s ease;
+  animation:impactBoom .45s ease;
 }
 
-@keyframes catSwing {
-  0% {
-    transform:
-      rotate(0deg);
-  }
-
-  35% {
-    transform:
-      rotate(-9deg)
-      translateX(-4px);
-  }
-
-  70% {
-    transform:
-      rotate(8deg)
-      translateX(8px);
-  }
-
-  100% {
-    transform:
-      rotate(0deg);
-  }
+.paper-bit.fly {
+  animation:paperFly .7s ease;
 }
 
-@keyframes batSwing {
+@keyframes catOverhead {
   0% {
-    transform:
-      rotate(-12deg);
-  }
-
-  35% {
-    transform:
-      rotate(-55deg);
-  }
-
-  75% {
-    transform:
-      rotate(22deg);
-  }
-
-  100% {
-    transform:
-      rotate(-12deg);
-  }
-}
-
-@keyframes bookHit {
-  0% {
-    transform:
-      rotate(7deg);
+    transform:translate(0) rotate(0);
   }
 
   30% {
-    transform:
-      rotate(18deg)
-      translateX(14px);
+    transform:translate(-5px,-4px) rotate(-8deg);
   }
 
-  55% {
-    transform:
-      rotate(-5deg)
-      translateX(-7px);
-  }
-
-  80% {
-    transform:
-      rotate(14deg)
-      translateX(5px);
+  70% {
+    transform:translate(17px,8px) rotate(7deg);
   }
 
   100% {
-    transform:
-      rotate(19deg)
-      translateY(14px);
+    transform:none;
+  }
+}
+
+@keyframes batOverhead {
+  0% {
+    transform:rotate(0);
+  }
+
+  30% {
+    transform:rotate(-75deg);
+  }
+
+  72% {
+    transform:rotate(35deg);
+  }
+
+  100% {
+    transform:rotate(0);
+  }
+}
+
+@keyframes catSide {
+  0% {
+    transform:none;
+  }
+
+  35% {
+    transform:translateX(-12px) rotate(-4deg);
+  }
+
+  70% {
+    transform:translateX(22px) rotate(4deg);
+  }
+
+  100% {
+    transform:none;
+  }
+}
+
+@keyframes batSide {
+  0% {
+    transform:rotate(0);
+  }
+
+  35% {
+    transform:rotate(-28deg);
+  }
+
+  70% {
+    transform:rotate(28deg);
+  }
+
+  100% {
+    transform:rotate(0);
+  }
+}
+
+@keyframes catHeavy {
+  0% {
+    transform:none;
+  }
+
+  30% {
+    transform:translate(-12px,-7px) rotate(-12deg) scale(1.03);
+  }
+
+  70% {
+    transform:translate(25px,12px) rotate(9deg) scale(.98);
+  }
+
+  100% {
+    transform:none;
+  }
+}
+
+@keyframes batHeavy {
+  0% {
+    transform:rotate(0);
+  }
+
+  28% {
+    transform:rotate(-95deg);
+  }
+
+  72% {
+    transform:rotate(45deg);
+  }
+
+  100% {
+    transform:rotate(0);
+  }
+}
+
+@keyframes bookHit1 {
+  30% {
+    transform:translateX(14px) rotate(14deg);
+  }
+
+  60% {
+    transform:translateX(-6px) rotate(-5deg);
+  }
+}
+
+@keyframes bookHit2 {
+  30% {
+    transform:translate(19px,-5px) rotate(18deg);
+  }
+
+  55% {
+    transform:translate(-10px,8px) rotate(-12deg);
+  }
+}
+
+@keyframes bookHit3 {
+  25% {
+    transform:translate(24px,-8px) rotate(24deg) scale(.95);
+  }
+
+  50% {
+    transform:translate(-13px,12px) rotate(-15deg);
+  }
+
+  75% {
+    transform:translate(10px,17px) rotate(18deg);
   }
 }
 
 @keyframes impactBoom {
   0% {
-    opacity: 0;
-
-    transform:
-      scale(.2)
-      rotate(-20deg);
+    opacity:0;
+    transform:scale(.2) rotate(-20deg);
   }
 
   35% {
-    opacity: 1;
-
-    transform:
-      scale(1.4)
-      rotate(8deg);
+    opacity:1;
+    transform:scale(1.45) rotate(8deg);
   }
 
   100% {
-    opacity: 0;
+    opacity:0;
+    transform:scale(.8) rotate(18deg);
+  }
+}
 
-    transform:
-      scale(.8)
-      rotate(18deg);
+@keyframes paperFly {
+  0% {
+    opacity:1;
+    transform:translate(0,0) rotate(0);
+  }
+
+  100% {
+    opacity:0;
+    transform:translate(var(--paper-x),var(--paper-y)) rotate(240deg);
   }
 }
 
 .cat-hint {
-  font-size: 14px;
-
-  opacity: .68;
-
-  margin-top: -4px;
+  font-size:14px;
+  opacity:.68;
 }
 
 /* =========================================================
@@ -1338,14 +1236,14 @@ button:disabled {
 ========================================================= */
 
 .confetti {
-  position: fixed;
+  position:fixed;
 
-  width: 10px;
-  height: 16px;
+  width:10px;
+  height:16px;
 
-  z-index: 6000;
+  z-index:6000;
 
-  pointer-events: none;
+  pointer-events:none;
 
   animation:
     confettiFall
@@ -1355,23 +1253,14 @@ button:disabled {
 }
 
 @keyframes confettiFall {
-  0% {
-    transform:
-      translate(0,-30px)
-      rotate(0deg);
-
-    opacity: 1;
+  from {
+    transform:translate(0,-30px) rotate(0);
+    opacity:1;
   }
 
-  100% {
-    transform:
-      translate(
-        var(--x),
-        105vh
-      )
-      rotate(900deg);
-
-    opacity: 0;
+  to {
+    transform:translate(var(--x),105vh) rotate(900deg);
+    opacity:0;
   }
 }
 
@@ -1379,41 +1268,29 @@ button:disabled {
    МОБИЛЬНЫЙ
 ========================================================= */
 
-@media (max-width: 700px) {
+@media (max-width:700px) {
+
   .knowledge-row {
-    grid-template-columns: 1fr;
+    grid-template-columns:1fr;
   }
 
   .wheel-shell {
-    width: 300px;
-    height: 300px;
-  }
-
-  .wheel-number {
-    font-size: 18px;
-  }
-
-  .card {
-    padding: 18px;
+    width:300px;
+    height:300px;
   }
 
   .cat-battle {
-    transform:
-      scale(.78);
+    transform:scale(.78);
+    transform-origin:top center;
 
-    transform-origin:
-      top center;
+    width:620px;
 
-    width: 560px;
+    margin-left:calc(50% - 310px);
 
-    margin-left:
-      calc(
-        50% - 280px
-      );
-
-    margin-bottom: -45px;
+    margin-bottom:-55px;
   }
 }
+
 </style>
 </head>
 
@@ -1431,8 +1308,7 @@ button:disabled {
 
   <button
     class="help-button"
-    onclick="openSettings()"
-    aria-label="Открыть настройки">
+    onclick="openSettings()">
     ?
   </button>
 
@@ -1468,7 +1344,6 @@ button:disabled {
 
   </div>
 
-
   <div class="card">
 
     <h3>Прогресс</h3>
@@ -1496,9 +1371,7 @@ button:disabled {
      ЗНАНИЯ
 ===================================================== -->
 
-<div
-  id="knowledge"
-  class="hidden">
+<div id="knowledge" class="hidden">
 
   <button
     class="secondary-button"
@@ -1506,11 +1379,9 @@ button:disabled {
     ← На главную
   </button>
 
-
   <div class="card">
 
     <h2>Номера знаний</h2>
-
 
     <div class="big-number">
 
@@ -1521,7 +1392,6 @@ button:disabled {
 
     </div>
 
-
     <div class="timer">
 
       ⏱
@@ -1531,7 +1401,6 @@ button:disabled {
       сек.
 
     </div>
-
 
     <div
       id="knowledgeActions"
@@ -1551,14 +1420,11 @@ button:disabled {
 
     </div>
 
-
     <div
       id="knowledgeResult"
       class="result-message hidden">
 
-      <strong
-        id="knowledgeResultText">
-      </strong>
+      <strong id="knowledgeResultText"></strong>
 
       <br><br>
 
@@ -1571,7 +1437,6 @@ button:disabled {
     </div>
 
   </div>
-
 
   <div class="card">
 
@@ -1599,9 +1464,7 @@ button:disabled {
      КЕЙСЫ
 ===================================================== -->
 
-<div
-  id="cases"
-  class="hidden">
+<div id="cases" class="hidden">
 
   <button
     class="secondary-button"
@@ -1609,17 +1472,13 @@ button:disabled {
     ← На главную
   </button>
 
-
   <div class="card">
 
     <h2>Рулетка кейсов</h2>
 
-
     <div class="wheel-area">
 
-
       <div
-        id="pointerHolder"
         class="pointer-holder">
 
         <div
@@ -1628,7 +1487,6 @@ button:disabled {
         </div>
 
       </div>
-
 
       <div
         id="wheelShell"
@@ -1639,9 +1497,7 @@ button:disabled {
           class="wheel">
         </div>
 
-
         <div
-          id="numberLayer"
           class="number-layer">
 
           <div class="wheel-number" data-number="1">1</div>
@@ -1657,14 +1513,11 @@ button:disabled {
 
         </div>
 
-
-        <div class="wheel-center">
-        </div>
+        <div class="wheel-center"></div>
 
       </div>
 
     </div>
-
 
     <div style="text-align:center">
 
@@ -1677,7 +1530,6 @@ button:disabled {
 
     </div>
 
-
     <div
       id="caseWork"
       class="hidden">
@@ -1689,7 +1541,6 @@ button:disabled {
 
       </div>
 
-
       <p style="text-align:center">
 
         Закрепление:
@@ -1698,7 +1549,6 @@ button:disabled {
         </strong>
 
       </p>
-
 
       <div
         class="timer"
@@ -1711,7 +1561,6 @@ button:disabled {
         сек.
 
       </div>
-
 
       <div
         class="actions"
@@ -1733,15 +1582,12 @@ button:disabled {
 
     </div>
 
-
     <div
       id="caseResult"
       class="result-message hidden"
       style="text-align:center">
 
-      <strong
-        id="caseResultText">
-      </strong>
+      <strong id="caseResultText"></strong>
 
       <br><br>
 
@@ -1754,7 +1600,6 @@ button:disabled {
     </div>
 
   </div>
-
 
   <div class="card">
 
@@ -1794,7 +1639,6 @@ button:disabled {
 
     <h3>Тема</h3>
 
-
     <div class="theme-options">
 
       <button
@@ -1813,34 +1657,25 @@ button:disabled {
 
     </div>
 
-
     <h3>Выбор указателя</h3>
-
 
     <button
       class="pointer-option"
       data-pointer="classic"
       onclick="selectPointer('classic')">
 
-      <span class="pointer-preview">
-        ▼
-      </span>
+      <span class="pointer-preview">▼</span>
 
-      <strong>
-        Классика
-      </strong>
+      <strong>Классика</strong>
 
     </button>
-
 
     <button
       class="pointer-option"
       data-pointer="pizza"
       onclick="selectPointer('pizza')">
 
-      <span class="pointer-preview">
-        🍕
-      </span>
+      <span class="pointer-preview">🍕</span>
 
       <strong>
         Если ты голоден — вот тебе пицца
@@ -1848,15 +1683,12 @@ button:disabled {
 
     </button>
 
-
     <button
       class="pointer-option"
       data-pointer="finger"
       onclick="selectPointer('finger')">
 
-      <span class="pointer-preview">
-        ☝️
-      </span>
+      <span class="pointer-preview">☝️</span>
 
       <strong>
         Дикий пальчик
@@ -1864,15 +1696,12 @@ button:disabled {
 
     </button>
 
-
     <button
       class="pointer-option"
       data-pointer="kids"
       onclick="selectPointer('kids')">
 
-      <span class="pointer-preview">
-        🩵
-      </span>
+      <span class="pointer-preview">🩵</span>
 
       <strong>
         Писюнчик версии Kids
@@ -1880,9 +1709,7 @@ button:disabled {
 
     </button>
 
-
     <br>
-
 
     <button
       class="main-button"
@@ -1913,13 +1740,11 @@ button:disabled {
       Ты умничка!! 🎉
     </p>
 
-
     <button
       class="main-button"
       onclick="closeCasesFinal()">
       Урааа!
     </button>
-
 
     <button
       class="secondary-button"
@@ -1933,7 +1758,7 @@ button:disabled {
 
 
 <!-- =====================================================
-     ФИНАЛ ЗНАНИЙ + КОТ
+     ФИНАЛ ЗНАНИЙ
 ===================================================== -->
 
 <div
@@ -1950,38 +1775,177 @@ button:disabled {
       Теперь она боится тебя. 🧠🔥
     </p>
 
+    <div class="cat-battle">
 
-    <div
-      class="cat-battle">
-
+      <!-- злой кот -->
 
       <button
         id="catAttackButton"
         class="cat-button"
-        onclick="catAttack()"
-        aria-label="Котик бьёт книгу">
+        onclick="catAttack()">
 
-        <div class="cat-ear left"></div>
-        <div class="cat-ear right"></div>
+        <svg
+          class="angry-cat"
+          viewBox="0 0 250 220">
 
-        <div class="cat-head"></div>
+          <!-- хвост -->
 
-        <div class="cat-eye left"></div>
-        <div class="cat-eye right"></div>
+          <path
+            class="cat-line"
+            d="M55 150
+               C15 147 15 115 39 110
+               C24 124 32 139 57 133"
+            fill="none"/>
 
-        <div class="cat-mouth"></div>
+          <!-- тело -->
 
-        <div class="cat-body"></div>
+          <path
+            class="cat-fill cat-line"
+            d="M52 72
+               L39 25
+               L77 51
+               Q117 34 157 51
+               L194 24
+               L181 75
+               Q194 98 185 140
+               Q177 181 151 190
+               Q117 201 78 190
+               Q49 178 44 141
+               Q38 100 52 72
+               Z"/>
 
-        <div class="cat-tail"></div>
+          <!-- уши -->
 
-        <div class="cat-paw one"></div>
-        <div class="cat-paw two"></div>
+          <path
+            d="M50 40 L71 55 L53 61 Z"
+            fill="#f4b1b1"/>
 
-        <div class="bat"></div>
+          <path
+            d="M183 40 L162 55 L181 61 Z"
+            fill="#f4b1b1"/>
+
+          <!-- злые брови -->
+
+          <path
+            class="cat-face-line"
+            d="M67 88 L94 99"/>
+
+          <path
+            class="cat-face-line"
+            d="M167 88 L140 99"/>
+
+          <!-- глаза -->
+
+          <path
+            class="cat-eye-angry"
+            d="M78 103
+               Q88 96 96 103
+               Q88 116 78 103Z"/>
+
+          <path
+            class="cat-eye-angry"
+            d="M139 103
+               Q149 96 157 103
+               Q149 116 139 103Z"/>
+
+          <!-- нос -->
+
+          <path
+            d="M112 115 L122 115 L117 123 Z"
+            fill="#202124"/>
+
+          <!-- злой рот -->
+
+          <path
+            class="cat-face-line"
+            d="M117 123
+               Q105 134 95 124
+               M117 123
+               Q129 134 139 124"/>
+
+          <!-- Х на пузе -->
+
+          <path
+            d="M96 147 L135 177"
+            stroke="#cfcfcf"
+            stroke-width="8"
+            stroke-linecap="round"/>
+
+          <path
+            d="M135 147 L96 177"
+            stroke="#cfcfcf"
+            stroke-width="8"
+            stroke-linecap="round"/>
+
+          <!-- лапы -->
+
+          <path
+            class="cat-fill cat-line"
+            d="M51 126
+               Q25 129 26 150
+               Q29 167 48 158
+               L87 135
+               Q89 121 75 119Z"/>
+
+          <path
+            class="cat-fill cat-line"
+            d="M179 121
+               Q207 125 207 146
+               Q204 164 184 157
+               L144 136
+               Q140 123 154 118Z"/>
+
+          <!-- бита -->
+
+          <g class="cat-bat">
+
+            <rect
+              x="123"
+              y="126"
+              width="112"
+              height="20"
+              rx="10"
+              fill="#b76e35"
+              stroke="#202124"
+              stroke-width="5"
+              transform="rotate(-8 123 126)"/>
+
+            <rect
+              x="107"
+              y="128"
+              width="31"
+              height="15"
+              rx="7"
+              fill="#8d532d"
+              stroke="#202124"
+              stroke-width="4"
+              transform="rotate(-8 107 128)"/>
+
+          </g>
+
+          <!-- злость -->
+
+          <g class="anger-mark">
+
+            <path
+              d="M171 62
+                 Q181 54 187 64
+                 Q194 54 203 62
+                 Q198 73 206 79
+                 Q194 82 196 93
+                 Q185 87 177 95
+                 Q177 82 165 80
+                 Q173 73 171 62Z"
+              fill="#ef3340"/>
+
+          </g>
+
+        </svg>
 
       </button>
 
+
+      <!-- книга -->
 
       <div
         id="knowledgeBook"
@@ -2001,6 +1965,12 @@ button:disabled {
 
         <div class="book-mouth"></div>
 
+        <div class="book-tongue"></div>
+
+        <div class="book-crack c1"></div>
+        <div class="book-crack c2"></div>
+        <div class="book-crack c3"></div>
+
         <div class="book-pages"></div>
 
       </div>
@@ -2012,23 +1982,32 @@ button:disabled {
         💥
       </div>
 
-    </div>
 
+      <div
+        class="paper-bit p1">
+      </div>
+
+      <div
+        class="paper-bit p2">
+      </div>
+
+      <div
+        class="paper-bit p3">
+      </div>
+
+    </div>
 
     <div class="cat-hint">
-      Нажми на котика. У него остались вопросы к книге.
+      Нажми на котика. Он явно ещё не закончил.
     </div>
 
-
     <br>
-
 
     <button
       class="main-button"
       onclick="closeKnowledgeFinal()">
       Так ей и надо
     </button>
-
 
     <button
       class="secondary-button"
@@ -2044,11 +2023,10 @@ button:disabled {
 <script>
 
 /* =========================================================
-   БАЗА
+   ОБЩЕЕ
 ========================================================= */
 
 const NEED = 3;
-
 
 function load(key) {
 
@@ -2065,8 +2043,7 @@ function load(key) {
   }
 }
 
-
-function save(key, data) {
+function save(key,data) {
 
   localStorage.setItem(
     key,
@@ -2074,10 +2051,8 @@ function save(key, data) {
   );
 }
 
-
 let knowledgeData =
   load("trainerKnowledgeV2");
-
 
 let caseData =
   load("trainerCases");
@@ -2085,20 +2060,11 @@ let caseData =
 
 function hideScreens() {
 
-  document
-    .getElementById("home")
-    .classList.add("hidden");
+  document.getElementById("home").classList.add("hidden");
 
+  document.getElementById("knowledge").classList.add("hidden");
 
-  document
-    .getElementById("knowledge")
-    .classList.add("hidden");
-
-
-  document
-    .getElementById("cases")
-    .classList.add("hidden");
-
+  document.getElementById("cases").classList.add("hidden");
 }
 
 
@@ -2110,150 +2076,106 @@ function goHome() {
 
   hideScreens();
 
-
   document
     .getElementById("home")
     .classList.remove("hidden");
 
-
   updateHome();
-
 }
-
 
 /* =========================================================
    ТЕМА
 ========================================================= */
 
 let selectedTheme =
-  localStorage.getItem(
-    "trainerTheme"
-  ) ||
+  localStorage.getItem("trainerTheme") ||
   "light";
 
 
 function selectTheme(theme) {
 
-  selectedTheme =
-    theme;
-
+  selectedTheme = theme;
 
   localStorage.setItem(
     "trainerTheme",
     theme
   );
 
-
   applyTheme();
 
   updateThemeButtons();
-
 }
 
 
 function applyTheme() {
 
-  document
-    .body
-    .classList
-    .toggle(
-      "dark",
-      selectedTheme === "dark"
-    );
-
+  document.body.classList.toggle(
+    "dark",
+    selectedTheme === "dark"
+  );
 }
 
 
 function updateThemeButtons() {
 
-  const lightButton =
+  const light =
     document.getElementById(
       "lightThemeButton"
     );
 
-
-  const darkButton =
+  const dark =
     document.getElementById(
       "darkThemeButton"
     );
 
-
-  if (
-    !lightButton ||
-    !darkButton
-  ) {
-
+  if (!light || !dark) {
     return;
-
   }
 
+  light.classList.toggle(
+    "selected",
+    selectedTheme === "light"
+  );
 
-  lightButton
-    .classList
-    .toggle(
-      "selected",
-      selectedTheme === "light"
-    );
-
-
-  darkButton
-    .classList
-    .toggle(
-      "selected",
-      selectedTheme === "dark"
-    );
-
+  dark.classList.toggle(
+    "selected",
+    selectedTheme === "dark"
+  );
 }
-
 
 /* =========================================================
    ЗНАНИЯ
 ========================================================= */
 
-let currentKnowledge =
-  null;
+let currentKnowledge = null;
 
+let knowledgeSeconds = 0;
 
-let knowledgeSeconds =
-  0;
-
-
-let knowledgeInterval =
-  null;
+let knowledgeInterval = null;
 
 
 function openKnowledge() {
 
   hideScreens();
 
-
   document
     .getElementById("knowledge")
     .classList.remove("hidden");
 
-
   renderKnowledgeTracker();
 
   nextKnowledge();
-
 }
 
 
 function getAvailableKnowledge() {
 
-  let result =
-    [];
+  let result = [];
 
-
-  for (
-    let i = 1;
-    i <= 10;
-    i++
-  ) {
+  for (let i=1;i<=10;i++) {
 
     const data =
       knowledgeData[i];
-
 
     const attempts =
       data &&
@@ -2261,20 +2183,12 @@ function getAvailableKnowledge() {
         ? data.results.length
         : 0;
 
-
-    if (
-      attempts < NEED
-    ) {
-
+    if (attempts < NEED) {
       result.push(i);
-
     }
-
   }
 
-
   return result;
-
 }
 
 
@@ -2282,21 +2196,15 @@ function nextKnowledge() {
 
   stopKnowledgeTimer();
 
-
   const available =
     getAvailableKnowledge();
 
-
-  if (
-    !available.length
-  ) {
+  if (!available.length) {
 
     showKnowledgeFinal();
 
     return;
-
   }
-
 
   currentKnowledge =
     available[
@@ -2306,186 +2214,102 @@ function nextKnowledge() {
       )
     ];
 
-
   document
-    .getElementById(
-      "knowledgeNumber"
-    )
+    .getElementById("knowledgeNumber")
     .textContent =
     currentKnowledge;
 
+  document
+    .getElementById("knowledgeResult")
+    .classList.add("hidden");
 
   document
-    .getElementById(
-      "knowledgeResult"
-    )
-    .classList.add(
-      "hidden"
-    );
-
-
-  document
-    .getElementById(
-      "knowledgeActions"
-    )
-    .classList.remove(
-      "hidden"
-    );
-
+    .getElementById("knowledgeActions")
+    .classList.remove("hidden");
 
   startKnowledgeTimer();
-
 }
 
 
-function finishKnowledge(
-  success
-) {
+function finishKnowledge(success) {
 
   stopKnowledgeTimer();
 
+  if (!knowledgeData[currentKnowledge]) {
 
-  if (
-    !knowledgeData[
-      currentKnowledge
-    ]
-  ) {
-
-    knowledgeData[
-      currentKnowledge
-    ] = {
-
-      results: [],
-      attempts: 0,
-      best: null
-
+    knowledgeData[currentKnowledge] = {
+      results:[],
+      attempts:0,
+      best:null
     };
-
   }
-
 
   const data =
-    knowledgeData[
-      currentKnowledge
-    ];
+    knowledgeData[currentKnowledge];
 
-
-  if (
-    !Array.isArray(
-      data.results
-    )
-  ) {
-
-    data.results =
-      [];
-
+  if (!Array.isArray(data.results)) {
+    data.results = [];
   }
 
-
-  if (
-    data.results.length >=
-    NEED
-  ) {
-
+  if (data.results.length >= NEED) {
     return;
-
   }
-
 
   data.results.push(
-    success
-      ? "good"
-      : "bad"
+    success ? "good" : "bad"
   );
 
-
-  data.attempts =
-    (
-      data.attempts ||
-      0
-    ) +
-    1;
-
+  data.attempts++;
 
   if (
     data.best === null ||
-    data.best === undefined ||
-    knowledgeSeconds <
-    data.best
+    knowledgeSeconds < data.best
   ) {
-
     data.best =
       knowledgeSeconds;
-
   }
-
 
   save(
     "trainerKnowledgeV2",
     knowledgeData
   );
 
+  document
+    .getElementById("knowledgeActions")
+    .classList.add("hidden");
 
   document
-    .getElementById(
-      "knowledgeActions"
-    )
-    .classList.add(
-      "hidden"
-    );
-
-
-  document
-    .getElementById(
-      "knowledgeResultText"
-    )
+    .getElementById("knowledgeResultText")
     .textContent =
     success
       ? "Засчитано ✓"
       : "Отмечено как не верно";
 
-
   document
-    .getElementById(
-      "knowledgeResult"
-    )
-    .classList.remove(
-      "hidden"
-    );
-
+    .getElementById("knowledgeResult")
+    .classList.remove("hidden");
 
   renderKnowledgeTracker();
 
   updateHome();
 
-
-  if (
-    allKnowledgeCompleted()
-  ) {
+  if (allKnowledgeCompleted()) {
 
     setTimeout(
       showKnowledgeFinal,
       700
     );
-
   }
-
 }
 
 
 function startKnowledgeTimer() {
 
-  knowledgeSeconds =
-    0;
-
+  knowledgeSeconds = 0;
 
   document
-    .getElementById(
-      "knowledgeTimer"
-    )
-    .textContent =
-    0;
-
+    .getElementById("knowledgeTimer")
+    .textContent = 0;
 
   knowledgeInterval =
     setInterval(
@@ -2493,37 +2317,27 @@ function startKnowledgeTimer() {
 
         knowledgeSeconds++;
 
-
         document
-          .getElementById(
-            "knowledgeTimer"
-          )
+          .getElementById("knowledgeTimer")
           .textContent =
           knowledgeSeconds;
 
       },
       1000
     );
-
 }
 
 
 function stopKnowledgeTimer() {
 
-  if (
-    knowledgeInterval
-  ) {
+  if (knowledgeInterval) {
 
     clearInterval(
       knowledgeInterval
     );
-
   }
 
-
-  knowledgeInterval =
-    null;
-
+  knowledgeInterval = null;
 }
 
 
@@ -2534,302 +2348,171 @@ function renderKnowledgeTracker() {
       "knowledgeTracker"
     );
 
+  container.innerHTML = "";
 
-  container.innerHTML =
-    "";
-
-
-  for (
-    let i = 1;
-    i <= 10;
-    i++
-  ) {
+  for (let i=1;i<=10;i++) {
 
     const data =
       knowledgeData[i] ||
       {
-
-        results: [],
-        attempts: 0,
-        best: null
-
+        results:[],
+        attempts:0,
+        best:null
       };
 
-
     const results =
-      Array.isArray(
-        data.results
-      )
+      Array.isArray(data.results)
         ? data.results
         : [];
 
-
     const row =
-      document.createElement(
-        "div"
-      );
-
+      document.createElement("div");
 
     row.className =
       "knowledge-row" +
       (
-        results.length >=
-        NEED
+        results.length >= NEED
           ? " done"
           : ""
       );
 
-
     const title =
-      document.createElement(
-        "div"
-      );
-
+      document.createElement("div");
 
     title.className =
       "knowledge-title";
 
-
     title.textContent =
-      "Задание " +
-      i;
-
+      "Задание " + i;
 
     const circles =
-      document.createElement(
-        "div"
-      );
-
+      document.createElement("div");
 
     circles.className =
       "knowledge-circles";
 
-
-    for (
-      let j = 0;
-      j < NEED;
-      j++
-    ) {
+    for (let j=0;j<NEED;j++) {
 
       const dot =
-        document.createElement(
-          "div"
-        );
-
+        document.createElement("div");
 
       dot.className =
         "tracker-dot";
 
+      if (results[j] === "good") {
 
-      if (
-        results[j] ===
-        "good"
-      ) {
-
-        dot.classList.add(
-          "good"
-        );
-
+        dot.classList.add("good");
       }
 
+      if (results[j] === "bad") {
 
-      if (
-        results[j] ===
-        "bad"
-      ) {
-
-        dot.classList.add(
-          "bad"
-        );
-
+        dot.classList.add("bad");
       }
 
-
-      circles.appendChild(
-        dot
-      );
-
+      circles.appendChild(dot);
     }
 
-
     const attempts =
-      document.createElement(
-        "div"
-      );
-
+      document.createElement("div");
 
     attempts.className =
       "knowledge-meta";
 
-
     attempts.textContent =
       "Попыток: " +
-      (
-        data.attempts ||
-        0
-      );
-
+      (data.attempts || 0);
 
     const best =
-      document.createElement(
-        "div"
-      );
-
+      document.createElement("div");
 
     best.className =
       "knowledge-meta";
 
-
     best.textContent =
       "Лучшее: " +
       (
-        data.best === null ||
-        data.best === undefined
+        data.best === null
           ? "—"
-          : data.best +
-            " сек."
+          : data.best + " сек."
       );
 
+    row.appendChild(title);
+    row.appendChild(circles);
+    row.appendChild(attempts);
+    row.appendChild(best);
 
-    row.appendChild(
-      title
-    );
-
-
-    row.appendChild(
-      circles
-    );
-
-
-    row.appendChild(
-      attempts
-    );
-
-
-    row.appendChild(
-      best
-    );
-
-
-    container.appendChild(
-      row
-    );
-
+    container.appendChild(row);
   }
-
 }
 
 
 function allKnowledgeCompleted() {
 
-  for (
-    let i = 1;
-    i <= 10;
-    i++
-  ) {
+  for (let i=1;i<=10;i++) {
 
     const data =
       knowledgeData[i];
 
-
     if (
       !data ||
-      !Array.isArray(
-        data.results
-      ) ||
-      data.results.length <
-      NEED
+      !Array.isArray(data.results) ||
+      data.results.length < NEED
     ) {
 
       return false;
-
     }
-
   }
 
-
   return true;
-
 }
 
 
 function resetKnowledge() {
 
-  const answer =
-    confirm(
-      "Точно сбросить прогресс знаний?"
-    );
-
-
   if (
-    !answer
+    !confirm(
+      "Точно сбросить прогресс знаний?"
+    )
   ) {
-
     return;
-
   }
 
-
-  knowledgeData =
-    {};
-
+  knowledgeData = {};
 
   save(
     "trainerKnowledgeV2",
     knowledgeData
   );
 
-
   renderKnowledgeTracker();
 
   updateHome();
 
   nextKnowledge();
-
 }
-
 
 /* =========================================================
    РУЛЕТКА
 ========================================================= */
 
-let currentCase =
-  null;
+let currentCase = null;
 
+let caseSeconds = 0;
 
-let caseSeconds =
-  0;
+let caseInterval = null;
 
+let wheelRotation = 0;
 
-let caseInterval =
-  null;
-
-
-let wheelRotation =
-  0;
-
-
-let spinning =
-  false;
-
-
-let animationFrame =
-  null;
+let spinning = false;
 
 
 function openCases() {
 
   hideScreens();
 
-
   document
-    .getElementById(
-      "cases"
-    )
-    .classList.remove(
-      "hidden"
-    );
-
+    .getElementById("cases")
+    .classList.remove("hidden");
 
   prepareWheel();
 
@@ -2838,167 +2521,113 @@ function openCases() {
   positionNumbers(
     wheelRotation
   );
-
 }
 
 
 function availableCases() {
 
-  let result =
-    [];
+  let result = [];
 
-
-  for (
-    let i = 1;
-    i <= 10;
-    i++
-  ) {
+  for (let i=1;i<=10;i++) {
 
     const data =
       caseData[i];
 
-
     if (
       !data ||
-      data.success <
-      NEED
+      data.success < NEED
     ) {
-
       result.push(i);
-
     }
-
   }
 
-
   return result;
-
 }
 
 
-function positionNumbers(
-  rotation
-) {
+function positionNumbers(rotation) {
 
   const shell =
     document.getElementById(
       "wheelShell"
     );
 
-
   const size =
     shell.offsetWidth;
 
-
   const radius =
-    size *
-    0.38;
-
+    size * .38;
 
   const center =
-    size /
-    2;
+    size / 2;
 
-
-  const numbers =
-    document.querySelectorAll(
+  document
+    .querySelectorAll(
       ".wheel-number"
+    )
+    .forEach(
+      function(element) {
+
+        const number =
+          Number(
+            element.dataset.number
+          );
+
+        const baseAngle =
+          -90 +
+          18 +
+          (number-1) * 36;
+
+        const angle =
+          baseAngle +
+          rotation;
+
+        const rad =
+          angle *
+          Math.PI /
+          180;
+
+        const x =
+          center +
+          Math.cos(rad) *
+          radius;
+
+        const y =
+          center +
+          Math.sin(rad) *
+          radius;
+
+        element.style.left =
+          x + "px";
+
+        element.style.top =
+          y + "px";
+      }
     );
-
-
-  numbers.forEach(
-    function(element) {
-
-      const number =
-        Number(
-          element.dataset.number
-        );
-
-
-      const baseAngle =
-        -90 +
-        18 +
-        (
-          number - 1
-        ) *
-        36;
-
-
-      const currentAngle =
-        baseAngle +
-        rotation;
-
-
-      const rad =
-        currentAngle *
-        Math.PI /
-        180;
-
-
-      const x =
-        center +
-        Math.cos(rad) *
-        radius;
-
-
-      const y =
-        center +
-        Math.sin(rad) *
-        radius;
-
-
-      element.style.left =
-        x +
-        "px";
-
-
-      element.style.top =
-        y +
-        "px";
-
-    }
-  );
-
 }
 
 
 function spinWheel() {
 
-  if (
-    spinning
-  ) {
-
+  if (spinning) {
     return;
-
   }
-
 
   const available =
     availableCases();
 
-
-  if (
-    !available.length
-  ) {
+  if (!available.length) {
 
     showCasesFinal();
 
     return;
-
   }
 
-
-  spinning =
-    true;
-
+  spinning = true;
 
   document
-    .getElementById(
-      "spinButton"
-    )
-    .disabled =
-    true;
-
+    .getElementById("spinButton")
+    .disabled = true;
 
   currentCase =
     available[
@@ -3008,325 +2637,193 @@ function spinWheel() {
       )
     ];
 
-
   const sectorCenter =
     18 +
-    (
-      currentCase -
-      1
-    ) *
-    36;
+    (currentCase-1) * 36;
 
+  const normalized =
+    ((wheelRotation % 360)+360)%360;
 
-  const currentNormalized =
-    (
-      (
-        wheelRotation %
-        360
-      ) +
-      360
-    ) %
-    360;
-
-
-  const desiredNormalized =
-    (
-      360 -
-      sectorCenter
-    ) %
-    360;
-
+  const desired =
+    (360-sectorCenter)%360;
 
   let difference =
-    desiredNormalized -
-    currentNormalized;
+    desired -
+    normalized;
 
-
-  if (
-    difference <
-    0
-  ) {
-
-    difference +=
-      360;
-
+  if (difference < 0) {
+    difference += 360;
   }
 
-
-  const startRotation =
+  const start =
     wheelRotation;
 
-
-  const targetRotation =
+  const target =
     wheelRotation +
-    (
-      5 *
-      360
-    ) +
+    5*360 +
     difference;
 
-
-  const duration =
-    4000;
-
+  const duration = 4000;
 
   const startTime =
     performance.now();
-
 
   const wheel =
     document.getElementById(
       "wheel"
     );
 
-
   function animate(now) {
 
     const elapsed =
-      now -
-      startTime;
+      now - startTime;
 
-
-    let progress =
+    const progress =
       Math.min(
         elapsed /
         duration,
         1
       );
 
-
     const eased =
       1 -
       Math.pow(
-        1 -
-        progress,
+        1-progress,
         4
       );
 
-
     const rotation =
-      startRotation +
-      (
-        targetRotation -
-        startRotation
-      ) *
+      start +
+      (target-start) *
       eased;
-
 
     wheel.style.transform =
       "rotate(" +
       rotation +
       "deg)";
 
+    positionNumbers(rotation);
 
-    positionNumbers(
-      rotation
-    );
+    if (progress < 1) {
 
-
-    if (
-      progress <
-      1
-    ) {
-
-      animationFrame =
-        requestAnimationFrame(
-          animate
-        );
+      requestAnimationFrame(
+        animate
+      );
 
     } else {
 
       wheelRotation =
-        targetRotation;
-
+        target;
 
       spinning =
         false;
 
-
       showCase();
-
     }
-
   }
 
-
-  animationFrame =
-    requestAnimationFrame(
-      animate
-    );
-
+  requestAnimationFrame(
+    animate
+  );
 }
 
 
 function showCase() {
 
   const data =
-    caseData[
-      currentCase
-    ] ||
-    {
-      success: 0
-    };
-
+    caseData[currentCase] ||
+    {success:0};
 
   document
-    .getElementById(
-      "caseNumber"
-    )
+    .getElementById("caseNumber")
     .textContent =
     currentCase;
 
-
   document
-    .getElementById(
-      "caseProgress"
-    )
+    .getElementById("caseProgress")
     .textContent =
     data.success +
     " / 3";
 
-
   document
-    .getElementById(
-      "caseWork"
-    )
-    .classList.remove(
-      "hidden"
-    );
-
+    .getElementById("caseWork")
+    .classList.remove("hidden");
 
   startCaseTimer();
-
 }
 
 
-function finishCase(
-  success
-) {
+function finishCase(success) {
 
   stopCaseTimer();
 
+  if (!caseData[currentCase]) {
 
-  if (
-    !caseData[
-      currentCase
-    ]
-  ) {
-
-    caseData[
-      currentCase
-    ] =
-    {
-
-      success: 0,
-      attempts: 0,
-      best: null
-
+    caseData[currentCase] = {
+      success:0,
+      attempts:0,
+      best:null
     };
-
   }
 
-
   const data =
-    caseData[
-      currentCase
-    ];
-
+    caseData[currentCase];
 
   const wasCompleted =
-    data.success >=
-    NEED;
-
+    data.success >= NEED;
 
   data.attempts++;
 
-
-  if (
-    success
-  ) {
+  if (success) {
 
     data.success++;
 
+    if (data.success > NEED) {
 
-    if (
-      data.success >
-      NEED
-    ) {
-
-      data.success =
-        NEED;
-
+      data.success = NEED;
     }
-
   }
-
 
   if (
     data.best === null ||
-    caseSeconds <
-    data.best
+    caseSeconds < data.best
   ) {
 
     data.best =
       caseSeconds;
-
   }
-
 
   save(
     "trainerCases",
     caseData
   );
 
+  document
+    .getElementById("caseWork")
+    .classList.add("hidden");
 
   document
-    .getElementById(
-      "caseWork"
-    )
-    .classList.add(
-      "hidden"
-    );
-
-
-  document
-    .getElementById(
-      "caseResultText"
-    )
+    .getElementById("caseResultText")
     .textContent =
     success
       ? "Кейс засчитан ✓"
       : "Кейс не засчитан";
 
-
   document
-    .getElementById(
-      "caseResult"
-    )
-    .classList.remove(
-      "hidden"
-    );
-
+    .getElementById("caseResult")
+    .classList.remove("hidden");
 
   const justCompleted =
     !wasCompleted &&
-    data.success >=
-    NEED;
+    data.success >= NEED;
 
-
-  if (
-    justCompleted
-  ) {
-
+  if (justCompleted) {
     smallCelebration();
-
   }
-
 
   renderCaseStats();
 
   updateHome();
-
 
   if (
     justCompleted &&
@@ -3337,9 +2834,7 @@ function finishCase(
       showCasesFinal,
       900
     );
-
   }
-
 }
 
 
@@ -3347,52 +2842,29 @@ function prepareWheel() {
 
   stopCaseTimer();
 
-
-  currentCase =
-    null;
-
+  currentCase = null;
 
   document
-    .getElementById(
-      "caseWork"
-    )
-    .classList.add(
-      "hidden"
-    );
-
+    .getElementById("caseWork")
+    .classList.add("hidden");
 
   document
-    .getElementById(
-      "caseResult"
-    )
-    .classList.add(
-      "hidden"
-    );
-
+    .getElementById("caseResult")
+    .classList.add("hidden");
 
   document
-    .getElementById(
-      "spinButton"
-    )
-    .disabled =
-    false;
-
+    .getElementById("spinButton")
+    .disabled = false;
 }
 
 
 function startCaseTimer() {
 
-  caseSeconds =
-    0;
-
+  caseSeconds = 0;
 
   document
-    .getElementById(
-      "caseTimer"
-    )
-    .textContent =
-    0;
-
+    .getElementById("caseTimer")
+    .textContent = 0;
 
   caseInterval =
     setInterval(
@@ -3400,37 +2872,27 @@ function startCaseTimer() {
 
         caseSeconds++;
 
-
         document
-          .getElementById(
-            "caseTimer"
-          )
+          .getElementById("caseTimer")
           .textContent =
           caseSeconds;
 
       },
       1000
     );
-
 }
 
 
 function stopCaseTimer() {
 
-  if (
-    caseInterval
-  ) {
+  if (caseInterval) {
 
     clearInterval(
       caseInterval
     );
-
   }
 
-
-  caseInterval =
-    null;
-
+  caseInterval = null;
 }
 
 
@@ -3441,46 +2903,30 @@ function renderCaseStats() {
       "caseStats"
     );
 
+  container.innerHTML = "";
 
-  container.innerHTML =
-    "";
-
-
-  for (
-    let i = 1;
-    i <= 10;
-    i++
-  ) {
+  for (let i=1;i<=10;i++) {
 
     const data =
       caseData[i] ||
       {
-
-        success: 0,
-        attempts: 0,
-        best: null
-
+        success:0,
+        attempts:0,
+        best:null
       };
 
-
     const div =
-      document.createElement(
-        "div"
-      );
-
+      document.createElement("div");
 
     div.className =
       "stat" +
       (
-        data.success >=
-        NEED
+        data.success >= NEED
           ? " completed"
           : ""
       );
 
-
     div.innerHTML =
-
       "<strong>Кейс " +
       i +
       "</strong><br>" +
@@ -3501,51 +2947,51 @@ function renderCaseStats() {
             " сек."
       );
 
-
-    container.appendChild(
-      div
-    );
-
+    container.appendChild(div);
   }
-
 }
 
 
 function resetCases() {
 
-  const answer =
-    confirm(
-      "Точно сбросить прогресс кейсов?"
-    );
-
-
   if (
-    !answer
+    !confirm(
+      "Точно сбросить прогресс кейсов?"
+    )
   ) {
-
     return;
-
   }
 
-
-  caseData =
-    {};
-
+  caseData = {};
 
   save(
     "trainerCases",
     caseData
   );
 
-
   renderCaseStats();
 
   updateHome();
 
   prepareWheel();
-
 }
 
+
+function allCasesCompleted() {
+
+  for (let i=1;i<=10;i++) {
+
+    if (
+      !caseData[i] ||
+      caseData[i].success < NEED
+    ) {
+
+      return false;
+    }
+  }
+
+  return true;
+}
 
 /* =========================================================
    НАСТРОЙКИ
@@ -3554,31 +3000,20 @@ function resetCases() {
 function openSettings() {
 
   document
-    .getElementById(
-      "settingsOverlay"
-    )
-    .classList.remove(
-      "hidden"
-    );
-
+    .getElementById("settingsOverlay")
+    .classList.remove("hidden");
 
   updatePointerOptions();
 
   updateThemeButtons();
-
 }
 
 
 function closeSettings() {
 
   document
-    .getElementById(
-      "settingsOverlay"
-    )
-    .classList.add(
-      "hidden"
-    );
-
+    .getElementById("settingsOverlay")
+    .classList.add("hidden");
 }
 
 
@@ -3589,24 +3024,19 @@ let selectedPointer =
   "classic";
 
 
-function selectPointer(
-  type
-) {
+function selectPointer(type) {
 
   selectedPointer =
     type;
-
 
   localStorage.setItem(
     "trainerPointer",
     type
   );
 
-
   applyPointer();
 
   updatePointerOptions();
-
 }
 
 
@@ -3619,22 +3049,13 @@ function updatePointerOptions() {
     .forEach(
       function(button) {
 
-        button
-          .classList
-          .toggle(
-
-            "selected",
-
-            button
-              .dataset
-              .pointer ===
-            selectedPointer
-
-          );
-
+        button.classList.toggle(
+          "selected",
+          button.dataset.pointer ===
+          selectedPointer
+        );
       }
     );
-
 }
 
 
@@ -3645,283 +3066,310 @@ function applyPointer() {
       "pointerVisual"
     );
 
+  visual.className = "";
+  visual.innerHTML = "";
 
-  visual.className =
-    "";
-
-
-  visual.innerHTML =
-    "";
-
-
-  if (
-    selectedPointer ===
-    "classic"
-  ) {
+  if (selectedPointer === "classic") {
 
     visual.className =
       "pointer-classic";
-
   }
 
-
-  if (
-    selectedPointer ===
-    "pizza"
-  ) {
+  if (selectedPointer === "pizza") {
 
     visual.className =
       "pointer-picture";
 
-
     const shape =
-      document.createElement(
-        "div"
-      );
-
+      document.createElement("div");
 
     shape.className =
       "pizza-pointer";
 
-
-    visual.appendChild(
-      shape
-    );
-
+    visual.appendChild(shape);
   }
 
-
-  if (
-    selectedPointer ===
-    "finger"
-  ) {
+  if (selectedPointer === "finger") {
 
     visual.className =
       "pointer-picture";
 
-
     const shape =
-      document.createElement(
-        "div"
-      );
-
+      document.createElement("div");
 
     shape.className =
       "finger-pointer";
 
-
-    visual.appendChild(
-      shape
-    );
-
+    visual.appendChild(shape);
   }
 
-
-  if (
-    selectedPointer ===
-    "kids"
-  ) {
+  if (selectedPointer === "kids") {
 
     visual.className =
       "pointer-picture";
 
-
     const shape =
-      document.createElement(
-        "div"
-      );
-
+      document.createElement("div");
 
     shape.className =
       "kids-pointer";
 
-
-    visual.appendChild(
-      shape
-    );
-
+    visual.appendChild(shape);
   }
-
 }
 
-
 /* =========================================================
-   КОТ ДУБАСИТ КНИГУ
+   КОТ БЬЁТ КНИГУ
 ========================================================= */
 
-let bookIsDead =
-  false;
+let bookDamage = 0;
 
-
-let catBusy =
-  false;
+let catBusy = false;
 
 
 function resetBook() {
 
-  bookIsDead =
-    false;
-
+  bookDamage = 0;
 
   const book =
     document.getElementById(
       "knowledgeBook"
     );
 
+  book.className =
+    "book";
 
-  const leftEye =
-    document.getElementById(
-      "bookEyeLeft"
-    );
-
-
-  const rightEye =
-    document.getElementById(
-      "bookEyeRight"
-    );
-
-
-  book.classList.remove(
-    "dead",
-    "hit"
-  );
-
-
-  leftEye.textContent =
+  document
+    .getElementById("bookEyeLeft")
+    .textContent =
     "•";
 
-
-  rightEye.textContent =
+  document
+    .getElementById("bookEyeRight")
+    .textContent =
     "•";
-
 }
 
 
 function catAttack() {
 
-  if (
-    catBusy
-  ) {
-
+  if (catBusy) {
     return;
-
   }
 
-
-  catBusy =
-    true;
-
+  catBusy = true;
 
   const cat =
     document.getElementById(
       "catAttackButton"
     );
 
-
   const book =
     document.getElementById(
       "knowledgeBook"
     );
-
 
   const impact =
     document.getElementById(
       "bookImpact"
     );
 
+  const attacks = [
+    {
+      cat:"attack-overhead",
+      book:"hit-1"
+    },
+    {
+      cat:"attack-side",
+      book:"hit-2"
+    },
+    {
+      cat:"attack-heavy",
+      book:"hit-3"
+    }
+  ];
+
+  const attack =
+    attacks[
+      Math.floor(
+        Math.random() *
+        attacks.length
+      )
+    ];
 
   cat.classList.remove(
-    "attacking"
+    "attack-overhead",
+    "attack-side",
+    "attack-heavy"
   );
-
 
   book.classList.remove(
-    "hit"
+    "hit-1",
+    "hit-2",
+    "hit-3"
   );
-
 
   impact.classList.remove(
     "show"
   );
 
-
   void cat.offsetWidth;
 
-
   cat.classList.add(
-    "attacking"
+    attack.cat
   );
-
 
   book.classList.add(
-    "hit"
+    attack.book
   );
-
 
   impact.classList.add(
     "show"
   );
 
+  flyPaper();
+
+  bookDamage++;
 
   setTimeout(
     function() {
 
-      document
-        .getElementById(
-          "bookEyeLeft"
-        )
-        .textContent =
-        "X";
-
-
-      document
-        .getElementById(
-          "bookEyeRight"
-        )
-        .textContent =
-        "X";
-
-
-      book.classList.add(
-        "dead"
-      );
-
-
-      bookIsDead =
-        true;
+      applyBookDamage();
 
     },
-    250
+    230
   );
-
 
   setTimeout(
     function() {
 
       cat.classList.remove(
-        "attacking"
+        "attack-overhead",
+        "attack-side",
+        "attack-heavy"
       );
-
 
       book.classList.remove(
-        "hit"
+        "hit-1",
+        "hit-2",
+        "hit-3"
       );
-
 
       impact.classList.remove(
         "show"
       );
 
-
-      catBusy =
-        false;
+      catBusy = false;
 
     },
-    500
+    620
   );
-
 }
 
+
+function applyBookDamage() {
+
+  const book =
+    document.getElementById(
+      "knowledgeBook"
+    );
+
+  book.classList.remove(
+    "damage-1",
+    "damage-2",
+    "damage-3",
+    "dead"
+  );
+
+  if (bookDamage === 1) {
+
+    book.classList.add(
+      "damage-1"
+    );
+  }
+
+  if (bookDamage === 2) {
+
+    book.classList.add(
+      "damage-2"
+    );
+  }
+
+  if (bookDamage === 3) {
+
+    book.classList.add(
+      "damage-3"
+    );
+
+    document
+      .getElementById("bookEyeLeft")
+      .textContent =
+      "×";
+
+    document
+      .getElementById("bookEyeRight")
+      .textContent =
+      "•";
+  }
+
+  if (bookDamage >= 4) {
+
+    book.classList.add(
+      "dead"
+    );
+
+    document
+      .getElementById("bookEyeLeft")
+      .textContent =
+      "X";
+
+    document
+      .getElementById("bookEyeRight")
+      .textContent =
+      "X";
+  }
+}
+
+
+function flyPaper() {
+
+  document
+    .querySelectorAll(
+      ".paper-bit"
+    )
+    .forEach(
+      function(piece) {
+
+        piece.classList.remove(
+          "fly"
+        );
+
+        piece.style.setProperty(
+          "--paper-x",
+          (
+            Math.random()*160 -
+            80
+          ) +
+          "px"
+        );
+
+        piece.style.setProperty(
+          "--paper-y",
+          (
+            -60 -
+            Math.random()*80
+          ) +
+          "px"
+        );
+
+        void piece.offsetWidth;
+
+        piece.classList.add(
+          "fly"
+        );
+      }
+    );
+}
 
 /* =========================================================
    КОНФЕТТИ
@@ -3934,7 +3382,6 @@ function createConfetti(
 ) {
 
   const colors = [
-
     "#ff686b",
     "#ffd93d",
     "#6bcb77",
@@ -3943,13 +3390,11 @@ function createConfetti(
     "#ff86a6",
     "#10afc9",
     "#ff9f1c"
-
   ];
 
-
   for (
-    let i = 0;
-    i < amount;
+    let i=0;
+    i<amount;
     i++
   ) {
 
@@ -3958,25 +3403,19 @@ function createConfetti(
         "div"
       );
 
-
     piece.className =
       "confetti";
 
-
     piece.style.left =
-      Math.random() *
-      100 +
+      Math.random()*100 +
       "vw";
-
 
     piece.style.top =
       (
         -20 -
-        Math.random() *
-        150
+        Math.random()*150
       ) +
       "px";
-
 
     piece.style.background =
       colors[
@@ -3986,20 +3425,14 @@ function createConfetti(
         )
       ];
 
-
     piece.style.setProperty(
-
       "--x",
-
       (
-        Math.random() *
-        250 -
+        Math.random()*250 -
         125
       ) +
       "px"
-
     );
-
 
     const duration =
       durationMin +
@@ -4009,34 +3442,23 @@ function createConfetti(
         durationMin
       );
 
-
     piece.style.setProperty(
-
       "--time",
-
       duration +
       "ms"
-
     );
-
 
     document.body.appendChild(
       piece
     );
 
-
     setTimeout(
       function() {
-
         piece.remove();
-
       },
-      duration +
-      300
+      duration + 300
     );
-
   }
-
 }
 
 
@@ -4047,40 +3469,11 @@ function smallCelebration() {
     1200,
     2200
   );
-
 }
-
 
 /* =========================================================
    ФИНАЛЫ
 ========================================================= */
-
-function allCasesCompleted() {
-
-  for (
-    let i = 1;
-    i <= 10;
-    i++
-  ) {
-
-    if (
-      !caseData[i] ||
-      caseData[i]
-        .success <
-      NEED
-    ) {
-
-      return false;
-
-    }
-
-  }
-
-
-  return true;
-
-}
-
 
 function showCasesFinal() {
 
@@ -4092,13 +3485,11 @@ function showCasesFinal() {
       "hidden"
     );
 
-
   createConfetti(
     180,
     2200,
     4800
   );
-
 }
 
 
@@ -4111,21 +3502,17 @@ function closeCasesFinal() {
     .classList.add(
       "hidden"
     );
-
 }
 
 
 function startNewCaseRound() {
 
-  caseData =
-    {};
-
+  caseData = {};
 
   save(
     "trainerCases",
     caseData
   );
-
 
   closeCasesFinal();
 
@@ -4134,14 +3521,12 @@ function startNewCaseRound() {
   updateHome();
 
   prepareWheel();
-
 }
 
 
 function showKnowledgeFinal() {
 
   resetBook();
-
 
   document
     .getElementById(
@@ -4151,13 +3536,11 @@ function showKnowledgeFinal() {
       "hidden"
     );
 
-
   createConfetti(
     160,
     2000,
     4300
   );
-
 }
 
 
@@ -4170,21 +3553,17 @@ function closeKnowledgeFinal() {
     .classList.add(
       "hidden"
     );
-
 }
 
 
 function startNewKnowledgeRound() {
 
-  knowledgeData =
-    {};
-
+  knowledgeData = {};
 
   save(
     "trainerKnowledgeV2",
     knowledgeData
   );
-
 
   closeKnowledgeFinal();
 
@@ -4193,9 +3572,7 @@ function startNewKnowledgeRound() {
   updateHome();
 
   nextKnowledge();
-
 }
-
 
 /* =========================================================
    ГЛАВНАЯ
@@ -4203,51 +3580,31 @@ function startNewKnowledgeRound() {
 
 function updateHome() {
 
-  let knowledgeDone =
-    0;
+  let knowledgeDone = 0;
+  let casesDone = 0;
 
-
-  let casesDone =
-    0;
-
-
-  for (
-    let i = 1;
-    i <= 10;
-    i++
-  ) {
+  for (let i=1;i<=10;i++) {
 
     const k =
       knowledgeData[i];
 
-
     if (
       k &&
-      Array.isArray(
-        k.results
-      ) &&
-      k.results.length >=
-      NEED
+      Array.isArray(k.results) &&
+      k.results.length >= NEED
     ) {
 
       knowledgeDone++;
-
     }
-
 
     if (
       caseData[i] &&
-      caseData[i]
-        .success >=
-      NEED
+      caseData[i].success >= NEED
     ) {
 
       casesDone++;
-
     }
-
   }
-
 
   document
     .getElementById(
@@ -4257,7 +3614,6 @@ function updateHome() {
     knowledgeDone +
     " / 10";
 
-
   document
     .getElementById(
       "homeCaseProgress"
@@ -4265,9 +3621,7 @@ function updateHome() {
     .textContent =
     casesDone +
     " / 10";
-
 }
-
 
 /* =========================================================
    СТАРТ
@@ -4279,7 +3633,6 @@ applyPointer();
 
 updateHome();
 
-
 window.addEventListener(
   "resize",
   function() {
@@ -4287,7 +3640,6 @@ window.addEventListener(
     positionNumbers(
       wheelRotation
     );
-
   }
 );
 
