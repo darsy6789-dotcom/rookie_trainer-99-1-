@@ -3,877 +3,1711 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Тренажёр новичка</title>
 
 <style>
-/* =========================================================
-   БАЗА
-========================================================= */
+*{box-sizing:border-box}
 
-* {
-  box-sizing: border-box;
+:root{
+  --page-bg:#f4f5f9;
+  --text:#202124;
+  --card-bg:#fff;
+  --soft-bg:#f2f3f6;
+  --soft-bg-2:#e7e8ec;
+  --main:#202124;
+  --main-text:#fff;
+  --success:#39ad73;
+  --success2:#39d87a;
+  --fail:#e45b70;
+  --backdrop:rgba(0,0,0,.55);
+  --grid-empty:#ebedf0;
+  --grid-1:#9be9a8;
+  --grid-2:#40c463;
+  --grid-3:#30a14e;
+  --grid-4:#216e39;
 }
 
-:root {
-  --page-bg: #f4f5f9;
-  --text: #202124;
-
-  --card-bg: #ffffff;
-  --soft-bg: #f2f3f6;
-  --soft-bg-2: #e7e8ec;
-
-  --border: #d9dbe1;
-
-  --main-btn: #202124;
-  --main-btn-text: #ffffff;
-
-  --success: #39ad73;
-  --success-bright: #39d87a;
-
-  --fail: #e45b70;
-
-  --backdrop: rgba(0,0,0,.55);
+body.dark{
+  --page-bg:#111216;
+  --text:#f3f3f5;
+  --card-bg:#1c1d22;
+  --soft-bg:#292a30;
+  --soft-bg-2:#303138;
+  --main:#f3f3f5;
+  --main-text:#111216;
+  --backdrop:rgba(0,0,0,.75);
+  --grid-empty:#2d333b;
 }
 
-body.dark {
-  --page-bg: #111216;
-  --text: #f3f3f5;
-
-  --card-bg: #1c1d22;
-  --soft-bg: #292a30;
-  --soft-bg-2: #303138;
-
-  --border: #41434c;
-
-  --main-btn: #f3f3f5;
-  --main-btn-text: #111216;
-
-  --backdrop: rgba(0,0,0,.72);
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:var(--page-bg);
+  color:var(--text);
+  transition:.2s;
 }
 
-body {
-  margin: 0;
-
-  font-family:
-    Arial,
-    sans-serif;
-
-  background:
-    var(--page-bg);
-
-  color:
-    var(--text);
-
-  transition:
-    background .22s ease,
-    color .22s ease;
+button{
+  font-family:inherit;
+  border:0;
+  border-radius:11px;
+  padding:12px 18px;
+  font-size:15px;
+  cursor:pointer;
+  transition:.12s;
 }
 
-button {
-  font-family: inherit;
+button:hover{transform:translateY(-1px)}
 
-  border: 0;
-
-  border-radius: 11px;
-
-  padding:
-    12px 18px;
-
-  font-size: 15px;
-
-  cursor: pointer;
-
-  transition:
-    transform .12s ease,
-    opacity .12s ease;
+button:disabled{
+  opacity:.55;
+  cursor:default;
+  transform:none;
 }
 
-button:hover {
-  transform:
-    translateY(-1px);
+.container{
+  width:min(920px,calc(100% - 30px));
+  margin:auto;
+  padding:30px 0 70px;
 }
 
-button:disabled {
-  opacity: .55;
-
-  cursor: default;
-
-  transform: none;
+.card{
+  background:var(--card-bg);
+  border-radius:20px;
+  padding:26px;
+  margin-top:20px;
+  box-shadow:0 8px 30px rgba(0,0,0,.08);
 }
 
-.container {
-  width:
-    min(
-      920px,
-      calc(100% - 30px)
-    );
-
-  margin:
-    0 auto;
-
-  padding:
-    30px 0 70px;
+body.dark .card{
+  box-shadow:0 8px 30px rgba(0,0,0,.35);
 }
 
-.card {
-  background:
-    var(--card-bg);
+.hidden{display:none!important}
 
-  border-radius:
-    20px;
+.main-button{
+  background:var(--main);
+  color:var(--main-text);
+}
 
-  padding:
-    26px;
+.success-button{
+  background:var(--success);
+  color:white;
+}
 
-  margin-top:
-    20px;
+.fail-button{
+  background:var(--fail);
+  color:white;
+}
 
+.secondary-button{
+  background:var(--soft-bg-2);
+  color:var(--text);
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:20px;
+}
+
+.timer{
+  font-size:29px;
+  font-weight:800;
+  margin:18px 0;
+}
+
+.big-number{
+  font-size:48px;
+  font-weight:800;
+  margin:25px 0;
+}
+
+.result-message{
+  margin-top:20px;
+  padding:16px;
+  border-radius:12px;
+  background:var(--soft-bg);
+}
+
+/* ---------------- ПОДСКАЗКА ---------------- */
+
+.help-widget{
+  position:fixed;
+  right:18px;
+  top:18px;
+  z-index:3000;
+}
+
+.help-button{
+  width:44px;
+  height:44px;
+  padding:0;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--main);
+  color:var(--main-text);
+  font-size:23px;
+  font-weight:900;
+  box-shadow:0 5px 18px rgba(0,0,0,.18);
+}
+
+.help-tooltip{
+  position:absolute;
+  right:52px;
+  top:50%;
+  transform:translateY(-50%) translateX(5px);
+  white-space:nowrap;
+  padding:8px 11px;
+  border-radius:9px;
+  background:var(--main);
+  color:var(--main-text);
+  opacity:0;
+  pointer-events:none;
+  transition:.16s;
+}
+
+.help-widget:hover .help-tooltip{
+  opacity:1;
+  transform:translateY(-50%);
+}
+
+/* ---------------- ТРЕКЕР ЗНАНИЙ ---------------- */
+
+.knowledge-tracker{
+  display:grid;
+  gap:12px;
+  margin-top:20px;
+}
+
+.knowledge-row{
+  display:grid;
+  grid-template-columns:130px 1fr auto auto;
+  gap:14px;
+  align-items:center;
+  background:var(--soft-bg);
+  border-radius:12px;
+  padding:12px 14px;
+}
+
+.knowledge-row.done{
+  background:rgba(57,216,122,.18);
+}
+
+.knowledge-title{font-weight:800}
+
+.knowledge-circles{
+  display:flex;
+  gap:8px;
+}
+
+.tracker-dot{
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  border:2px solid #aeb1ba;
+  background:var(--card-bg);
+}
+
+.tracker-dot.good{
+  background:#32d176;
+  border-color:#20b961;
+}
+
+.tracker-dot.bad{
+  background:#f16474;
+  border-color:#d94b5d;
+}
+
+.knowledge-meta{
+  font-size:13px;
+  opacity:.7;
+}
+
+/* ---------------- РУЛЕТКА ---------------- */
+
+.wheel-area{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  margin:28px auto 30px;
+}
+
+.pointer-holder{
+  height:60px;
+  display:flex;
+  justify-content:center;
+  align-items:flex-end;
+  margin-bottom:-8px;
+  z-index:20;
+}
+
+.pointer-classic{
+  width:0;
+  height:0;
+  border-left:19px solid transparent;
+  border-right:19px solid transparent;
+  border-top:38px solid var(--text);
+}
+
+.pointer-picture{
+  width:58px;
+  height:58px;
+  position:relative;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.pizza-pointer{
+  width:0;
+  height:0;
+  border-left:24px solid transparent;
+  border-right:24px solid transparent;
+  border-top:48px solid #f7c948;
+  position:relative;
+}
+
+.pizza-pointer::before{
+  content:"";
+  position:absolute;
+  width:46px;
+  height:8px;
+  top:-49px;
+  left:-23px;
+  background:#c77b30;
+  border-radius:6px;
+}
+
+.pizza-pointer::after{
+  content:"";
+  position:absolute;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#d94b45;
+  top:-38px;
+  left:-11px;
   box-shadow:
-    0 8px 30px
-    rgba(0,0,0,.08);
+    17px 9px 0 #d94b45,
+    7px 21px 0 #d94b45;
 }
 
-body.dark .card {
-  box-shadow:
-    0 8px 30px
-    rgba(0,0,0,.35);
+.finger-pointer{
+  width:58px;
+  height:58px;
+  position:relative;
 }
 
-.hidden {
-  display:
-    none !important;
+.finger-pointer::before{
+  content:"☝️";
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%) rotate(180deg);
+  font-size:52px;
+  line-height:1;
 }
 
-.main-button {
-  background:
-    var(--main-btn);
-
-  color:
-    var(--main-btn-text);
-}
-
-.success-button {
-  background:
-    var(--success);
-
-  color:
-    white;
-}
-
-.fail-button {
-  background:
-    var(--fail);
-
-  color:
-    white;
-}
-
-.secondary-button {
-  background:
-    var(--soft-bg-2);
-
-  color:
-    var(--text);
-}
-
-.actions {
-  display:
-    flex;
-
-  gap:
-    10px;
-
-  flex-wrap:
-    wrap;
-
-  margin-top:
-    20px;
-}
-
-.timer {
-  font-size:
-    29px;
-
-  font-weight:
-    800;
-
-  margin:
-    18px 0;
-}
-
-.big-number {
-  font-size:
-    48px;
-
-  font-weight:
-    800;
-
-  margin:
-    25px 0;
-}
-
-.result-message {
-  margin-top:
-    20px;
-
-  padding:
-    16px;
-
-  border-radius:
-    12px;
-
-  background:
-    var(--soft-bg);
-}
-
-
-/* =========================================================
-   ? — НАСТРОЙКИ
-========================================================= */
-
-.help-widget {
-  position:
-    fixed;
-
-  right:
-    18px;
-
-  top:
-    18px;
-
-  z-index:
-    3000;
-}
-
-.help-button {
-  width:
-    44px;
-
-  height:
-    44px;
-
-  padding:
-    0;
-
-  border-radius:
-    50%;
-
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  justify-content:
-    center;
-
-  background:
-    var(--main-btn);
-
-  color:
-    var(--main-btn-text);
-
-  font-size:
-    23px;
-
-  font-weight:
-    900;
-
-  box-shadow:
-    0 5px 18px
-    rgba(0,0,0,.18);
-}
-
-.help-tooltip {
-  position:
-    absolute;
-
-  right:
-    52px;
-
-  top:
-    50%;
-
-  transform:
-    translateY(-50%)
-    translateX(5px);
-
-  white-space:
-    nowrap;
-
-  padding:
-    8px 11px;
-
-  border-radius:
-    9px;
-
-  background:
-    var(--main-btn);
-
-  color:
-    var(--main-btn-text);
-
-  opacity:
-    0;
-
-  pointer-events:
-    none;
-
-  transition:
-    .16s ease;
-}
-
-.help-widget:hover
-.help-tooltip {
-  opacity:
-    1;
-
-  transform:
-    translateY(-50%)
-    translateX(0);
-}
-
-
-/* =========================================================
-   ТРЕКЕР ЗНАНИЙ
-========================================================= */
-
-.knowledge-tracker {
-  display:
-    grid;
-
-  gap:
-    12px;
-
-  margin-top:
-    20px;
-}
-
-.knowledge-row {
-  display:
-    grid;
-
-  grid-template-columns:
-    130px 1fr auto auto;
-
-  gap:
-    14px;
-
-  align-items:
-    center;
-
-  background:
-    var(--soft-bg);
-
-  border-radius:
-    12px;
-
-  padding:
-    12px 14px;
-}
-
-.knowledge-row.done {
-  background:
-    rgba(
-      57,
-      216,
-      122,
-      .18
-    );
-}
-
-.knowledge-title {
-  font-weight:
-    800;
-}
-
-.knowledge-circles {
-  display:
-    flex;
-
-  gap:
-    8px;
-}
-
-.tracker-dot {
-  width:
-    22px;
-
-  height:
-    22px;
-
-  border-radius:
-    50%;
-
-  border:
-    2px solid #aeb1ba;
-
-  background:
-    var(--card-bg);
-}
-
-.tracker-dot.good {
-  background:
-    #32d176;
-
-  border-color:
-    #20b961;
-}
-
-.tracker-dot.bad {
-  background:
-    #f16474;
-
-  border-color:
-    #d94b5d;
-}
-
-.knowledge-meta {
-  font-size:
-    13px;
-
-  opacity:
-    .7;
-}
-
-
-/* =========================================================
-   РУЛЕТКА
-========================================================= */
-
-.wheel-area {
-  display:
-    flex;
-
-  flex-direction:
-    column;
-
-  align-items:
-    center;
-
-  margin:
-    28px auto 30px;
-}
-
-.pointer-holder {
-  height:
-    60px;
-
-  display:
-    flex;
-
-  justify-content:
-    center;
-
-  align-items:
-    flex-end;
-
-  margin-bottom:
-    -8px;
-
-  z-index:
-    20;
-}
-
-.pointer-classic {
-  width:
-    0;
-
-  height:
-    0;
-
-  border-left:
-    19px solid transparent;
-
-  border-right:
-    19px solid transparent;
-
-  border-top:
-    38px solid var(--text);
-}
-
-.pointer-picture {
-  width:
-    58px;
-
-  height:
-    58px;
-
-  position:
-    relative;
-
-  display:
-    flex;
-
-  justify-content:
-    center;
-
-  align-items:
-    center;
-}
-
-/* Пицца */
-
-.pizza-pointer {
-  width:
-    0;
-
-  height:
-    0;
-
-  border-left:
-    24px solid transparent;
-
-  border-right:
-    24px solid transparent;
-
-  border-top:
-    48px solid #f7c948;
-
-  position:
-    relative;
-}
-
-.pizza-pointer::before {
-  content:
-    "";
-
-  position:
-    absolute;
-
-  width:
-    46px;
-
-  height:
-    8px;
-
-  top:
-    -49px;
-
-  left:
-    -23px;
-
-  background:
-    #c77b30;
-
-  border-radius:
-    6px;
-}
-
-.pizza-pointer::after {
-  content:
-    "●  ●";
-
-  position:
-    absolute;
-
-  top:
-    -39px;
-
-  left:
-    -15px;
-
-  color:
-    #d94b45;
-
-  font-size:
-    12px;
-}
-
-/* Дикий пальчик */
-
-.finger-pointer {
-  position:
-    relative;
-
-  width:
-    58px;
-
-  height:
-    58px;
-}
-
-.finger-pointer::before {
-  content:
-    "☝️";
-
-  position:
-    absolute;
-
-  left:
-    50%;
-
-  top:
-    50%;
-
-  transform:
-    translate(-50%,-50%)
-    rotate(180deg);
-
-  font-size:
-    52px;
-
-  line-height:
-    1;
-}
-
-/* Kids */
-
-.kids-pointer {
-  position:
-    relative;
-
-  width:
-    28px;
-
-  height:
-    48px;
-
-  background:
-    #8dd7ff;
-
-  border:
-    3px solid #202124;
-
-  border-radius:
-    50% 50% 12px 12px;
+.kids-pointer{
+  position:relative;
+  width:28px;
+  height:48px;
+  background:#8dd7ff;
+  border:3px solid #202124;
+  border-radius:50% 50% 12px 12px;
 }
 
 .kids-pointer::before,
-.kids-pointer::after {
-  content:
-    "";
-
-  position:
-    absolute;
-
-  width:
-    13px;
-
-  height:
-    13px;
-
-  top:
-    -5px;
-
-  background:
-    #8dd7ff;
-
-  border:
-    3px solid #202124;
-
-  border-radius:
-    50%;
+.kids-pointer::after{
+  content:"";
+  position:absolute;
+  width:13px;
+  height:13px;
+  top:-5px;
+  background:#8dd7ff;
+  border:3px solid #202124;
+  border-radius:50%;
 }
 
-.kids-pointer::before {
-  left:
-    -10px;
+.kids-pointer::before{left:-10px}
+.kids-pointer::after{right:-10px}
+
+.wheel-shell{
+  position:relative;
+  width:390px;
+  height:390px;
 }
 
-.kids-pointer::after {
-  right:
-    -10px;
-}
-
-.wheel-shell {
-  position:
-    relative;
-
-  width:
-    390px;
-
-  height:
-    390px;
-}
-
-.wheel {
-  position:
-    absolute;
-
-  inset:
-    0;
-
-  width:
-    100%;
-
-  height:
-    100%;
-
-  border-radius:
-    50%;
-
-  border:
-    8px solid var(--card-bg);
-
+.wheel{
+  position:absolute;
+  inset:0;
+  border-radius:50%;
+  border:8px solid var(--card-bg);
   box-shadow:
-    0 8px 30px
-      rgba(0,0,0,.18),
-    0 0 0 3px
-      var(--text);
+    0 8px 30px rgba(0,0,0,.18),
+    0 0 0 3px var(--text);
 
-  background:
-    conic-gradient(
-      #ff686b 0deg 36deg,
-      #ffd93d 36deg 72deg,
-      #6bcb77 72deg 108deg,
-      #4d96ff 108deg 144deg,
-      #9747e5 144deg 180deg,
-      #ff86a6 180deg 216deg,
-      #10afc9 216deg 252deg,
-      #ff9f1c 252deg 288deg,
-      #75df8d 288deg 324deg,
-      #bd70ee 324deg 360deg
-    );
+  background:conic-gradient(
+    #ff686b 0 36deg,
+    #ffd93d 36deg 72deg,
+    #6bcb77 72deg 108deg,
+    #4d96ff 108deg 144deg,
+    #9747e5 144deg 180deg,
+    #ff86a6 180deg 216deg,
+    #10afc9 216deg 252deg,
+    #ff9f1c 252deg 288deg,
+    #75df8d 288deg 324deg,
+    #bd70ee 324deg 360deg
+  );
 }
 
-.number-layer {
-  position:
-    absolute;
-
-  inset:
-    0;
-
-  pointer-events:
-    none;
+.number-layer{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
 }
 
-.wheel-number {
-  position:
-    absolute;
-
-  width:
-    42px;
-
-  height:
-    42px;
-
-  margin-left:
-    -21px;
-
-  margin-top:
-    -21px;
-
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  justify-content:
-    center;
-
-  font-size:
-    21px;
-
-  font-weight:
-    900;
-
-  color:
-    #151515;
+.wheel-number{
+  position:absolute;
+  width:42px;
+  height:42px;
+  margin-left:-21px;
+  margin-top:-21px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:21px;
+  font-weight:900;
+  color:#151515;
 }
 
-.wheel-center {
-  position:
-    absolute;
-
-  left:
-    50%;
-
-  top:
-    50%;
-
-  transform:
-    translate(-50%,-50%);
-
-  width:
-    70px;
-
-  height:
-    70px;
-
-  border-radius:
-    50%;
-
-  border:
-    5px solid var(--text);
-
-  background:
-    var(--card-bg);
-
-  z-index:
-    10;
+.wheel-center{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:70px;
+  height:70px;
+  border-radius:50%;
+  border:5px solid var(--text);
+  background:var(--card-bg);
+  z-index:10;
 }
 
-.case-result {
-  text-align:
-    center;
-
-  font-size:
-    25px;
-
-  font-weight:
-    800;
-
-  margin-top:
-    22px;
+.case-result{
+  text-align:center;
+  font-size:25px;
+  font-weight:800;
+  margin-top:22px;
 }
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(135px,1fr));
+  gap:10px;
+  margin-top:18px;
+}
+
+.stat{
+  background:var(--soft-bg);
+  border-radius:12px;
+  padding:13px;
+}
+
+.stat.completed{
+  background:var(--success2);
+  color:#102b1b;
+  border:2px solid #20b961;
+  box-shadow:0 4px 14px rgba(57,216,122,.30);
+}
+
+.stat.completed::after{
+  content:" ✓";
+  font-weight:bold;
+}
+
+/* ---------------- НАСТРОЙКИ ---------------- */
+
+.modal-background{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--backdrop);
+  z-index:4000;
+}
+
+.settings-modal{
+  width:min(600px,calc(100% - 30px));
+  max-height:92vh;
+  overflow:auto;
+  padding:26px;
+  border-radius:22px;
+  background:var(--card-bg);
+  color:var(--text);
+  box-shadow:0 15px 60px rgba(0,0,0,.3);
+}
+
+.settings-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:18px;
+  position:sticky;
+  top:-26px;
+  background:var(--card-bg);
+  z-index:5;
+  padding:18px 0 12px;
+}
+
+.settings-top h2{margin:0}
+
+.settings-top-actions{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+
+.settings-save{
+  background:var(--main);
+  color:var(--main-text);
+  font-weight:700;
+}
+
+.settings-close{
+  width:42px;
+  height:42px;
+  padding:0;
+  border-radius:50%;
+  background:var(--soft-bg-2);
+  color:var(--text);
+  font-size:22px;
+  font-weight:800;
+  line-height:1;
+}
+
+.theme-options{
+  display:flex;
+  gap:10px;
+  margin-bottom:25px;
+}
+
+.theme-option{
+  flex:1;
+  background:var(--soft-bg);
+  color:var(--text);
+  border:2px solid transparent;
+}
+
+.theme-option.selected{
+  border-color:var(--text);
+  font-weight:800;
+}
+
+.pointer-option{
+  width:100%;
+  display:flex;
+  gap:15px;
+  align-items:center;
+  margin:8px 0;
+  background:var(--soft-bg);
+  color:var(--text);
+  text-align:left;
+}
+
+.pointer-option.selected{
+  outline:3px solid var(--text);
+}
+
+.pointer-preview{
+  width:45px;
+  font-size:28px;
+  text-align:center;
+}
+
+/* ---------------- ИМЯ ---------------- */
+
+.profile-box{
+  margin:8px 0 26px;
+}
+
+.name-input{
+  flex:1;
+  min-width:0;
+  border:2px solid transparent;
+  background:var(--soft-bg);
+  color:var(--text);
+  border-radius:11px;
+  padding:12px 14px;
+  font:inherit;
+  outline:none;
+}
+
+.name-input:focus{
+  border-color:var(--text);
+}
+
+.name-joke{
+  margin-top:9px;
+  padding:9px 11px;
+  border-radius:9px;
+  background:var(--soft-bg);
+  font-size:13px;
+  display:none;
+}
+
+.name-joke.show{display:block}
+
+.saved-name-note{
+  font-size:13px;
+  opacity:.72;
+  margin-left:8px;
+}
+
+.name-editor{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.name-display{
+  flex:1;
+  min-height:46px;
+  display:flex;
+  align-items:center;
+  padding:12px 14px;
+  border-radius:11px;
+  background:var(--soft-bg);
+  color:var(--text);
+  font-weight:700;
+}
+
+.name-edit-btn,
+.name-save-mini,
+.name-info-mini{
+  width:38px;
+  height:38px;
+  padding:0;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--soft-bg-2);
+  color:var(--text);
+}
+
+.name-edit-btn{font-size:17px}
+
+.name-save-mini{
+  font-size:18px;
+  font-weight:900;
+}
+
+.name-info-mini{
+  font-size:18px;
+  font-weight:900;
+}
+
+.name-admin-mini{
+  width:30px;
+  height:30px;
+  padding:0;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--soft-bg-2);
+  color:var(--text);
+  font-size:11px;
+  font-weight:900;
+  opacity:.48;
+  box-shadow:none;
+}
+
+.name-admin-mini:hover{
+  opacity:.9;
+  transform:none;
+}
+
+.admin-panel{
+  display:none;
+  margin-top:8px;
+}
+
+.admin-panel.show{display:block}
+
+.admin-toggle-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-top:14px;
+  padding:12px 14px;
+  border-radius:12px;
+  background:var(--soft-bg);
+}
+
+.admin-toggle-label{font-weight:700}
+
+.admin-toggle-note{
+  font-size:12px;
+  opacity:.68;
+  margin-top:3px;
+}
+
+.switch{
+  position:relative;
+  width:52px;
+  height:30px;
+  flex:0 0 auto;
+}
+
+.switch input{
+  opacity:0;
+  width:0;
+  height:0;
+}
+
+.switch-slider{
+  position:absolute;
+  inset:0;
+  border-radius:999px;
+  background:#b9bdc7;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.switch-slider::before{
+  content:"";
+  position:absolute;
+  width:22px;
+  height:22px;
+  left:4px;
+  top:4px;
+  border-radius:50%;
+  background:#fff;
+  transition:.2s;
+  box-shadow:0 1px 4px rgba(0,0,0,.25);
+}
+
+.switch input:checked + .switch-slider{
+  background:#39ad73;
+}
+
+.switch input:checked + .switch-slider::before{
+  transform:translateX(22px);
+}
+
+/* ---------------- 21 ДЕНЬ ---------------- */
+
+.attendance-grid{
+  display:grid;
+  grid-template-columns:repeat(7,18px);
+  gap:5px;
+  margin-top:12px;
+}
+
+.attendance-cell{
+  width:18px;
+  height:18px;
+  border-radius:4px;
+  background:var(--grid-empty);
+  border:1px solid rgba(0,0,0,.06);
+}
+
+.attendance-cell.level1{background:var(--grid-1)}
+.attendance-cell.level2{background:var(--grid-2)}
+.attendance-cell.level3{background:var(--grid-3)}
+.attendance-cell.level4{background:var(--grid-4)}
+
+.habit-progress{
+  height:10px;
+  border-radius:999px;
+  overflow:hidden;
+  background:var(--soft-bg);
+  margin-top:12px;
+}
+
+.habit-progress-fill{
+  height:100%;
+  width:0;
+  background:var(--success);
+  transition:.3s;
+}
+
+/* ---------------- КОТИК И КНИГА ---------------- */
+
+.knowledge-final-modal{
+  width:min(880px,calc(100% - 30px));
+  text-align:center;
+}
+
+.battle-scene{
+  position:relative;
+  width:min(760px,100%);
+  height:320px;
+  margin:25px auto 5px;
+  overflow:hidden;
+}
+
+.cat-button{
+  position:absolute;
+  left:30px;
+  bottom:45px;
+  width:350px;
+  height:235px;
+  background:transparent;
+  padding:0;
+  border:0;
+  transform-origin:55% 75%;
+}
+
+.cat-button:hover{
+  transform:none;
+}
+
+.cat-body{
+  position:absolute;
+  left:38px;
+  bottom:15px;
+  width:175px;
+  height:145px;
+  background:#fff;
+  border:7px solid #202124;
+  border-radius:52% 48% 45% 45%;
+}
+
+.cat-head{
+  position:absolute;
+  left:128px;
+  top:26px;
+  width:118px;
+  height:112px;
+  background:#fff;
+  border:7px solid #202124;
+  border-radius:46%;
+  z-index:5;
+}
+
+.cat-ear-left,
+.cat-ear-right{
+  position:absolute;
+  width:44px;
+  height:55px;
+  top:-30px;
+  background:#fff;
+  border:7px solid #202124;
+  z-index:-1;
+}
+
+.cat-ear-left{
+  left:2px;
+  transform:rotate(-18deg);
+}
+
+.cat-ear-right{
+  right:2px;
+  transform:rotate(18deg);
+}
+
+.cat-ear-left::after,
+.cat-ear-right::after{
+  content:"";
+  position:absolute;
+  width:18px;
+  height:25px;
+  background:#ffb8c5;
+  left:7px;
+  top:9px;
+}
+
+.cat-eye{
+  position:absolute;
+  width:34px;
+  height:8px;
+  top:43px;
+  border-radius:10px;
+  background:#202124;
+}
+
+.cat-eye.left{
+  left:15px;
+  transform:rotate(18deg);
+}
+
+.cat-eye.right{
+  right:15px;
+  transform:rotate(-18deg);
+}
+
+.cat-nose{
+  position:absolute;
+  left:50%;
+  top:63px;
+  transform:translateX(-50%);
+  width:0;
+  height:0;
+  border-left:7px solid transparent;
+  border-right:7px solid transparent;
+  border-top:8px solid #e68c9d;
+}
+
+.cat-mouth{
+  position:absolute;
+  left:50%;
+  top:69px;
+  width:34px;
+  height:18px;
+  transform:translateX(-50%);
+  border-bottom:5px solid #202124;
+  border-radius:50%;
+}
+
+.cat-tail{
+  position:absolute;
+  left:-34px;
+  bottom:30px;
+  width:85px;
+  height:70px;
+  border:7px solid #202124;
+  border-right:0;
+  border-radius:60px 0 0 60px;
+  background:#fff;
+}
+
+.cat-leg{
+  position:absolute;
+  bottom:-12px;
+  width:54px;
+  height:42px;
+  background:#fff;
+  border:7px solid #202124;
+  border-radius:20px 20px 30px 30px;
+}
+
+.cat-leg.left{left:45px}
+.cat-leg.right{right:28px}
+
+.cat-arm{
+  position:absolute;
+  width:92px;
+  height:32px;
+  background:#fff;
+  border:7px solid #202124;
+  border-radius:25px;
+  z-index:8;
+  transform-origin:15px 16px;
+}
+
+.cat-arm.left{
+  left:173px;
+  top:116px;
+  transform:rotate(5deg);
+}
+
+.cat-arm.right{
+  left:168px;
+  top:142px;
+  transform:rotate(8deg);
+}
+
+.bat{
+  position:absolute;
+  left:222px;
+  top:121px;
+  width:190px;
+  height:30px;
+  border-radius:20px;
+  background:#c8752b;
+  border:7px solid #202124;
+  transform-origin:18px 15px;
+  z-index:10;
+}
+
+.book{
+  position:absolute;
+  right:35px;
+  bottom:55px;
+  width:175px;
+  height:125px;
+  background:#654a87;
+  border:7px solid #202124;
+  border-radius:9px;
+  transform:rotate(20deg);
+  transition:.2s;
+}
+
+.book::after{
+  content:"";
+  position:absolute;
+  left:8px;
+  right:8px;
+  height:17px;
+  bottom:-19px;
+  background:#e5dfc7;
+  border:5px solid #202124;
+  border-top:0;
+  border-radius:0 0 5px 5px;
+}
+
+.book-face{
+  position:absolute;
+  inset:0;
+}
+
+.book-eye{
+  position:absolute;
+  top:39px;
+  font-size:30px;
+  font-weight:900;
+}
+
+.book-eye.left{left:45px}
+.book-eye.right{right:45px}
+
+.book-mouth{
+  position:absolute;
+  left:50%;
+  top:78px;
+  width:42px;
+  height:20px;
+  transform:translateX(-50%);
+  border-top:5px solid #202124;
+  border-radius:50%;
+}
+
+.book.damage-1{
+  transform:rotate(25deg) translate(8px,4px);
+}
+
+.book.damage-2{
+  transform:rotate(31deg) translate(15px,8px) scale(.96);
+}
+
+.book.damage-3{
+  transform:rotate(38deg) translate(23px,13px) scale(.92);
+}
+
+.book.dead{
+  transform:rotate(47deg) translate(35px,22px) scale(.88);
+  filter:saturate(.55);
+}
+
+.book.contact{
+  animation:bookHit .22s ease;
+}
+
+@keyframes bookHit{
+  0%{transform:rotate(20deg)}
+  40%{transform:rotate(38deg) translate(28px,5px)}
+  100%{}
+}
+
+.attack-side .bat{
+  animation:batSide .74s ease;
+}
+
+.attack-overhead .bat{
+  animation:batOverhead .82s ease;
+}
+
+.attack-heavy .bat{
+  animation:batHeavy .9s ease;
+}
+
+.attack-side .cat-arm,
+.attack-overhead .cat-arm,
+.attack-heavy .cat-arm{
+  animation:armsPush .7s ease;
+}
+
+@keyframes batSide{
+  0%{transform:rotate(-12deg)}
+  50%{transform:rotate(5deg) translateX(115px)}
+  100%{transform:rotate(-12deg)}
+}
+
+@keyframes batOverhead{
+  0%{transform:rotate(-48deg) translate(-20px,-35px)}
+  55%{transform:rotate(14deg) translate(115px,28px)}
+  100%{transform:rotate(-48deg) translate(-20px,-35px)}
+}
+
+@keyframes batHeavy{
+  0%{transform:rotate(-20deg)}
+  38%{transform:rotate(-42deg) translate(-15px,-10px)}
+  62%{transform:rotate(9deg) translate(125px,10px)}
+  100%{transform:rotate(-20deg)}
+}
+
+@keyframes armsPush{
+  0%,100%{margin-left:0}
+  50%{margin-left:35px}
+}
+
+.impact{
+  position:absolute;
+  right:185px;
+  bottom:155px;
+  font-size:46px;
+  opacity:0;
+  pointer-events:none;
+}
+
+.impact.show{
+  animation:impactPop .45s ease;
+}
+
+@keyframes impactPop{
+  0%{opacity:0;transform:scale(.3)}
+  35%{opacity:1;transform:scale(1.3)}
+  100%{opacity:0;transform:scale(.8)}
+}
+
+.paper-bit{
+  position:absolute;
+  right:120px;
+  bottom:95px;
+  width:16px;
+  height:10px;
+  background:#e5dfc7;
+  opacity:0;
+}
+
+.paper-bit.fly{
+  animation:paperFly .7s ease;
+}
+
+@keyframes paperFly{
+  0%{
+    opacity:1;
+    transform:translate(0,0) rotate(0);
+  }
+  100%{
+    opacity:0;
+    transform:translate(var(--paper-x),var(--paper-y)) rotate(250deg);
+  }
+}
+
+/* ---------------- ПОЗДРАВЛЕНИЯ ---------------- */
+
+.final-modal{
+  width:min(760px,calc(100% - 30px));
+  text-align:center;
+}
+
+.final-title{
+  font-size:48px;
+  line-height:1.05;
+  margin:5px 0 20px;
+  font-weight:900;
+}
+
+.final-subtitle{
+  font-size:24px;
+}
+
+.confetti{
+  position:fixed;
+  width:10px;
+  height:18px;
+  z-index:9999;
+  pointer-events:none;
+  animation:fall var(--time) linear forwards;
+}
+
+@keyframes fall{
+  to{
+    transform:translate(var(--x),110vh) rotate(720deg);
+  }
+}
+
+@media(max-width:650px){
+  .wheel-shell{
+    width:310px;
+    height:310px;
+  }
+
+  .knowledge-row{
+    grid-template-columns:1fr;
+  }
+
+  .battle-scene{
+    transform:scale(.78);
+    transform-origin:top center;
+    margin-bottom:-65px;
+  }
+
+  .final-title{
+    font-size:36px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="help-widget">
+  <div class="help-tooltip">Нужна подсказка?</div>
+  <button class="help-button" onclick="openSettings()">?</button>
+</div>
+
+<div class="container">
+
+  <!-- ГЛАВНАЯ -->
+  <section id="home">
+    <h1>Тренажёр новичка</h1>
+    <p>Прокачка скорости поиска знаний и практики кейсов.</p>
+
+    <div class="card">
+      <h2>Номера знаний</h2>
+      <p>Тренировка поиска нужного номера знания.</p>
+      <p><strong>Пройдено:</strong> <span id="homeKnowledgeProgress">0 / 10</span></p>
+      <button class="main-button" onclick="openKnowledge()">Начать тренировку</button>
+    </div>
+
+    <div class="card">
+      <h2>Треня кейсов</h2>
+      <p>Крути рулетку и отрабатывай выпавший кейс.</p>
+      <p><strong>Пройдено:</strong> <span id="homeCaseProgress">0 / 10</span></p>
+      <button class="main-button" onclick="openCases()">Крутить рулетку</button>
+    </div>
+  </section>
+
+  <!-- ЗНАНИЯ -->
+  <section id="knowledge" class="hidden">
+    <button class="secondary-button" onclick="goHome()">← На главную</button>
+
+    <div class="card">
+      <h2>Номера знаний</h2>
+
+      <div class="timer">
+        Время: <span id="knowledgeTimer">0</span> сек.
+      </div>
+
+      <h3 id="knowledgeQuestion">Задание 1</h3>
+
+      <p>
+        Найди нужное знание самостоятельно.
+        Когда закончишь — отметь результат.
+      </p>
+
+      <div class="actions">
+        <button class="success-button" onclick="finishKnowledge(true)">✓ Верно</button>
+        <button class="fail-button" onclick="finishKnowledge(false)">✕ Неверно</button>
+      </div>
+
+      <div id="knowledgeResult" class="result-message hidden"></div>
+
+      <div class="actions">
+        <button id="nextKnowledgeButton" class="main-button hidden" onclick="nextKnowledge()">
+          Следующее задание
+        </button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Трекер</h2>
+      <div id="knowledgeTracker" class="knowledge-tracker"></div>
+
+      <div class="actions">
+        <button class="secondary-button" onclick="resetKnowledge()">Сбросить прогресс</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- КЕЙСЫ -->
+  <section id="cases" class="hidden">
+    <button class="secondary-button" onclick="goHome()">← На главную</button>
+
+    <div class="card">
+      <h2>Рулетка кейсов</h2>
+
+      <div class="wheel-area">
+
+        <div class="pointer-holder">
+          <div id="pointerVisual" class="pointer-classic"></div>
+        </div>
+
+        <div id="wheelShell" class="wheel-shell">
+          <div id="wheel" class="wheel"></div>
+
+          <div class="number-layer">
+            <div class="wheel-number" data-number="1">1</div>
+            <div class="wheel-number" data-number="2">2</div>
+            <div class="wheel-number" data-number="3">3</div>
+            <div class="wheel-number" data-number="4">4</div>
+            <div class="wheel-number" data-number="5">5</div>
+            <div class="wheel-number" data-number="6">6</div>
+            <div class="wheel-number" data-number="7">7</div>
+            <div class="wheel-number" data-number="8">8</div>
+            <div class="wheel-number" data-number="9">9</div>
+            <div class="wheel-number" data-number="10">10</div>
+          </div>
+
+          <div class="wheel-center"></div>
+        </div>
+
+        <button id="spinButton" class="main-button" onclick="spinWheel()" style="margin-top:30px">
+          🎲 Крутить рулетку
+        </button>
+      </div>
+
+      <div id="caseWork" class="hidden">
+        <div class="case-result">
+          Выпал кейс № <span id="caseNumber"></span>
+        </div>
+
+        <p style="text-align:center">
+          Закрепление: <strong id="caseProgress">0 / 3</strong>
+        </p>
+
+        <div class="timer" style="text-align:center">
+          Время: <span id="caseTimer">0</span> сек.
+        </div>
+
+        <div class="actions" style="justify-content:center">
+          <button class="success-button" onclick="finishCase(true)">✓ Решено</button>
+          <button class="fail-button" onclick="finishCase(false)">✕ Не решено</button>
+        </div>
+      </div>
+
+      <div id="caseResult" class="result-message hidden">
+        <strong id="caseResultText"></strong>
+
+        <div class="actions">
+          <button class="main-button" onclick="prepareWheel()">Крутить ещё</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Прогресс кейсов</h2>
+      <div id="caseStats" class="stats-grid"></div>
+
+      <div class="actions">
+        <button class="secondary-button" onclick="resetCases()">Сбросить прогресс</button>
+      </div>
+    </div>
+  </section>
+</div>
+<!-- НАСТРОЙКИ -->
+<div id="settingsBackground" class="modal-background hidden">
+  <div class="settings-modal">
+
+    <div class="settings-top">
+      <h2>Настройки</h2>
+
+      <div class="settings-top-actions">
+        <button class="settings-save" onclick="saveSettings()">Сохранить</button>
+        <button class="settings-close" onclick="closeSettings()">×</button>
+      </div>
+    </div>
+
+    <!-- ТЕМА -->
+    <h3>Тема</h3>
+
+    <div class="theme-options">
+      <button
+        id="lightThemeButton"
+        class="theme-option"
+        onclick="chooseTheme('light')"
+      >
+        ☀️ Светлая
+      </button>
+
+      <button
+        id="darkThemeButton"
+        class="theme-option"
+        onclick="chooseTheme('dark')"
+      >
+        🌙 Тёмная
+      </button>
+    </div>
+
+    <!-- УКАЗАТЕЛЬ РУЛЕТКИ -->
+    <h3>Выбор указателя</h3>
+
+    <button
+      id="pointerClassicButton"
+      class="pointer-option"
+      onclick="choosePointer('classic')"
+    >
+      <span class="pointer-preview">▼</span>
+      <span>
+        <strong>Классика</strong><br>
+        <small>Стрелочка. Серьёзно и по делу.</small>
+      </span>
+    </button>
+
+    <button
+      id="pointerPizzaButton"
+      class="pointer-option"
+      onclick="choosePointer('pizza')"
+    >
+      <span class="pointer-preview">🍕</span>
+      <span>
+        <strong>Если ты голоден — вот тебе пицца</strong><br>
+        <small>Тренироваться на голодный желудок нельзя.</small>
+      </span>
+    </button>
+
+    <button
+      id="pointerFingerButton"
+      class="pointer-option"
+      onclick="choosePointer('finger')"
+    >
+      <span class="pointer-preview">☝️</span>
+      <span>
+        <strong>Дикий пальчик</strong><br>
+        <small>Он выберет твою судьбу.</small>
+      </span>
+    </button>
+
+    <button
+      id="pointerKidsButton"
+      class="pointer-option"
+      onclick="choosePointer('kids')"
+    >
+      <span class="pointer-preview">👀</span>
+      <span>
+        <strong>Писюнчик версии kids</strong><br>
+        <small>Ничего такого. Просто указатель.</small>
+      </span>
+    </button>
+
+    <!-- ИМЯ -->
+    <div class="profile-box">
+      <h3>Как я могу к тебе обращаться?</h3>
+
+      <!-- Имя ещё не сохранено -->
+      <div id="nameCreate" class="name-editor">
+        <input
+          id="trainerNameInput"
+          class="name-input"
+          type="text"
+          maxlength="30"
+          autocomplete="off"
+        >
+
+        <button
+          class="name-info-mini"
+          onclick="toggleNameJoke()"
+          title="Подсказка"
+        >
+          !
+        </button>
+
+        <button
+          class="name-save-mini"
+          onclick="saveNameAndStay()"
+          title="Сохранить имя"
+        >
+          ✓
+        </button>
+
+        <button
+          class="name-admin-mini"
+          onclick="toggleAdminPanel()"
+          title="Админ"
+        >
+          A
+        </button>
+      </div>
+
+      <!-- Имя уже сохранено -->
+      <div id="nameView" class="name-editor hidden">
+        <div id="trainerNameDisplay" class="name-display"></div>
+
+        <button
+          class="name-info-mini"
+          onclick="toggleNameJoke()"
+          title="Подсказка"
+        >
+          !
+        </button>
+
+        <button
+          class="name-edit-btn"
+          onclick="startNameEdit()"
+          title="Изменить имя"
+        >
+          ✎
+        </button>
+
+        <button
+          class="name-admin-mini"
+          onclick="toggleAdminPanel()"
+          title="Админ"
+        >
+          A
+        </button>
+      </div>
+
+      <div id="nameJoke" class="name-joke">
+        Только не проси меня называть тебя «Мой господин» )))))
+        Если ооочень надо, то проси и умоляй об этом админа
+      </div>
+
+      <span id="savedNameNote" class="saved-name-note"></span>
+
+      <!-- СКРЫТАЯ АДМИНСКАЯ НАСТРОЙКА -->
+      <div id="adminPanel" class="admin-panel">
+        <div class="admin-toggle-row">
+
+          <div>
+            <div class="admin-toggle-label">
+              Админ разрешил ругаться
+            </div>
+
+            <div class="admin-toggle-note">
+              Тогда фильтр имени отключается полностью 😈
+            </div>
+          </div>
+
+          <label class="switch">
+            <input
+              id="adminRudeToggle"
+              type="checkbox"
+              onchange="saveAdminRude()"
+            >
+            <span class="switch-slider"></span>
+          </label>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- 21 ДЕНЬ -->
+    <h3>Трекер посещаемости</h3>
+
+    <p>
+      21 день — формируем привычку заходить и тренироваться.
+    </p>
+
+    <div id="attendanceGrid" class="attendance-grid"></div>
+
+    <div class="habit-progress">
+      <div id="habitProgressFill" class="habit-progress-fill"></div>
+    </div>
+
+    <p>
+      <strong id="attendanceText">0 / 21 дней</strong>
+    </p>
+
+  </div>
+</div>
+
+
+<!-- ФИНАЛ КЕЙСОВ -->
+<div id="caseFinalBackground" class="modal-background hidden">
+
+  <div class="settings-modal final-modal">
+
+    <div class="final-title">
+      РЫДАЛ, НО СДАЛ!!!
+    </div>
+
+    <div
+      id="caseFinalPraise"
+      class="final-subtitle"
+    >
+      Ты умничка!! 🎉
+    </div>
+
+    <p>
+      Все 10 кейсов пройдены по 3 раза.
+    </p>
+
+    <div class="actions" style="justify-content:center">
+      <button
+        class="main-button"
+        onclick="closeCaseFinal()"
+      >
+        Так и было задумано
+      </button>
+
+      <button
+        class="secondary-button"
+        onclick="resetCasesFromFinal()"
+      >
+        Пройти ещё раз
+      </button>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ФИНАЛ БАЗЫ ЗНАНИЙ -->
+<div id="knowledgeFinalBackground" class="modal-background hidden">
+
+  <div class="settings-modal knowledge-final-modal">
+
+    <div class="final-title">
+      БАЗА ЗНАНИЙ БОЛЬШЕ НЕ СТРАШНА!!!
+    </div>
+
+    <div
+      id="knowledgeFinalPraise"
+      class="final-subtitle"
+    >
+      Теперь она боится тебя. 🧠🔥
+    </div>
+
+
+    <!-- КОТИК ПРОТИВ КНИГИ -->
+    <div id="battleScene" class="battle-scene">
+
+      <button
+        id="catButton"
+        class="cat-button"
+        onclick="catAttack()"
+        title="Котик явно ещё не закончил"
+      >
+
+        <div class="cat-tail"></div>
+
+        <div class="cat-body">
+
+          <div class="cat-leg left"></div>
+          <div class="cat-leg right"></div>
+
+        </div>
+
+        <div class="cat-head">
+
+          <div class="cat-ear-left"></div>
+          <div class="cat-ear-right"></div>
+
+          <div class="cat-eye left"></div>
+          <div class="cat-eye right"></div>
+
+          <div class="cat-nose"></div>
+          <div class="cat-mouth"></div>
+
+        </div>
+
+        <div class="cat-arm left"></div>
+        <div class="cat-arm right"></div>
+
+        <div class="bat"></div>
+
+      </button>
+
+
+      <div id="book" class="book">
+
+        <div class="book-face">
+
+          <div class="book-eye left">×</div>
+          <div class="book-eye right">×</div>
+
+          <div class="book-mouth"></div>
+
+        </div>
+
+      </div>
+
+
+      <div id="impact" class="impact">
+        💥
+      </div>
+
+      <div id="paperBit1" class="paper-bit"></div>
+      <div id="paperBit2" class="paper-bit"></div>
+      <div id="paperBit3" class="paper-bit"></div>
+
+    </div>
+
+
+    <p style="opacity:.65">
+      Нажми на котика. Он явно ещё не закончил.
+    </p>
+
+
+    <div class="actions" style="justify-content:center">
+
+      <button
+        class="main-button"
+        onclick="closeKnowledgeFinal()"
+      >
+        Так ей и надо
+      </button>
+
+      <button
+        class="secondary-button"
+        onclick="resetKnowledgeFromFinal()"
+      >
+        Пройти ещё раз
+      </button>
+
+    </div>
+
+  </div>
+</div>
+
+
+<script>
+
+/* =========================================================
+   ОСНОВНЫЕ ЭЛЕМЕНТЫ
+========================================================= */
+
+const home = document.getElementById("home");
+const knowledge = document.getElementById("knowledge");
+const cases = document.getElementById("cases");
+
+const settingsBackground =
+  document.getElementById("settingsBackground");
+
+const caseFinalBackground =
+  document.getElementById("caseFinalBackground");
+
+const knowledgeFinalBackground =
+  document.getElementById("knowledgeFinalBackground");
 
 
 /* =========================================================
-   СТАТИСТИКА КЕЙСОВ
+   НАВИГАЦИЯ
 ========================================================= */
 
-.stats-grid {
-  display:
-    grid;
-
-  grid-template-columns:
-    repeat(
-      auto-fit,
-      minmax(135px,1fr)
-    );
-
-  gap:
-    10px;
-
-  margin-top:
-    18px;
+function hideMainSections(){
+  home.classList.add("hidden");
+  knowledge.classList.add("hidden");
+  cases.classList.add("hidden");
 }
 
-.stat {
-  background:
-    var(--soft-bg);
+function goHome(){
+  stopKnowledgeTimer();
+  stopCaseTimer();
 
-  border-radius:
-    12px;
+  hideMainSections();
+  home.classList.remove("hidden");
 
-  padding:
-    13px;
+  updateHomeProgress();
 }
 
-.stat.completed {
-  background:
-    var(--success-bright);
+function openKnowledge(){
+  hideMainSections();
+  knowledge.classList.remove("hidden");
 
-  color:
-    #102b1b;
-
-  border:
-    2px solid #20b961;
-
-  box-shadow:
-    0 4px 14px
-    rgba(57,216,122,.30);
+  renderKnowledgeTracker();
+  startKnowledgeQuestion();
 }
 
-.stat.completed::after {
-  content:
-    " ✓";
+function openCases(){
+  hideMainSections();
+  cases.classList.remove("hidden");
 
-  font-weight:
-    bold;
+  renderCaseStats();
+  prepareWheel();
 }
 
 
@@ -881,2433 +1715,60 @@ body.dark .card {
    НАСТРОЙКИ
 ========================================================= */
 
-.modal-background {
-  position:
-    fixed;
+let pendingTheme =
+  localStorage.getItem("trainerTheme") || "light";
 
-  inset:
-    0;
+let pendingPointer =
+  localStorage.getItem("trainerPointer") || "classic";
 
-  display:
-    flex;
 
-  align-items:
-    center;
+function openSettings(){
 
-  justify-content:
-    center;
+  pendingTheme =
+    localStorage.getItem("trainerTheme") || "light";
 
-  background:
-    var(--backdrop);
+  pendingPointer =
+    localStorage.getItem("trainerPointer") || "classic";
 
-  z-index:
-    4000;
-}
-
-.settings-modal {
-  width:
-    min(
-      540px,
-      calc(100% - 30px)
-    );
-
-  max-height:
-    90vh;
-
-  overflow:
-    auto;
-
-  padding:
-    26px;
-
-  border-radius:
-    22px;
-
-  background:
-    var(--card-bg);
-
-  color:
-    var(--text);
-
-  box-shadow:
-    0 15px 60px
-    rgba(0,0,0,.3);
-}
-
-.theme-options {
-  display:
-    flex;
-
-  gap:
-    10px;
-
-  margin-bottom:
-    25px;
-}
-
-.theme-option {
-  flex:
-    1;
-
-  background:
-    var(--soft-bg);
-
-  color:
-    var(--text);
-
-  border:
-    2px solid transparent;
-}
-
-.theme-option.selected {
-  border-color:
-    var(--text);
-
-  font-weight:
-    800;
-}
-
-.pointer-option {
-  width:
-    100%;
-
-  display:
-    flex;
-
-  gap:
-    15px;
-
-  align-items:
-    center;
-
-  margin:
-    8px 0;
-
-  background:
-    var(--soft-bg);
-
-  color:
-    var(--text);
-
-  text-align:
-    left;
-}
-
-.pointer-option.selected {
-  outline:
-    3px solid var(--text);
-}
-
-.pointer-preview {
-  width:
-    45px;
-
-  font-size:
-    28px;
-
-  text-align:
-    center;
-}
-
-
-/* =========================================================
-   ФИНАЛЫ
-========================================================= */
-
-.final-overlay {
-  position:
-    fixed;
-
-  inset:
-    0;
-
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  justify-content:
-    center;
-
-  padding:
-    15px;
-
-  background:
-    var(--backdrop);
-
-  z-index:
-    5000;
-}
-
-.final-card {
-  width:
-    min(
-      760px,
-      100%
-    );
-
-  max-height:
-    96vh;
-
-  overflow:
-    auto;
-
-  padding:
-    34px 25px;
-
-  border-radius:
-    26px;
-
-  background:
-    var(--card-bg);
-
-  color:
-    var(--text);
-
-  text-align:
-    center;
-
-  box-shadow:
-    0 20px 80px
-    rgba(0,0,0,.35);
-
-  animation:
-    finalPop .45s ease;
-}
-
-.final-card h2 {
-  margin:
-    0 0 12px;
-
-  font-size:
-    clamp(
-      30px,
-      6vw,
-      52px
-    );
-}
-
-.final-card p {
-  font-size:
-    23px;
-}
-
-@keyframes finalPop {
-  0% {
-    transform:
-      scale(.5)
-      rotate(-4deg);
-
-    opacity:
-      0;
-  }
-
-  70% {
-    transform:
-      scale(1.06)
-      rotate(1deg);
-  }
-
-  100% {
-    transform:
-      scale(1);
-
-    opacity:
-      1;
-  }
-}
-
-
-/* =========================================================
-   СЦЕНА: КОТ СМОТРИТ НА КНИГУ
-========================================================= */
-
-.cat-battle {
-  position:
-    relative;
-
-  width:
-    min(680px,100%);
-
-  height:
-    300px;
-
-  margin:
-    5px auto 12px;
-
-  overflow:
-    visible;
-}
-
-
-/* Кнопка-кот */
-
-.cat-button {
-  position:
-    absolute;
-
-  left:
-    0;
-
-  bottom:
-    22px;
-
-  width:
-    375px;
-
-  height:
-    255px;
-
-  padding:
-    0;
-
-  background:
-    transparent;
-
-  border:
-    0;
-
-  transform-origin:
-    45% 75%;
-
-  z-index:
-    10;
-}
-
-.cat-button:hover {
-  transform:
-    scale(1.015);
-}
-
-.cat-svg {
-  width:
-    100%;
-
-  height:
-    100%;
-
-  overflow:
-    visible;
-}
-
-
-/* Белая шерсть */
-
-.cat-white {
-  fill:
-    #fff;
-
-  stroke:
-    #202124;
-
-  stroke-width:
-    6;
-
-  stroke-linecap:
-    round;
-
-  stroke-linejoin:
-    round;
-}
-
-
-/* Хвост */
-
-.cat-tail-line {
-  fill:
-    none;
-
-  stroke:
-    #202124;
-
-  stroke-width:
-    18;
-
-  stroke-linecap:
-    round;
-}
-
-.cat-tail-white {
-  fill:
-    none;
-
-  stroke:
-    #fff;
-
-  stroke-width:
-    11;
-
-  stroke-linecap:
-    round;
-}
-
-
-/* Морда */
-
-.cat-face {
-  fill:
-    none;
-
-  stroke:
-    #202124;
-
-  stroke-width:
-    6;
-
-  stroke-linecap:
-    round;
-
-  stroke-linejoin:
-    round;
-}
-
-
-/* Лапы */
-
-.cat-arm {
-  fill:
-    #fff;
+  settingsBackground.classList.remove("hidden");
 
-  stroke:
-    #202124;
-
-  stroke-width:
-    6;
-
-  stroke-linejoin:
-    round;
-}
-
-
-/* Бита */
-
-.bat-group {
-  transform-origin:
-    184px 125px;
-}
-
-
-/* =========================================================
-   КНИГА
-========================================================= */
-
-.book {
-  position:
-    absolute;
-
-  right:
-    35px;
-
-  bottom:
-    50px;
-
-  width:
-    170px;
-
-  height:
-    125px;
-
-  background:
-    #8247d6;
-
-  border:
-    5px solid #202124;
-
-  border-radius:
-    8px 15px 15px 8px;
-
-  transform:
-    rotate(3deg);
-
-  transition:
-    transform .2s ease,
-    filter .2s ease;
-
-  z-index:
-    5;
-}
-
-
-/* Страницы */
-
-.book-pages {
-  position:
-    absolute;
-
-  width:
-    150px;
-
-  height:
-    23px;
-
-  left:
-    8px;
-
-  bottom:
-    -20px;
-
-  border:
-    4px solid #202124;
-
-  border-radius:
-    0 0 10px 10px;
-
-  background:
-    repeating-linear-gradient(
-      0deg,
-      #f6e5be 0 3px,
-      #e1c98f 3px 5px
-    );
-
-  z-index:
-    -1;
-
-  transition:
-    .2s ease;
-}
-
-
-/* Глаза книги */
-
-.book-eye {
-  position:
-    absolute;
-
-  top:
-    35px;
-
-  width:
-    30px;
-
-  height:
-    30px;
-
-  color:
-    #202124;
-
-  font-size:
-    29px;
-
-  font-weight:
-    900;
-
-  line-height:
-    28px;
-}
-
-.book-eye.left {
-  left:
-    35px;
-}
-
-.book-eye.right {
-  right:
-    35px;
-}
-
-
-/* Рот грустный с самого начала */
-
-.book-mouth {
-  position:
-    absolute;
-
-  left:
-    62px;
-
-  top:
-    77px;
-
-  width:
-    38px;
-
-  height:
-    18px;
-
-  border-top:
-    4px solid #202124;
-
-  border-radius:
-    50%;
-
-  transform:
-    rotate(-4deg);
-}
-
-
-/* Язык появляется после смерти */
-
-.book-tongue {
-  position:
-    absolute;
-
-  left:
-    68px;
-
-  top:
-    84px;
-
-  width:
-    25px;
-
-  height:
-    19px;
-
-  border:
-    3px solid #202124;
-
-  border-radius:
-    0 0 13px 13px;
-
-  background:
-    #f47796;
-
-  opacity:
-    0;
-
-  transform:
-    rotate(7deg);
-}
-
-
-/* Трещины */
-
-.book-crack {
-  position:
-    absolute;
-
-  width:
-    4px;
-
-  height:
-    36px;
-
-  background:
-    #202124;
-
-  opacity:
-    0;
-}
-
-.book-crack.c1 {
-  left:
-    22px;
-
-  top:
-    11px;
-
-  transform:
-    rotate(22deg);
-}
-
-.book-crack.c2 {
-  right:
-    28px;
-
-  top:
-    63px;
-
-  transform:
-    rotate(-29deg);
-}
-
-.book-crack.c3 {
-  left:
-    82px;
-
-  top:
-    7px;
-
-  transform:
-    rotate(-17deg);
-}
-
-
-/* =========================================================
-   СТАДИИ ПОВРЕЖДЕНИЯ КНИГИ
-========================================================= */
-
-.book.damage-1 {
-  transform:
-    rotate(9deg)
-    translate(7px,2px);
-}
-
-.book.damage-1
-.c1 {
-  opacity:
-    1;
-}
-
-
-.book.damage-2 {
-  transform:
-    rotate(-7deg)
-    translate(13px,8px)
-    scale(.97);
-
-  filter:
-    saturate(.84);
-}
-
-.book.damage-2
-.c1,
-.book.damage-2
-.c2 {
-  opacity:
-    1;
-}
-
-.book.damage-2
-.book-pages {
-  transform:
-    translateY(4px)
-    rotate(2deg);
-}
-
-
-.book.damage-3 {
-  transform:
-    rotate(15deg)
-    translate(18px,16px)
-    scale(.94,.89);
-
-  filter:
-    saturate(.62)
-    brightness(.9);
-}
-
-.book.damage-3
-.book-crack {
-  opacity:
-    1;
-}
-
-.book.damage-3
-.book-pages {
-  transform:
-    translate(5px,7px)
-    rotate(5deg);
-}
-
-
-/* Дохлая */
-
-.book.dead {
-  transform:
-    rotate(24deg)
-    translate(24px,27px)
-    scale(.90,.80);
-
-  filter:
-    saturate(.38)
-    brightness(.74);
-}
-
-.book.dead
-.book-crack {
-  opacity:
-    1;
-}
-
-.book.dead
-.book-pages {
-  transform:
-    translate(10px,11px)
-    rotate(8deg);
-}
-
-.book.dead
-.book-mouth {
-  border-top:
-    0;
-
-  border-bottom:
-    4px solid #202124;
-
-  top:
-    68px;
-
-  transform:
-    rotate(-8deg);
-}
+  updateThemeButtons();
+  updatePointerButtons();
 
-.book.dead
-.book-tongue {
-  opacity:
-    1;
+  loadTrainerName();
+  renderAttendance();
 }
-
-
-/* =========================================================
-   💥 И БУМАЖКИ
-========================================================= */
-
-.impact {
-  position:
-    absolute;
-
-  right:
-    185px;
-
-  bottom:
-    110px;
-
-  z-index:
-    30;
-
-  font-size:
-    58px;
-
-  opacity:
-    0;
-
-  pointer-events:
-    none;
-}
-
-.impact.show {
-  animation:
-    impactBoom
-    .44s ease;
-}
-
-
-.paper-bit {
-  position:
-    absolute;
-
-  width:
-    21px;
-
-  height:
-    15px;
-
-  border:
-    2px solid #202124;
-
-  background:
-    #f6e5be;
-
-  opacity:
-    0;
-
-  z-index:
-    25;
-}
-
-.paper-bit.p1 {
-  right:
-    184px;
-
-  bottom:
-    155px;
-}
-
-.paper-bit.p2 {
-  right:
-    92px;
-
-  bottom:
-    190px;
-}
-
-.paper-bit.p3 {
-  right:
-    65px;
-
-  bottom:
-    110px;
-}
-
-.paper-bit.fly {
-  animation:
-    paperFly .72s ease;
-}
-
-
-/* =========================================================
-   РАЗНЫЕ ДВИЖЕНИЯ КОТА
-========================================================= */
-
-/*
-  Важно:
-  здесь двигается не просто бита.
-  Кот вместе с вытянутыми лапами
-  реально приближается к книге.
-*/
-
-
-/* Удар сбоку */
-
-.cat-button.attack-side {
-  animation:
-    catSide .65s ease;
-}
-
-.cat-button.attack-side
-.bat-group {
-  animation:
-    batSide .65s ease;
-}
-
-
-/* Удар сверху */
-
-.cat-button.attack-overhead {
-  animation:
-    catOverhead .72s ease;
-}
-
-.cat-button.attack-overhead
-.bat-group {
-  animation:
-    batOverhead .72s ease;
-}
-
-
-/* Сильный удар */
-
-.cat-button.attack-heavy {
-  animation:
-    catHeavy .80s ease;
-}
-
-.cat-button.attack-heavy
-.bat-group {
-  animation:
-    batHeavy .80s ease;
-}
-
-
-/* =========================================================
-   КЛЮЧЕВЫЕ КАДРЫ
-========================================================= */
-
-/*
-  Контакт примерно на 50%.
-  Потом кот отдёргивает биту.
-*/
-
-@keyframes catSide {
-
-  0% {
-    transform:
-      translateX(0)
-      rotate(0);
-  }
-
-  25% {
-    transform:
-      translateX(-14px)
-      rotate(-4deg);
-  }
-
-  50% {
-    transform:
-      translateX(64px)
-      rotate(4deg);
-  }
-
-  68% {
-    transform:
-      translateX(54px)
-      rotate(2deg);
-  }
-
-  100% {
-    transform:
-      translateX(0)
-      rotate(0);
-  }
-}
-
-
-@keyframes batSide {
-
-  0% {
-    transform:
-      rotate(-8deg);
-  }
-
-  25% {
-    transform:
-      rotate(-28deg);
-  }
-
-  50% {
-    transform:
-      rotate(9deg);
-  }
-
-  68% {
-    transform:
-      rotate(3deg);
-  }
-
-  100% {
-    transform:
-      rotate(-8deg);
-  }
-}
-
-
-@keyframes catOverhead {
-
-  0% {
-    transform:
-      translate(0,0)
-      rotate(0);
-  }
-
-  25% {
-    transform:
-      translate(-10px,-16px)
-      rotate(-7deg);
-  }
-
-  50% {
-    transform:
-      translate(58px,17px)
-      rotate(5deg);
-  }
-
-  70% {
-    transform:
-      translate(46px,7px)
-      rotate(2deg);
-  }
-
-  100% {
-    transform:
-      translate(0,0)
-      rotate(0);
-  }
-}
-
-
-@keyframes batOverhead {
-
-  0% {
-    transform:
-      rotate(-8deg);
-  }
-
-  25% {
-    transform:
-      rotate(-72deg);
-  }
-
-  50% {
-    transform:
-      rotate(23deg);
-  }
-
-  70% {
-    transform:
-      rotate(7deg);
-  }
-
-  100% {
-    transform:
-      rotate(-8deg);
-  }
-}
-
-
-@keyframes catHeavy {
-
-  0% {
-    transform:
-      translate(0,0)
-      rotate(0)
-      scale(1);
-  }
-
-  22% {
-    transform:
-      translate(-18px,-11px)
-      rotate(-10deg)
-      scale(1.03);
-  }
-
-  50% {
-    transform:
-      translate(72px,20px)
-      rotate(7deg)
-      scale(.99);
-  }
-
-  68% {
-    transform:
-      translate(58px,12px)
-      rotate(3deg)
-      scale(1);
-  }
-
-  100% {
-    transform:
-      translate(0,0)
-      rotate(0)
-      scale(1);
-  }
-}
-
-
-@keyframes batHeavy {
-
-  0% {
-    transform:
-      rotate(-8deg);
-  }
-
-  22% {
-    transform:
-      rotate(-92deg);
-  }
-
-  50% {
-    transform:
-      rotate(31deg);
-  }
-
-  68% {
-    transform:
-      rotate(12deg);
-  }
-
-  100% {
-    transform:
-      rotate(-8deg);
-  }
-}
-
-
-/* Книга трясётся в момент контакта */
-
-.book.contact {
-  animation:
-    bookContact .32s ease;
-}
-
-@keyframes bookContact {
-
-  0% {
-    translate:
-      0 0;
-  }
-
-  20% {
-    translate:
-      15px -4px;
-  }
-
-  40% {
-    translate:
-      -8px 4px;
-  }
-
-  60% {
-    translate:
-      10px 2px;
-  }
-
-  80% {
-    translate:
-      -4px 2px;
-  }
-
-  100% {
-    translate:
-      0 0;
-  }
-}
-
-
-@keyframes impactBoom {
-
-  0% {
-    opacity:
-      0;
-
-    transform:
-      scale(.2)
-      rotate(-20deg);
-  }
-
-  32% {
-    opacity:
-      1;
-
-    transform:
-      scale(1.5)
-      rotate(7deg);
-  }
-
-  100% {
-    opacity:
-      0;
-
-    transform:
-      scale(.8)
-      rotate(18deg);
-  }
-}
-
-
-@keyframes paperFly {
-
-  0% {
-    opacity:
-      1;
-
-    transform:
-      translate(0,0)
-      rotate(0);
-  }
-
-  100% {
-    opacity:
-      0;
-
-    transform:
-      translate(
-        var(--paper-x),
-        var(--paper-y)
-      )
-      rotate(260deg);
-  }
-}
-
-
-/* =========================================================
-   КОНФЕТТИ
-========================================================= */
-
-.confetti {
-  position:
-    fixed;
-
-  width:
-    10px;
-
-  height:
-    16px;
-
-  z-index:
-    6000;
-
-  pointer-events:
-    none;
-
-  animation:
-    confettiFall
-    var(--time)
-    linear
-    forwards;
-}
-
-@keyframes confettiFall {
-
-  0% {
-    transform:
-      translate(0,-30px)
-      rotate(0);
-
-    opacity:
-      1;
-  }
-
-  100% {
-    transform:
-      translate(
-        var(--x),
-        105vh
-      )
-      rotate(900deg);
-
-    opacity:
-      0;
-  }
-}
-
-
-/* =========================================================
-   МОБИЛЬНЫЙ
-========================================================= */
-
-@media (max-width:700px) {
-
-  .knowledge-row {
-    grid-template-columns:
-      1fr;
-  }
-
-  .wheel-shell {
-    width:
-      300px;
-
-    height:
-      300px;
-  }
-
-  .cat-battle {
-    width:
-      680px;
-
-    transform:
-      scale(.76);
-
-    transform-origin:
-      top center;
-
-    margin-left:
-      calc(50% - 340px);
-
-    margin-bottom:
-      -65px;
-  }
-}
-
-</style>
-</head>
-
-<body>
-
-
-<!-- =====================================================
-     ? НАСТРОЙКИ
-===================================================== -->
-
-<div class="help-widget">
-
-  <div class="help-tooltip">
-    Нужна подсказка?
-  </div>
-
-  <button
-    class="help-button"
-    onclick="openSettings()">
-    ?
-  </button>
-
-</div>
-
-
-<div class="container">
-
-<h1>
-  Тренажёр новичка
-</h1>
-
-
-<!-- =====================================================
-     ГЛАВНАЯ
-===================================================== -->
-
-<div id="home">
-
-  <div class="card">
-
-    <h2>
-      Что тренируем?
-    </h2>
-
-    <button
-      class="main-button"
-      onclick="openKnowledge()">
-
-      Номера знаний
-
-    </button>
-
-    <button
-      class="main-button"
-      onclick="openCases()">
-
-      Треня кейсов
-
-    </button>
-
-  </div>
-
-
-  <div class="card">
-
-    <h3>
-      Прогресс
-    </h3>
-
-    <p>
-      Номера знаний:
-
-      <strong id="homeKnowledgeProgress">
-        0 / 10
-      </strong>
-    </p>
-
-    <p>
-      Кейсы:
-
-      <strong id="homeCaseProgress">
-        0 / 10
-      </strong>
-    </p>
-
-  </div>
-
-</div>
-
-
-<!-- =====================================================
-     ЗНАНИЯ
-===================================================== -->
-
-<div
-  id="knowledge"
-  class="hidden">
-
-  <button
-    class="secondary-button"
-    onclick="goHome()">
-
-    ← На главную
-
-  </button>
-
-
-  <div class="card">
-
-    <h2>
-      Номера знаний
-    </h2>
-
-    <div class="big-number">
-
-      Задание №
-
-      <span id="knowledgeNumber">
-        1
-      </span>
-
-    </div>
-
-
-    <div class="timer">
-
-      ⏱
-
-      <span id="knowledgeTimer">
-        0
-      </span>
-
-      сек.
-
-    </div>
-
-
-    <div
-      id="knowledgeActions"
-      class="actions">
-
-      <button
-        class="success-button"
-        onclick="finishKnowledge(true)">
-
-        ✓ Верно
-
-      </button>
-
-
-      <button
-        class="fail-button"
-        onclick="finishKnowledge(false)">
-
-        ✕ Не верно
-
-      </button>
-
-    </div>
-
-
-    <div
-      id="knowledgeResult"
-      class="result-message hidden">
-
-      <strong id="knowledgeResultText">
-      </strong>
-
-      <br><br>
-
-      <button
-        class="main-button"
-        onclick="nextKnowledge()">
-
-        Следующее
-
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <h3>
-      Трекер знаний
-    </h3>
-
-    <div
-      id="knowledgeTracker"
-      class="knowledge-tracker">
-    </div>
-
-    <br>
-
-    <button
-      class="secondary-button"
-      onclick="resetKnowledge()">
-
-      Сбросить прогресс знаний
-
-    </button>
-
-  </div>
-
-</div>
-
-
-<!-- =====================================================
-     КЕЙСЫ
-===================================================== -->
-
-<div
-  id="cases"
-  class="hidden">
-
-  <button
-    class="secondary-button"
-    onclick="goHome()">
-
-    ← На главную
-
-  </button>
-
-
-  <div class="card">
-
-    <h2>
-      Рулетка кейсов
-    </h2>
-
-
-    <div class="wheel-area">
-
-      <div class="pointer-holder">
-
-        <div
-          id="pointerVisual"
-          class="pointer-classic">
-        </div>
-
-      </div>
-
-
-      <div
-        id="wheelShell"
-        class="wheel-shell">
-
-        <div
-          id="wheel"
-          class="wheel">
-        </div>
-
-
-        <div class="number-layer">
-
-          <div
-            class="wheel-number"
-            data-number="1">
-            1
-          </div>
-
-          <div
-            class="wheel-number"
-            data-number="2">
-            2
-          </div>
-
-          <div
-            class="wheel-number"
-            data-number="3">
-            3
-          </div>
-
-          <div
-            class="wheel-number"
-            data-number="4">
-            4
-          </div>
-
-          <div
-            class="wheel-number"
-            data-number="5">
-            5
-          </div>
-
-          <div
-            class="wheel-number"
-            data-number="6">
-            6
-          </div>
-
-          <div
-            class="wheel-number"
-            data-number="7">
-            7
-          </div>
-
-          <div
-            class="wheel-number"
-            data-number="8">
-            8
-          </div>
-
-          <div
-            class="wheel-number"
-            data-number="9">
-            9
-          </div>
-
-          <div
-            class="wheel-number"
-            data-number="10">
-            10
-          </div>
-
-        </div>
-
-
-        <div class="wheel-center">
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div style="text-align:center">
-
-      <button
-        id="spinButton"
-        class="main-button"
-        onclick="spinWheel()">
-
-        🎲 Крутить рулетку
-
-      </button>
-
-    </div>
-
-
-    <div
-      id="caseWork"
-      class="hidden">
-
-      <div class="case-result">
-
-        Выпал кейс №
-
-        <span id="caseNumber">
-        </span>
-
-      </div>
-
-
-      <p style="text-align:center">
-
-        Закрепление:
-
-        <strong id="caseProgress">
-          0 / 3
-        </strong>
-
-      </p>
-
-
-      <div
-        class="timer"
-        style="text-align:center">
-
-        ⏱
-
-        <span id="caseTimer">
-          0
-        </span>
-
-        сек.
-
-      </div>
-
-
-      <div
-        class="actions"
-        style="justify-content:center">
-
-        <button
-          class="success-button"
-          onclick="finishCase(true)">
-
-          ✓ Верно
-
-        </button>
-
-
-        <button
-          class="fail-button"
-          onclick="finishCase(false)">
-
-          ✕ Не верно
-
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <div
-      id="caseResult"
-      class="result-message hidden"
-      style="text-align:center">
-
-      <strong id="caseResultText">
-      </strong>
-
-      <br><br>
-
-      <button
-        class="main-button"
-        onclick="prepareWheel()">
-
-        Крутить ещё
-
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <h3>
-      Прогресс кейсов
-    </h3>
-
-    <div
-      id="caseStats"
-      class="stats-grid">
-    </div>
-
-    <br>
-
-    <button
-      class="secondary-button"
-      onclick="resetCases()">
-
-      Сбросить прогресс
-
-    </button>
-
-  </div>
-
-</div>
-
-</div>
-
-
-<!-- =====================================================
-     НАСТРОЙКИ
-===================================================== -->
-
-<div
-  id="settingsOverlay"
-  class="modal-background hidden">
-
-  <div class="settings-modal">
-
-    <h2>
-      Настройки
-    </h2>
-
-
-    <h3>
-      Тема
-    </h3>
-
-    <div class="theme-options">
-
-      <button
-        id="lightThemeButton"
-        class="theme-option"
-        onclick="selectTheme('light')">
-
-        ☀️ Светлая
-
-      </button>
-
-
-      <button
-        id="darkThemeButton"
-        class="theme-option"
-        onclick="selectTheme('dark')">
-
-        🌙 Тёмная
-
-      </button>
-
-    </div>
-
-
-    <h3>
-      Выбор указателя
-    </h3>
-
-
-    <button
-      class="pointer-option"
-      data-pointer="classic"
-      onclick="selectPointer('classic')">
-
-      <span class="pointer-preview">
-        ▼
-      </span>
-
-      <strong>
-        Классика
-      </strong>
-
-    </button>
-
-
-    <button
-      class="pointer-option"
-      data-pointer="pizza"
-      onclick="selectPointer('pizza')">
-
-      <span class="pointer-preview">
-        🍕
-      </span>
-
-      <strong>
-        Если ты голоден — вот тебе пицца
-      </strong>
-
-    </button>
-
-
-    <button
-      class="pointer-option"
-      data-pointer="finger"
-      onclick="selectPointer('finger')">
-
-      <span class="pointer-preview">
-        ☝️
-      </span>
-
-      <strong>
-        Дикий пальчик
-      </strong>
-
-    </button>
-
-
-    <button
-      class="pointer-option"
-      data-pointer="kids"
-      onclick="selectPointer('kids')">
-
-      <span class="pointer-preview">
-        🩵
-      </span>
-
-      <strong>
-        Писюнчик версии Kids
-      </strong>
-
-    </button>
-
-
-    <br>
-
-    <button
-      class="main-button"
-      onclick="closeSettings()">
-
-      Готово
-
-    </button>
-
-  </div>
-
-</div>
-
-
-<!-- =====================================================
-     ФИНАЛ КЕЙСОВ
-===================================================== -->
-
-<div
-  id="finalCasesOverlay"
-  class="final-overlay hidden">
-
-  <div class="final-card">
-
-    <h2>
-      РЫДАЛ, НО СДАЛ!!!
-    </h2>
-
-    <p>
-      Ты умничка!! 🎉
-    </p>
-
-    <button
-      class="main-button"
-      onclick="closeCasesFinal()">
-
-      Урааа!
-
-    </button>
-
-    <button
-      class="secondary-button"
-      onclick="startNewCaseRound()">
-
-      Начать новый круг
-
-    </button>
-
-  </div>
-
-</div>
-
-
-<!-- =====================================================
-     ФИНАЛ ЗНАНИЙ
-===================================================== -->
-
-<div
-  id="finalKnowledgeOverlay"
-  class="final-overlay hidden">
-
-  <div class="final-card">
-
-    <h2>
-      БАЗА ЗНАНИЙ БОЛЬШЕ НЕ СТРАШНА!!!
-    </h2>
-
-    <p>
-      Теперь она боится тебя. 🧠🔥
-    </p>
-
-
-    <div class="cat-battle">
-
-
-      <!-- =============================
-           КОТ В ПРОФИЛЬ / 3-4
-      ============================== -->
-
-      <button
-        id="catAttackButton"
-        class="cat-button"
-        onclick="catAttack()"
-        aria-label="Котик бьёт книгу">
-
-
-        <svg
-          class="cat-svg"
-          viewBox="0 0 320 220"
-          aria-hidden="true">
-
-
-          <!-- хвост сзади -->
-
-          <path
-            class="cat-tail-line"
-            d="
-              M74 149
-              C30 159,
-              27 125,
-              53 118
-              C35 133,
-              49 145,
-              79 135
-            "/>
-
-          <path
-            class="cat-tail-white"
-            d="
-              M74 149
-              C30 159,
-              27 125,
-              53 118
-              C35 133,
-              49 145,
-              79 135
-            "/>
-
-
-          <!-- вытянутое тело -->
-
-          <path
-            class="cat-white"
-            d="
-              M64 93
-              Q75 66 110 62
-              Q149 56 179 76
-              Q198 90 199 121
-              Q199 158 177 176
-              Q147 195 103 184
-              Q68 175 61 144
-              Q54 113 64 93
-              Z
-            "/>
-
-
-          <!-- задняя лапа -->
-
-          <path
-            class="cat-white"
-            d="
-              M88 167
-              Q72 184 86 194
-              Q102 201 116 183
-              L122 167
-              Z
-            "/>
-
-
-          <!-- голова справа -->
-
-          <path
-            class="cat-white"
-            d="
-              M151 79
-
-              L158 41
-              L181 63
-
-              Q206 52 229 65
-
-              L255 42
-              L248 84
-
-              Q261 99 255 119
-
-              Q249 140 225 145
-
-              Q199 151 178 139
-
-              Q158 128 154 109
-
-              Q150 94 151 79
-
-              Z
-            "/>
-
-
-          <!-- внутреннее левое ухо -->
-
-          <path
-            d="
-              M164 53
-              L178 67
-              L164 70
-              Z
-            "
-            fill="#f3b4ba"/>
-
-
-          <!-- внутреннее правое ухо -->
-
-          <path
-            d="
-              M246 54
-              L232 67
-              L245 72
-              Z
-            "
-            fill="#f3b4ba"/>
-
-
-          <!-- глаз смотрит ВПРАВО -->
-
-          <path
-            d="
-              M218 93
-              Q229 87 237 94
-              Q228 108 218 93
-              Z
-            "
-            fill="#202124"/>
-
-
-          <!-- злая бровь в сторону книги -->
-
-          <path
-            class="cat-face"
-            d="
-              M213 82
-              L238 88
-            "/>
-
-
-          <!-- нос на правом краю морды -->
-
-          <path
-            d="
-              M245 103
-              L254 106
-              L246 112
-              Z
-            "
-            fill="#202124"/>
-
-
-          <!-- сердитый рот -->
-
-          <path
-            class="cat-face"
-            d="
-              M247 112
-              Q239 120 231 115
-            "/>
-
-
-          <!-- маленький ус вверх -->
-
-          <path
-            class="cat-face"
-            d="
-              M250 99
-              L270 94
-            "/>
-
-
-          <!-- маленький ус вниз -->
-
-          <path
-            class="cat-face"
-            d="
-              M252 107
-              L272 111
-            "/>
-
-
-          <!-- =============================
-               ПЕРЕДНИЕ ЛАПЫ ВЫТЯНУТЫ
-          ============================== -->
-
-
-          <!-- нижняя лапа -->
-
-          <path
-            class="cat-arm"
-            d="
-              M176 128
-
-              Q195 119 218 123
-
-              L248 129
-
-              Q258 133 254 143
-
-              Q251 151 240 149
-
-              L206 143
-
-              Q187 146 174 139
-
-              Z
-            "/>
-
-
-          <!-- верхняя лапа -->
-
-          <path
-            class="cat-arm"
-            d="
-              M171 111
-
-              Q191 102 215 108
-
-              L244 117
-
-              Q255 121 251 131
-
-              Q247 139 237 136
-
-              L204 127
-
-              Q188 130 173 121
-
-              Z
-            "/>
-
-
-          <!-- =============================
-               БИТА
-          ============================== -->
-
-          <g class="bat-group">
-
-            <!-- ручка -->
-
-            <rect
-              x="215"
-              y="121"
-              width="38"
-              height="15"
-              rx="7"
-              fill="#8d532d"
-              stroke="#202124"
-              stroke-width="5"
-              transform="
-                rotate(-8 215 121)
-              "/>
-
-
-            <!-- основная бита -->
-
-            <path
-              d="
-                M244 117
-
-                L308 103
-
-                Q318 101 320 109
-
-                Q322 118 311 121
-
-                L248 136
-
-                Z
-              "
-              fill="#c57a39"
-
-              stroke="#202124"
-
-              stroke-width="5"
-
-              stroke-linejoin="round"/>
-
-          </g>
-
-
-          <!-- X на пузе как у референса -->
-
-          <path
-            d="
-              M111 122
-              L144 151
-            "
-            stroke="#d0d0d0"
-            stroke-width="8"
-            stroke-linecap="round"/>
-
-          <path
-            d="
-              M143 122
-              L111 151
-            "
-            stroke="#d0d0d0"
-            stroke-width="8"
-            stroke-linecap="round"/>
-
-        </svg>
-
-      </button>
-
-
-      <!-- =============================
-           КНИГА
-      ============================== -->
-
-      <div
-        id="knowledgeBook"
-        class="book">
-
-        <div
-          id="bookEyeLeft"
-          class="book-eye left">
-          •
-        </div>
-
-        <div
-          id="bookEyeRight"
-          class="book-eye right">
-          •
-        </div>
-
-        <div class="book-mouth">
-        </div>
-
-        <div class="book-tongue">
-        </div>
-
-        <div class="book-crack c1">
-        </div>
-
-        <div class="book-crack c2">
-        </div>
-
-        <div class="book-crack c3">
-        </div>
-
-        <div class="book-pages">
-        </div>
-
-      </div>
-
-
-      <!-- удар -->
-
-      <div
-        id="bookImpact"
-        class="impact">
-
-        💥
-
-      </div>
-
-
-      <!-- бумажки -->
-
-      <div class="paper-bit p1">
-      </div>
-
-      <div class="paper-bit p2">
-      </div>
-
-      <div class="paper-bit p3">
-      </div>
-
-    </div>
-
-
-    <div
-      style="
-        font-size:14px;
-        opacity:.7;
-        margin-bottom:18px;
-      ">
-
-      Нажми на котика. Он явно ещё не закончил.
-
-    </div>
-
-
-    <button
-      class="main-button"
-      onclick="closeKnowledgeFinal()">
-
-      Так ей и надо
-
-    </button>
-
-
-    <button
-      class="secondary-button"
-      onclick="startNewKnowledgeRound()">
-
-      Пройти ещё раз
-
-    </button>
-
-  </div>
-
-</div>
-
-
-<script>
-
-/* =========================================================
-   ОБЩЕЕ
-========================================================= */
-
-const NEED = 3;
-
-
-function load(key) {
-
-  try {
 
-    return JSON.parse(
-      localStorage.getItem(key)
-    ) || {};
 
-  } catch {
+function closeSettings(){
+  settingsBackground.classList.add("hidden");
 
-    return {};
+  document
+    .getElementById("adminPanel")
+    .classList.remove("show");
 
-  }
+  document
+    .getElementById("nameJoke")
+    .classList.remove("show");
 }
 
 
-function save(key,data) {
+function saveSettings(){
 
   localStorage.setItem(
-    key,
-    JSON.stringify(data)
-  );
-}
-
-
-let knowledgeData =
-  load(
-    "trainerKnowledgeV2"
+    "trainerTheme",
+    pendingTheme
   );
 
-
-let caseData =
-  load(
-    "trainerCases"
+  localStorage.setItem(
+    "trainerPointer",
+    pendingPointer
   );
 
+  applyTheme();
+  applyPointer();
 
-function hideScreens() {
-
-  document
-    .getElementById("home")
-    .classList.add("hidden");
-
-  document
-    .getElementById("knowledge")
-    .classList.add("hidden");
-
-  document
-    .getElementById("cases")
-    .classList.add("hidden");
-}
-
-
-function goHome() {
-
-  stopKnowledgeTimer();
-
-  stopCaseTimer();
-
-  hideScreens();
-
-  document
-    .getElementById("home")
-    .classList.remove("hidden");
-
-  updateHome();
+  closeSettings();
 }
 
 
@@ -3315,72 +1776,948 @@ function goHome() {
    ТЕМА
 ========================================================= */
 
-let selectedTheme =
-  localStorage.getItem(
-    "trainerTheme"
-  ) ||
-  "light";
-
-
-function selectTheme(theme) {
-
-  selectedTheme =
-    theme;
-
-  localStorage.setItem(
-    "trainerTheme",
-    theme
-  );
-
-  applyTheme();
-
+function chooseTheme(theme){
+  pendingTheme = theme;
   updateThemeButtons();
 }
 
 
-function applyTheme() {
-
-  document
-    .body
-    .classList
-    .toggle(
-      "dark",
-      selectedTheme === "dark"
-    );
-}
-
-
-function updateThemeButtons() {
+function updateThemeButtons(){
 
   const light =
-    document.getElementById(
-      "lightThemeButton"
-    );
+    document.getElementById("lightThemeButton");
 
   const dark =
-    document.getElementById(
-      "darkThemeButton"
-    );
-
-  if (!light || !dark) {
-    return;
-  }
+    document.getElementById("darkThemeButton");
 
   light.classList.toggle(
     "selected",
-    selectedTheme === "light"
+    pendingTheme === "light"
   );
 
   dark.classList.toggle(
     "selected",
-    selectedTheme === "dark"
+    pendingTheme === "dark"
+  );
+}
+
+
+function applyTheme(){
+
+  const theme =
+    localStorage.getItem("trainerTheme") || "light";
+
+  document.body.classList.toggle(
+    "dark",
+    theme === "dark"
   );
 }
 
 
 /* =========================================================
-   ЗНАНИЯ
+   УКАЗАТЕЛЬ РУЛЕТКИ
 ========================================================= */
+
+function choosePointer(pointer){
+  pendingPointer = pointer;
+  updatePointerButtons();
+}
+
+
+function updatePointerButtons(){
+
+  const names = [
+    "Classic",
+    "Pizza",
+    "Finger",
+    "Kids"
+  ];
+
+  names.forEach(name=>{
+
+    const button =
+      document.getElementById(
+        `pointer${name}Button`
+      );
+
+    if(!button) return;
+
+    button.classList.remove("selected");
+
+  });
+
+
+  const selectedName =
+    pendingPointer.charAt(0).toUpperCase() +
+    pendingPointer.slice(1);
+
+  const selectedButton =
+    document.getElementById(
+      `pointer${selectedName}Button`
+    );
+
+  if(selectedButton){
+    selectedButton.classList.add("selected");
+  }
+}
+
+
+function applyPointer(){
+
+  const pointer =
+    localStorage.getItem("trainerPointer")
+    || "classic";
+
+  const visual =
+    document.getElementById("pointerVisual");
+
+  visual.className = "";
+
+  if(pointer === "classic"){
+
+    visual.className =
+      "pointer-classic";
+
+  }
+
+  if(pointer === "pizza"){
+
+    visual.className =
+      "pointer-picture";
+
+    visual.innerHTML =
+      '<div class="pizza-pointer"></div>';
+
+    return;
+  }
+
+  if(pointer === "finger"){
+
+    visual.className =
+      "pointer-picture";
+
+    visual.innerHTML =
+      '<div class="finger-pointer"></div>';
+
+    return;
+  }
+
+  if(pointer === "kids"){
+
+    visual.className =
+      "pointer-picture";
+
+    visual.innerHTML =
+      '<div class="kids-pointer"></div>';
+
+    return;
+  }
+
+  visual.innerHTML = "";
+}
+
+
+/* =========================================================
+   ИМЯ
+========================================================= */
+
+const trainerNameInput =
+  document.getElementById("trainerNameInput");
+
+const trainerNameDisplay =
+  document.getElementById("trainerNameDisplay");
+
+const nameCreate =
+  document.getElementById("nameCreate");
+
+const nameView =
+  document.getElementById("nameView");
+
+const nameJoke =
+  document.getElementById("nameJoke");
+
+const savedNameNote =
+  document.getElementById("savedNameNote");
+
+const adminPanel =
+  document.getElementById("adminPanel");
+
+const adminRudeToggle =
+  document.getElementById("adminRudeToggle");
+
+
+/*
+  Пасхалки для конкретных вариантов имени.
+  Если ключ совпал — сообщение показывается,
+  а имя НЕ сохраняется.
+*/
+
+const SPECIAL_NAME_RESPONSES = {
+
+  "хуй":
+    "....))))))))))))))",
+
+  "мой господин":
+    "Только не заставляй меня называть тебя так)))",
+
+  "господин":
+    "Мы тренируемся, а не присягаем тебе на верность",
+
+  "царь":
+    "Царь пока только в голове. Пиши имя",
+
+  "бог":
+    "Самооценка — 10/10. А теперь пиши мне имя)",
+
+  "соси":
+    "Не отвлекайся на мечты",
+
+  "пидор":
+    "Давайте жить дружно",
+
+  "пидр":
+    "Давайте жить дружно",
+
+  "пидорас":
+    "Давайте жить дружно",
+
+  "гандон":
+    "Давайте жить дружно",
+
+  "бля":
+    "Согласен, иногда этим словом я могу описать свое состояние.. Так че там с именем?",
+
+  "блять":
+    "Согласен, иногда этим словом я могу описать свое состояние.. Так че там с именем?",
+
+  "уебок":
+    "Врагов вспоминаешь? Имя пиши давай",
+
+  "уебан":
+    "Врагов вспоминаешь? Имя пиши давай",
+
+  "долбоеб":
+    "Сильное заявление. Проверять мы это, конечно же, не будем.",
+
+  "никто":
+    "Инкогнито сегодня не принимаем",
+
+  "аноним":
+    "ШПИОН!!",
+
+  "стажер":
+    "Это пока должность. А имя?)))"
+};
+
+
+function normalizedName(value){
+
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/ё/g,"е")
+    .replace(/[.,!?;:"'`(){}\[\]]/g,"")
+    .replace(/\s+/g," ");
+}
+
+
+function getSpecialNameResponse(value){
+
+  const raw =
+    value.trim().toLowerCase();
+
+  /*
+    ВАЖНО:
+    три точки проверяются ДО удаления
+    знаков пунктуации.
+  */
+
+  if(raw === "..."){
+    return "....))))))))))))))";
+  }
+
+  const n =
+    normalizedName(value);
+
+  return SPECIAL_NAME_RESPONSES[n] || "";
+}
+
+
+function hasRudeName(value){
+
+  const compact =
+    normalizedName(value)
+      .replace(/ё/g,"е")
+      .replace(/[\s_\-]+/g,"");
+
+  const rudeRoots = [
+
+    "хуй",
+    "хуе",
+    "хуя",
+    "хую",
+    "хуи",
+
+    "пизд",
+
+    "еб",
+    "еба",
+    "ебл",
+    "ебн",
+
+    "бляд",
+    "блят",
+
+    "сука",
+    "сучк",
+    "сучар",
+
+    "урод",
+
+    "дура",
+    "дуро",
+    "дурень",
+
+    "мудак",
+    "мудил",
+
+    "шлюх"
+  ];
+
+  return rudeRoots.some(
+    root => compact.includes(root)
+  );
+}
+
+
+function adminAllowsAnyName(){
+
+  return (
+    localStorage.getItem(
+      "trainerAdminRude"
+    ) === "true"
+  );
+}
+
+
+function toggleNameJoke(){
+
+  nameJoke.textContent =
+    "Только не проси меня называть тебя «Мой господин» ))))) Если ооочень надо, то проси и умоляй об этом админа";
+
+  nameJoke.classList.toggle("show");
+}
+
+
+function toggleAdminPanel(){
+
+  adminPanel.classList.toggle("show");
+}
+
+
+function loadAdminRude(){
+
+  adminRudeToggle.checked =
+    adminAllowsAnyName();
+}
+
+
+function saveAdminRude(){
+
+  localStorage.setItem(
+    "trainerAdminRude",
+    adminRudeToggle.checked
+      ? "true"
+      : "false"
+  );
+}
+
+
+function saveTrainerName(){
+
+  const name =
+    trainerNameInput.value.trim();
+
+  const adminMode =
+    adminAllowsAnyName();
+
+
+  if(!adminMode){
+
+    const specialResponse =
+      getSpecialNameResponse(name);
+
+
+    if(specialResponse){
+
+      nameJoke.textContent =
+        specialResponse;
+
+      nameJoke.classList.add("show");
+
+      savedNameNote.textContent = "";
+
+      return false;
+    }
+
+
+    if(hasRudeName(name)){
+
+      nameJoke.textContent =
+        "Не обзывай себя))";
+
+      nameJoke.classList.add("show");
+
+      savedNameNote.textContent = "";
+
+      return false;
+    }
+  }
+
+
+  if(!name){
+
+    localStorage.removeItem(
+      "trainerName"
+    );
+
+    savedNameNote.textContent = "";
+
+  }else{
+
+    localStorage.setItem(
+      "trainerName",
+      name
+    );
+
+    savedNameNote.textContent =
+      `Хелоу, ${name}))`;
+  }
+
+
+  if(adminMode){
+
+    nameJoke.textContent =
+      "Админ разрешил. Имя сохранено 😈";
+
+    nameJoke.classList.add("show");
+
+  }else{
+
+    nameJoke.textContent =
+      "Только не проси меня называть тебя «Мой господин» ))))) Если ооочень надо, то проси и умоляй об этом админа";
+
+    nameJoke.classList.remove("show");
+  }
+
+
+  updateFinalNames();
+
+  return true;
+}
+
+
+function saveNameAndStay(){
+
+  const ok =
+    saveTrainerName();
+
+  if(ok){
+    loadTrainerName();
+  }
+
+  /*
+    Если имя отклонено —
+    ничего не перерисовываем.
+    Поэтому шуточный ответ остаётся
+    под полем.
+  */
+}
+
+
+function loadTrainerName(){
+
+  loadAdminRude();
+
+  let name =
+    localStorage.getItem(
+      "trainerName"
+    ) || "";
+
+
+  /*
+    Если старая версия каким-то образом
+    сохранила запрещённое имя,
+    удаляем его.
+  */
+
+  if(
+    !adminAllowsAnyName()
+    &&
+    name
+    &&
+    (
+      getSpecialNameResponse(name)
+      ||
+      hasRudeName(name)
+    )
+  ){
+
+    localStorage.removeItem(
+      "trainerName"
+    );
+
+    name = "";
+  }
+
+
+  if(name){
+
+    trainerNameDisplay.textContent =
+      name;
+
+    trainerNameInput.value =
+      name;
+
+    nameCreate.classList.add(
+      "hidden"
+    );
+
+    nameView.classList.remove(
+      "hidden"
+    );
+
+    savedNameNote.textContent =
+      `Хелоу, ${name}))`;
+
+  }else{
+
+    trainerNameDisplay.textContent =
+      "";
+
+    trainerNameInput.value =
+      "";
+
+    nameView.classList.add(
+      "hidden"
+    );
+
+    nameCreate.classList.remove(
+      "hidden"
+    );
+
+    savedNameNote.textContent =
+      "";
+  }
+
+
+  updateFinalNames();
+}
+
+
+function startNameEdit(){
+
+  const name =
+    localStorage.getItem(
+      "trainerName"
+    ) || "";
+
+  trainerNameInput.value =
+    name;
+
+  nameView.classList.add(
+    "hidden"
+  );
+
+  nameCreate.classList.remove(
+    "hidden"
+  );
+
+  nameJoke.classList.remove(
+    "show"
+  );
+
+  savedNameNote.textContent =
+    "";
+
+  setTimeout(
+    ()=>trainerNameInput.focus(),
+    50
+  );
+}
+
+
+/*
+  ENTER тоже сохраняет имя.
+*/
+
+trainerNameInput.addEventListener(
+  "keydown",
+  function(event){
+
+    if(event.key === "Enter"){
+
+      event.preventDefault();
+
+      saveNameAndStay();
+    }
+  }
+);
+
+
+/* =========================================================
+   ИМЯ В ПОЗДРАВЛЕНИЯХ
+========================================================= */
+
+const caseFinalPraise =
+  document.getElementById(
+    "caseFinalPraise"
+  );
+
+const knowledgeFinalPraise =
+  document.getElementById(
+    "knowledgeFinalPraise"
+  );
+
+
+function updateFinalNames(){
+
+  let name =
+    localStorage.getItem(
+      "trainerName"
+    ) || "";
+
+
+  if(
+    !adminAllowsAnyName()
+    &&
+    name
+    &&
+    (
+      getSpecialNameResponse(name)
+      ||
+      hasRudeName(name)
+    )
+  ){
+
+    localStorage.removeItem(
+      "trainerName"
+    );
+
+    name = "";
+  }
+
+
+  caseFinalPraise.textContent =
+    name
+      ? `${name}, ты умничка!! 🎉`
+      : "Ты умничка!! 🎉";
+
+
+  knowledgeFinalPraise.textContent =
+    name
+      ? `Теперь она боится тебя, ${name}. 🧠🔥`
+      : "Теперь она боится тебя. 🧠🔥";
+}
+   /* =========================================================
+   ТРЕКЕР ПОСЕЩАЕМОСТИ — 21 ДЕНЬ
+========================================================= */
+
+const attendanceGrid =
+  document.getElementById(
+    "attendanceGrid"
+  );
+
+const habitProgressFill =
+  document.getElementById(
+    "habitProgressFill"
+  );
+
+const attendanceText =
+  document.getElementById(
+    "attendanceText"
+  );
+
+
+function getDateKey(date){
+
+  const year =
+    date.getFullYear();
+
+  const month =
+    String(
+      date.getMonth() + 1
+    ).padStart(2,"0");
+
+  const day =
+    String(
+      date.getDate()
+    ).padStart(2,"0");
+
+  return `${year}-${month}-${day}`;
+}
+
+
+function getHabitData(){
+
+  try{
+
+    return JSON.parse(
+      localStorage.getItem(
+        "trainerHabit"
+      )
+    ) || {};
+
+  }catch{
+
+    return {};
+  }
+}
+
+
+function saveHabitData(data){
+
+  localStorage.setItem(
+    "trainerHabit",
+    JSON.stringify(data)
+  );
+}
+
+
+function registerToday(){
+
+  const data =
+    getHabitData();
+
+  const today =
+    new Date();
+
+  const todayKey =
+    getDateKey(today);
+
+
+  /*
+    Первый запуск трекера.
+  */
+
+  if(!data.startDate){
+
+    data.startDate =
+      todayKey;
+
+    data.days = {};
+  }
+
+
+  if(!data.days){
+    data.days = {};
+  }
+
+
+  /*
+    Один день = одна отметка.
+    F5 сто раз не создаст 100 посещений.
+  */
+
+  data.days[todayKey] =
+    true;
+
+
+  saveHabitData(data);
+}
+
+
+function renderAttendance(){
+
+  const data =
+    getHabitData();
+
+
+  if(!data.startDate){
+
+    registerToday();
+
+    return renderAttendance();
+  }
+
+
+  attendanceGrid.innerHTML =
+    "";
+
+
+  const start =
+    new Date(
+      data.startDate +
+      "T12:00:00"
+    );
+
+
+  const today =
+    new Date();
+
+  today.setHours(
+    12,0,0,0
+  );
+
+
+  let completed =
+    0;
+
+
+  for(
+    let i = 0;
+    i < 21;
+    i++
+  ){
+
+    const date =
+      new Date(start);
+
+    date.setDate(
+      start.getDate() + i
+    );
+
+
+    const key =
+      getDateKey(date);
+
+
+    const cell =
+      document.createElement(
+        "div"
+      );
+
+
+    cell.className =
+      "attendance-cell";
+
+
+    const visited =
+      data.days &&
+      data.days[key];
+
+
+    if(visited){
+
+      completed++;
+
+      /*
+        Чем дальше идёт серия,
+        тем ярче зелёный.
+      */
+
+      if(i < 5){
+        cell.classList.add(
+          "level1"
+        );
+      }
+      else if(i < 10){
+        cell.classList.add(
+          "level2"
+        );
+      }
+      else if(i < 16){
+        cell.classList.add(
+          "level3"
+        );
+      }
+      else{
+        cell.classList.add(
+          "level4"
+        );
+      }
+    }
+
+
+    const future =
+      date > today;
+
+
+    let status =
+      "не было тренировки";
+
+
+    if(visited){
+      status =
+        "тренировка была ✓";
+    }
+
+    if(future){
+      status =
+        "ещё впереди";
+    }
+
+
+    cell.title =
+      `День ${i + 1} · ${key} · ${status}`;
+
+
+    attendanceGrid.appendChild(
+      cell
+    );
+  }
+
+
+  attendanceText.textContent =
+    `${completed} / 21 дней`;
+
+
+  const percent =
+    Math.min(
+      100,
+      completed / 21 * 100
+    );
+
+
+  habitProgressFill.style.width =
+    percent + "%";
+
+
+  /*
+    Поздравление за полный цикл.
+  */
+
+  if(completed >= 21){
+
+    attendanceText.textContent =
+      "21 ДЕНЬ. ЭТО УЖЕ НЕ МОТИВАЦИЯ. ЭТО СИСТЕМА. 😎";
+  }
+}
+
+
+/* =========================================================
+   ДАННЫЕ ЗНАНИЙ
+========================================================= */
+
+function loadKnowledgeData(){
+
+  try{
+
+    return JSON.parse(
+      localStorage.getItem(
+        "trainerKnowledge"
+      )
+    ) || {};
+
+  }catch{
+
+    return {};
+  }
+}
+
+
+function saveKnowledgeData(data){
+
+  localStorage.setItem(
+    "trainerKnowledge",
+    JSON.stringify(data)
+  );
+}
+
+
+let knowledgeData =
+  loadKnowledgeData();
+
 
 let currentKnowledge =
   null;
@@ -3388,230 +2725,33 @@ let currentKnowledge =
 let knowledgeSeconds =
   0;
 
-let knowledgeInterval =
+let knowledgeTimerInterval =
   null;
 
 
-function openKnowledge() {
+/* =========================================================
+   ТАЙМЕР ЗНАНИЙ
+========================================================= */
 
-  hideScreens();
-
-  document
-    .getElementById("knowledge")
-    .classList.remove("hidden");
-
-  renderKnowledgeTracker();
-
-  nextKnowledge();
-}
-
-
-function getAvailableKnowledge() {
-
-  const result =
-    [];
-
-  for (
-    let i = 1;
-    i <= 10;
-    i++
-  ) {
-
-    const data =
-      knowledgeData[i];
-
-    const count =
-      data &&
-      Array.isArray(data.results)
-
-        ? data.results.length
-
-        : 0;
-
-    if (count < NEED) {
-
-      result.push(i);
-    }
-  }
-
-  return result;
-}
-
-
-function nextKnowledge() {
+function startKnowledgeTimer(){
 
   stopKnowledgeTimer();
-
-  const available =
-    getAvailableKnowledge();
-
-  if (!available.length) {
-
-    showKnowledgeFinal();
-
-    return;
-  }
-
-  currentKnowledge =
-    available[
-      Math.floor(
-        Math.random() *
-        available.length
-      )
-    ];
-
-  document
-    .getElementById(
-      "knowledgeNumber"
-    )
-    .textContent =
-    currentKnowledge;
-
-  document
-    .getElementById(
-      "knowledgeResult"
-    )
-    .classList
-    .add("hidden");
-
-  document
-    .getElementById(
-      "knowledgeActions"
-    )
-    .classList
-    .remove("hidden");
-
-  startKnowledgeTimer();
-}
-
-
-function finishKnowledge(success) {
-
-  stopKnowledgeTimer();
-
-  if (
-    !knowledgeData[
-      currentKnowledge
-    ]
-  ) {
-
-    knowledgeData[
-      currentKnowledge
-    ] = {
-
-      results: [],
-      attempts: 0,
-      best: null
-
-    };
-  }
-
-  const data =
-    knowledgeData[
-      currentKnowledge
-    ];
-
-  if (
-    !Array.isArray(
-      data.results
-    )
-  ) {
-
-    data.results =
-      [];
-  }
-
-  if (
-    data.results.length >=
-    NEED
-  ) {
-
-    return;
-  }
-
-  data.results.push(
-    success
-      ? "good"
-      : "bad"
-  );
-
-  data.attempts =
-    (
-      data.attempts ||
-      0
-    ) +
-    1;
-
-  if (
-    data.best === null ||
-    data.best === undefined ||
-    knowledgeSeconds <
-    data.best
-  ) {
-
-    data.best =
-      knowledgeSeconds;
-  }
-
-  save(
-    "trainerKnowledgeV2",
-    knowledgeData
-  );
-
-  document
-    .getElementById(
-      "knowledgeActions"
-    )
-    .classList
-    .add("hidden");
-
-  document
-    .getElementById(
-      "knowledgeResultText"
-    )
-    .textContent =
-    success
-      ? "Засчитано ✓"
-      : "Отмечено как не верно";
-
-  document
-    .getElementById(
-      "knowledgeResult"
-    )
-    .classList
-    .remove("hidden");
-
-  renderKnowledgeTracker();
-
-  updateHome();
-
-  if (
-    allKnowledgeCompleted()
-  ) {
-
-    setTimeout(
-      showKnowledgeFinal,
-      700
-    );
-  }
-}
-
-
-function startKnowledgeTimer() {
 
   knowledgeSeconds =
     0;
+
 
   document
     .getElementById(
       "knowledgeTimer"
     )
     .textContent =
-    0;
+    "0";
 
-  knowledgeInterval =
+
+  knowledgeTimerInterval =
     setInterval(
-      function() {
+      ()=>{
 
         knowledgeSeconds++;
 
@@ -3628,80 +2768,340 @@ function startKnowledgeTimer() {
 }
 
 
-function stopKnowledgeTimer() {
+function stopKnowledgeTimer(){
 
-  if (
-    knowledgeInterval
-  ) {
+  if(
+    knowledgeTimerInterval
+  ){
 
     clearInterval(
-      knowledgeInterval
+      knowledgeTimerInterval
     );
   }
 
-  knowledgeInterval =
+
+  knowledgeTimerInterval =
     null;
 }
 
 
-function renderKnowledgeTracker() {
+/* =========================================================
+   ЗАДАНИЯ ПО ЗНАНИЯМ
+========================================================= */
+
+function getAvailableKnowledge(){
+
+  const available =
+    [];
+
+
+  for(
+    let i = 1;
+    i <= 10;
+    i++
+  ){
+
+    const item =
+      knowledgeData[i];
+
+
+    const attempts =
+      item &&
+      Array.isArray(
+        item.results
+      )
+        ? item.results.length
+        : 0;
+
+
+    if(attempts < 3){
+
+      available.push(i);
+    }
+  }
+
+
+  return available;
+}
+
+
+function startKnowledgeQuestion(){
+
+  const available =
+    getAvailableKnowledge();
+
+
+  if(!available.length){
+
+    showKnowledgeFinal();
+
+    return;
+  }
+
+
+  currentKnowledge =
+    available[
+      Math.floor(
+        Math.random() *
+        available.length
+      )
+    ];
+
+
+  document
+    .getElementById(
+      "knowledgeQuestion"
+    )
+    .textContent =
+    `Задание ${currentKnowledge}`;
+
+
+  document
+    .getElementById(
+      "knowledgeResult"
+    )
+    .classList
+    .add("hidden");
+
+
+  document
+    .getElementById(
+      "nextKnowledgeButton"
+    )
+    .classList
+    .add("hidden");
+
+
+  startKnowledgeTimer();
+}
+
+
+function nextKnowledge(){
+
+  startKnowledgeQuestion();
+}
+
+
+function finishKnowledge(success){
+
+  stopKnowledgeTimer();
+
+
+  if(
+    !knowledgeData[
+      currentKnowledge
+    ]
+  ){
+
+    knowledgeData[
+      currentKnowledge
+    ] = {
+
+      results:[],
+
+      attempts:0,
+
+      best:null
+    };
+  }
+
+
+  const item =
+    knowledgeData[
+      currentKnowledge
+    ];
+
+
+  if(
+    !Array.isArray(
+      item.results
+    )
+  ){
+
+    item.results =
+      [];
+  }
+
+
+  /*
+    Максимум три отметки
+    на одно задание.
+  */
+
+  if(
+    item.results.length >= 3
+  ){
+
+    return;
+  }
+
+
+  item.results.push(
+    success
+      ? "good"
+      : "bad"
+  );
+
+
+  item.attempts =
+    (item.attempts || 0) + 1;
+
+
+  /*
+    Лучшее время.
+  */
+
+  if(
+    item.best === null
+    ||
+    item.best === undefined
+    ||
+    knowledgeSeconds <
+    item.best
+  ){
+
+    item.best =
+      knowledgeSeconds;
+  }
+
+
+  saveKnowledgeData(
+    knowledgeData
+  );
+
+
+  const result =
+    document.getElementById(
+      "knowledgeResult"
+    );
+
+
+  result.classList.remove(
+    "hidden"
+  );
+
+
+  result.textContent =
+    success
+      ? "✓ Верно. Засчитано."
+      : "✕ Отмечено как неверно.";
+
+
+  document
+    .getElementById(
+      "nextKnowledgeButton"
+    )
+    .classList
+    .remove("hidden");
+
+
+  renderKnowledgeTracker();
+
+  updateHomeProgress();
+
+
+  /*
+    Маленький фейерверк,
+    когда конкретное задание
+    закрыто три раза.
+  */
+
+  if(
+    item.results.length === 3
+  ){
+
+    createConfetti(
+      30
+    );
+  }
+
+
+  if(
+    getAvailableKnowledge()
+      .length === 0
+  ){
+
+    setTimeout(
+      showKnowledgeFinal,
+      700
+    );
+  }
+}
+
+
+/* =========================================================
+   ВИЗУАЛЬНЫЙ ТРЕКЕР ЗНАНИЙ
+========================================================= */
+
+function renderKnowledgeTracker(){
 
   const container =
     document.getElementById(
       "knowledgeTracker"
     );
 
+
   container.innerHTML =
     "";
 
-  for (
+
+  for(
     let i = 1;
     i <= 10;
     i++
-  ) {
+  ){
 
-    const data =
-      knowledgeData[i] ||
-      {
+    const item =
+      knowledgeData[i] || {
 
-        results: [],
-        attempts: 0,
-        best: null
+        results:[],
 
+        attempts:0,
+
+        best:null
       };
+
 
     const results =
       Array.isArray(
-        data.results
+        item.results
       )
-
-        ? data.results
-
+        ? item.results
         : [];
+
 
     const row =
       document.createElement(
         "div"
       );
 
+
     row.className =
-      "knowledge-row" +
-      (
-        results.length >= NEED
-          ? " done"
-          : ""
+      "knowledge-row";
+
+
+    if(
+      results.length >= 3
+    ){
+
+      row.classList.add(
+        "done"
       );
+    }
+
 
     const title =
       document.createElement(
         "div"
       );
 
+
     title.className =
       "knowledge-title";
 
+
     title.textContent =
-      "Задание " + i;
+      `Задание ${i}`;
 
 
     const circles =
@@ -3709,41 +3109,46 @@ function renderKnowledgeTracker() {
         "div"
       );
 
+
     circles.className =
       "knowledge-circles";
 
 
-    for (
-      let j = 0;
-      j < NEED;
-      j++
-    ) {
+    for(
+      let n = 0;
+      n < 3;
+      n++
+    ){
 
       const dot =
         document.createElement(
           "div"
         );
 
+
       dot.className =
         "tracker-dot";
 
-      if (
-        results[j] === "good"
-      ) {
+
+      if(
+        results[n] === "good"
+      ){
 
         dot.classList.add(
           "good"
         );
       }
 
-      if (
-        results[j] === "bad"
-      ) {
+
+      if(
+        results[n] === "bad"
+      ){
 
         dot.classList.add(
           "bad"
         );
       }
+
 
       circles.appendChild(
         dot
@@ -3756,15 +3161,13 @@ function renderKnowledgeTracker() {
         "div"
       );
 
+
     attempts.className =
       "knowledge-meta";
 
+
     attempts.textContent =
-      "Попыток: " +
-      (
-        data.attempts ||
-        0
-      );
+      `Попыток: ${item.attempts || 0}`;
 
 
     const best =
@@ -3772,20 +3175,19 @@ function renderKnowledgeTracker() {
         "div"
       );
 
+
     best.className =
       "knowledge-meta";
 
+
     best.textContent =
-      "Лучшее: " +
-      (
-        data.best === null ||
-        data.best === undefined
+      item.best === null
+      ||
+      item.best === undefined
 
-          ? "—"
+        ? "Лучшее: —"
 
-          : data.best +
-            " сек."
-      );
+        : `Лучшее: ${item.best} сек.`;
 
 
     row.appendChild(
@@ -3804,6 +3206,7 @@ function renderKnowledgeTracker() {
       best
     );
 
+
     container.appendChild(
       row
     );
@@ -3811,543 +3214,114 @@ function renderKnowledgeTracker() {
 }
 
 
-function allKnowledgeCompleted() {
+function resetKnowledge(){
 
-  for (
-    let i = 1;
-    i <= 10;
-    i++
-  ) {
-
-    const data =
-      knowledgeData[i];
-
-    if (
-      !data ||
-      !Array.isArray(
-        data.results
-      ) ||
-      data.results.length <
-      NEED
-    ) {
-
-      return false;
-    }
-  }
-
-  return true;
-}
+  const yes =
+    confirm(
+      "Сбросить весь прогресс знаний?"
+    );
 
 
-function resetKnowledge() {
-
-  if (
-    !confirm(
-      "Точно сбросить прогресс знаний?"
-    )
-  ) {
-
+  if(!yes){
     return;
   }
+
 
   knowledgeData =
     {};
 
-  save(
-    "trainerKnowledgeV2",
+
+  saveKnowledgeData(
     knowledgeData
   );
 
+
   renderKnowledgeTracker();
 
-  updateHome();
+  updateHomeProgress();
 
-  nextKnowledge();
+  startKnowledgeQuestion();
 }
 
 
 /* =========================================================
-   РУЛЕТКА
+   ДАННЫЕ КЕЙСОВ
 ========================================================= */
+
+function loadCaseData(){
+
+  try{
+
+    return JSON.parse(
+      localStorage.getItem(
+        "trainerCases"
+      )
+    ) || {};
+
+  }catch{
+
+    return {};
+  }
+}
+
+
+function saveCaseData(data){
+
+  localStorage.setItem(
+    "trainerCases",
+    JSON.stringify(data)
+  );
+}
+
+
+let caseData =
+  loadCaseData();
+
 
 let currentCase =
   null;
 
+
 let caseSeconds =
   0;
 
-let caseInterval =
+
+let caseTimerInterval =
   null;
+
 
 let wheelRotation =
   0;
 
-let spinning =
+
+let wheelBusy =
   false;
 
 
-function openCases() {
-
-  hideScreens();
-
-  document
-    .getElementById("cases")
-    .classList
-    .remove("hidden");
-
-  prepareWheel();
-
-  renderCaseStats();
-
-  positionNumbers(
-    wheelRotation
-  );
-}
-
-
-function availableCases() {
-
-  const result =
-    [];
-
-  for (
-    let i = 1;
-    i <= 10;
-    i++
-  ) {
-
-    const data =
-      caseData[i];
-
-    if (
-      !data ||
-      data.success < NEED
-    ) {
-
-      result.push(i);
-    }
-  }
-
-  return result;
-}
-
-
-function positionNumbers(rotation) {
-
-  const shell =
-    document.getElementById(
-      "wheelShell"
-    );
-
-  const size =
-    shell.offsetWidth;
-
-  const radius =
-    size * .38;
-
-  const center =
-    size / 2;
-
-  document
-    .querySelectorAll(
-      ".wheel-number"
-    )
-    .forEach(
-      function(element) {
-
-        const number =
-          Number(
-            element.dataset.number
-          );
-
-        const baseAngle =
-          -90 +
-          18 +
-          (
-            number - 1
-          ) *
-          36;
-
-        const angle =
-          baseAngle +
-          rotation;
-
-        const rad =
-          angle *
-          Math.PI /
-          180;
-
-        const x =
-          center +
-          Math.cos(rad) *
-          radius;
-
-        const y =
-          center +
-          Math.sin(rad) *
-          radius;
-
-        element.style.left =
-          x + "px";
-
-        element.style.top =
-          y + "px";
-      }
-    );
-}
-
-
-function spinWheel() {
-
-  if (spinning) {
-    return;
-  }
-
-  const available =
-    availableCases();
-
-  if (!available.length) {
-
-    showCasesFinal();
-
-    return;
-  }
-
-  spinning =
-    true;
-
-  document
-    .getElementById(
-      "spinButton"
-    )
-    .disabled =
-    true;
-
-  currentCase =
-    available[
-      Math.floor(
-        Math.random() *
-        available.length
-      )
-    ];
-
-  const sectorCenter =
-    18 +
-    (
-      currentCase -
-      1
-    ) *
-    36;
-
-  const normalized =
-    (
-      (
-        wheelRotation %
-        360
-      ) +
-      360
-    ) %
-    360;
-
-  const desired =
-    (
-      360 -
-      sectorCenter
-    ) %
-    360;
-
-  let difference =
-    desired -
-    normalized;
-
-  if (
-    difference <
-    0
-  ) {
-
-    difference +=
-      360;
-  }
-
-  const start =
-    wheelRotation;
-
-  const target =
-    wheelRotation +
-    5 * 360 +
-    difference;
-
-  const duration =
-    4000;
-
-  const startTime =
-    performance.now();
-
-  const wheel =
-    document.getElementById(
-      "wheel"
-    );
-
-
-  function animate(now) {
-
-    const elapsed =
-      now -
-      startTime;
-
-    const progress =
-      Math.min(
-        elapsed /
-        duration,
-        1
-      );
-
-    const eased =
-      1 -
-      Math.pow(
-        1 -
-        progress,
-        4
-      );
-
-    const rotation =
-      start +
-      (
-        target -
-        start
-      ) *
-      eased;
-
-    wheel.style.transform =
-      "rotate(" +
-      rotation +
-      "deg)";
-
-    positionNumbers(
-      rotation
-    );
-
-    if (
-      progress <
-      1
-    ) {
-
-      requestAnimationFrame(
-        animate
-      );
-
-    } else {
-
-      wheelRotation =
-        target;
-
-      spinning =
-        false;
-
-      showCase();
-    }
-  }
-
-  requestAnimationFrame(
-    animate
-  );
-}
-
-
-function showCase() {
-
-  const data =
-    caseData[
-      currentCase
-    ] ||
-    {
-      success: 0
-    };
-
-  document
-    .getElementById(
-      "caseNumber"
-    )
-    .textContent =
-    currentCase;
-
-  document
-    .getElementById(
-      "caseProgress"
-    )
-    .textContent =
-    data.success +
-    " / 3";
-
-  document
-    .getElementById(
-      "caseWork"
-    )
-    .classList
-    .remove("hidden");
-
-  startCaseTimer();
-}
-
-
-function finishCase(success) {
+/* =========================================================
+   ТАЙМЕР КЕЙСОВ
+========================================================= */
+
+function startCaseTimer(){
 
   stopCaseTimer();
 
-  if (
-    !caseData[
-      currentCase
-    ]
-  ) {
-
-    caseData[
-      currentCase
-    ] = {
-
-      success: 0,
-      attempts: 0,
-      best: null
-
-    };
-  }
-
-  const data =
-    caseData[
-      currentCase
-    ];
-
-  const wasCompleted =
-    data.success >=
-    NEED;
-
-  data.attempts++;
-
-  if (success) {
-
-    data.success++;
-
-    if (
-      data.success >
-      NEED
-    ) {
-
-      data.success =
-        NEED;
-    }
-  }
-
-  if (
-    data.best === null ||
-    caseSeconds <
-    data.best
-  ) {
-
-    data.best =
-      caseSeconds;
-  }
-
-  save(
-    "trainerCases",
-    caseData
-  );
-
-  document
-    .getElementById(
-      "caseWork"
-    )
-    .classList
-    .add("hidden");
-
-  document
-    .getElementById(
-      "caseResultText"
-    )
-    .textContent =
-    success
-      ? "Кейс засчитан ✓"
-      : "Кейс не засчитан";
-
-  document
-    .getElementById(
-      "caseResult"
-    )
-    .classList
-    .remove("hidden");
-
-  const justCompleted =
-    !wasCompleted &&
-    data.success >=
-    NEED;
-
-  if (
-    justCompleted
-  ) {
-
-    smallCelebration();
-  }
-
-  renderCaseStats();
-
-  updateHome();
-
-  if (
-    justCompleted &&
-    allCasesCompleted()
-  ) {
-
-    setTimeout(
-      showCasesFinal,
-      900
-    );
-  }
-}
-
-
-function prepareWheel() {
-
-  stopCaseTimer();
-
-  currentCase =
-    null;
-
-  document
-    .getElementById(
-      "caseWork"
-    )
-    .classList
-    .add("hidden");
-
-  document
-    .getElementById(
-      "caseResult"
-    )
-    .classList
-    .add("hidden");
-
-  document
-    .getElementById(
-      "spinButton"
-    )
-    .disabled =
-    false;
-}
-
-
-function startCaseTimer() {
 
   caseSeconds =
     0;
+
 
   document
     .getElementById(
       "caseTimer"
     )
     .textContent =
-    0;
+    "0";
 
-  caseInterval =
+
+  caseTimerInterval =
     setInterval(
-      function() {
+      ()=>{
 
         caseSeconds++;
 
@@ -4364,373 +3338,1006 @@ function startCaseTimer() {
 }
 
 
-function stopCaseTimer() {
+function stopCaseTimer(){
 
-  if (
-    caseInterval
-  ) {
+  if(
+    caseTimerInterval
+  ){
 
     clearInterval(
-      caseInterval
+      caseTimerInterval
     );
   }
 
-  caseInterval =
+
+  caseTimerInterval =
     null;
 }
 
 
-function renderCaseStats() {
+/* =========================================================
+   ДОСТУПНЫЕ КЕЙСЫ
+========================================================= */
+
+function getAvailableCases(){
+
+  const available =
+    [];
+
+
+  for(
+    let i = 1;
+    i <= 10;
+    i++
+  ){
+
+    const item =
+      caseData[i];
+
+
+    const success =
+      item
+        ? item.success || 0
+        : 0;
+
+
+    if(success < 3){
+
+      available.push(i);
+    }
+  }
+
+
+  return available;
+}
+
+
+/* =========================================================
+   ЦИФРЫ НА КОЛЕСЕ
+========================================================= */
+
+function positionWheelNumbers(
+  rotation = wheelRotation
+){
+
+  const shell =
+    document.getElementById(
+      "wheelShell"
+    );
+
+
+  if(!shell){
+    return;
+  }
+
+
+  const size =
+    shell.offsetWidth;
+
+
+  const center =
+    size / 2;
+
+
+  const radius =
+    size * .39;
+
+
+  document
+    .querySelectorAll(
+      ".wheel-number"
+    )
+    .forEach(
+      element=>{
+
+        const number =
+          Number(
+            element.dataset.number
+          );
+
+
+        /*
+          Центр каждого сектора.
+        */
+
+        const angle =
+          -90
+          +
+          18
+          +
+          (number - 1) * 36
+          +
+          rotation;
+
+
+        const radians =
+          angle *
+          Math.PI /
+          180;
+
+
+        const x =
+          center
+          +
+          Math.cos(
+            radians
+          ) *
+          radius;
+
+
+        const y =
+          center
+          +
+          Math.sin(
+            radians
+          ) *
+          radius;
+
+
+        element.style.left =
+          x + "px";
+
+
+        element.style.top =
+          y + "px";
+      }
+    );
+}
+
+
+/* =========================================================
+   РУЛЕТКА
+========================================================= */
+
+function prepareWheel(){
+
+  stopCaseTimer();
+
+
+  currentCase =
+    null;
+
+
+  document
+    .getElementById(
+      "caseWork"
+    )
+    .classList
+    .add("hidden");
+
+
+  document
+    .getElementById(
+      "caseResult"
+    )
+    .classList
+    .add("hidden");
+
+
+  document
+    .getElementById(
+      "spinButton"
+    )
+    .disabled =
+    false;
+
+
+  applyPointer();
+
+
+  setTimeout(
+    ()=>positionWheelNumbers(
+      wheelRotation
+    ),
+    30
+  );
+}
+
+
+function spinWheel(){
+
+  if(wheelBusy){
+    return;
+  }
+
+
+  const available =
+    getAvailableCases();
+
+
+  if(!available.length){
+
+    showCaseFinal();
+
+    return;
+  }
+
+
+  wheelBusy =
+    true;
+
+
+  document
+    .getElementById(
+      "spinButton"
+    )
+    .disabled =
+    true;
+
+
+  currentCase =
+    available[
+      Math.floor(
+        Math.random() *
+        available.length
+      )
+    ];
+
+
+  /*
+    Центр выбранного сектора.
+  */
+
+  const sector =
+    18
+    +
+    (currentCase - 1) * 36;
+
+
+  const normalized =
+    (
+      (
+        wheelRotation %
+        360
+      )
+      +
+      360
+    ) %
+    360;
+
+
+  const wanted =
+    (
+      360 -
+      sector
+    ) %
+    360;
+
+
+  let extra =
+    wanted -
+    normalized;
+
+
+  if(extra < 0){
+
+    extra +=
+      360;
+  }
+
+
+  const start =
+    wheelRotation;
+
+
+  const finish =
+    wheelRotation
+    +
+    5 * 360
+    +
+    extra;
+
+
+  const duration =
+    3800;
+
+
+  const started =
+    performance.now();
+
+
+  const wheel =
+    document.getElementById(
+      "wheel"
+    );
+
+
+  function frame(now){
+
+    const progress =
+      Math.min(
+        1,
+        (now - started) /
+        duration
+      );
+
+
+    /*
+      Плавное торможение.
+    */
+
+    const eased =
+      1 -
+      Math.pow(
+        1 - progress,
+        4
+      );
+
+
+    const rotation =
+      start
+      +
+      (
+        finish -
+        start
+      ) *
+      eased;
+
+
+    wheel.style.transform =
+      `rotate(${rotation}deg)`;
+
+
+    positionWheelNumbers(
+      rotation
+    );
+
+
+    if(progress < 1){
+
+      requestAnimationFrame(
+        frame
+      );
+
+    }else{
+
+      wheelRotation =
+        finish;
+
+
+      wheelBusy =
+        false;
+
+
+      showCurrentCase();
+    }
+  }
+
+
+  requestAnimationFrame(
+    frame
+  );
+}
+
+
+/* =========================================================
+   ВЫПАВШИЙ КЕЙС
+========================================================= */
+
+function showCurrentCase(){
+
+  const item =
+    caseData[currentCase]
+    || {
+
+      success:0,
+
+      attempts:0,
+
+      best:null
+    };
+
+
+  document
+    .getElementById(
+      "caseNumber"
+    )
+    .textContent =
+    currentCase;
+
+
+  document
+    .getElementById(
+      "caseProgress"
+    )
+    .textContent =
+    `${item.success || 0} / 3`;
+
+
+  document
+    .getElementById(
+      "caseWork"
+    )
+    .classList
+    .remove("hidden");
+
+
+  startCaseTimer();
+}
+
+
+/* =========================================================
+   РЕЗУЛЬТАТ КЕЙСА
+========================================================= */
+
+function finishCase(success){
+
+  stopCaseTimer();
+
+
+  if(
+    !caseData[
+      currentCase
+    ]
+  ){
+
+    caseData[
+      currentCase
+    ] = {
+
+      success:0,
+
+      attempts:0,
+
+      best:null
+    };
+  }
+
+
+  const item =
+    caseData[
+      currentCase
+    ];
+
+
+  const before =
+    item.success;
+
+
+  item.attempts++;
+
+
+  if(success){
+
+    item.success =
+      Math.min(
+        3,
+        item.success + 1
+      );
+  }
+
+
+  if(
+    item.best === null
+    ||
+    item.best === undefined
+    ||
+    caseSeconds <
+    item.best
+  ){
+
+    item.best =
+      caseSeconds;
+  }
+
+
+  saveCaseData(
+    caseData
+  );
+
+
+  document
+    .getElementById(
+      "caseWork"
+    )
+    .classList
+    .add("hidden");
+
+
+  const result =
+    document.getElementById(
+      "caseResult"
+    );
+
+
+  result.classList.remove(
+    "hidden"
+  );
+
+
+  document
+    .getElementById(
+      "caseResultText"
+    )
+    .textContent =
+    success
+      ? "Кейс засчитан ✓"
+      : "Отмечено как не решено";
+
+
+  /*
+    Первый момент,
+    когда кейс достиг 3/3.
+  */
+
+  const justCompleted =
+    before < 3
+    &&
+    item.success === 3;
+
+
+  if(justCompleted){
+
+    createConfetti(
+      35
+    );
+  }
+
+
+  renderCaseStats();
+
+  updateHomeProgress();
+
+
+  if(
+    getAvailableCases()
+      .length === 0
+  ){
+
+    setTimeout(
+      showCaseFinal,
+      800
+    );
+  }
+}
+
+
+/* =========================================================
+   КАРТОЧКИ ПРОГРЕССА КЕЙСОВ
+========================================================= */
+
+function renderCaseStats(){
 
   const container =
     document.getElementById(
       "caseStats"
     );
 
+
   container.innerHTML =
     "";
 
-  for (
+
+  for(
     let i = 1;
     i <= 10;
     i++
-  ) {
+  ){
 
-    const data =
-      caseData[i] ||
-      {
+    const item =
+      caseData[i] || {
 
-        success: 0,
-        attempts: 0,
-        best: null
+        success:0,
 
+        attempts:0,
+
+        best:null
       };
 
-    const div =
+
+    const stat =
       document.createElement(
         "div"
       );
 
-    div.className =
-      "stat" +
-      (
-        data.success >=
-        NEED
 
-          ? " completed"
+    stat.className =
+      "stat";
 
-          : ""
+
+    if(
+      item.success >= 3
+    ){
+
+      stat.classList.add(
+        "completed"
       );
+    }
 
-    div.innerHTML =
 
-      "<strong>Кейс " +
-      i +
-      "</strong><br>" +
+    stat.innerHTML = `
 
-      "Закрепление: " +
-      data.success +
-      "/3<br>" +
+      <strong>
+        Кейс ${i}
+      </strong>
 
-      "Попыток: " +
-      data.attempts +
-      "<br>" +
+      <br>
 
-      "Лучшее время: " +
-      (
-        data.best === null
+      Закрепление:
+      ${item.success}/3
+
+      <br>
+
+      Попыток:
+      ${item.attempts}
+
+      <br>
+
+      Лучшее:
+      ${
+        item.best === null
+        ||
+        item.best === undefined
 
           ? "—"
 
-          : data.best +
-            " сек."
-      );
+          : item.best + " сек."
+      }
+
+    `;
+
 
     container.appendChild(
-      div
+      stat
     );
   }
 }
 
 
-function resetCases() {
+function resetCases(){
 
-  if (
-    !confirm(
-      "Точно сбросить прогресс кейсов?"
-    )
-  ) {
+  const yes =
+    confirm(
+      "Сбросить весь прогресс кейсов?"
+    );
 
+
+  if(!yes){
     return;
   }
+
 
   caseData =
     {};
 
-  save(
-    "trainerCases",
+
+  saveCaseData(
     caseData
   );
 
+
   renderCaseStats();
 
-  updateHome();
+  updateHomeProgress();
 
   prepareWheel();
 }
 
 
-function allCasesCompleted() {
+/* =========================================================
+   ПРОГРЕСС НА ГЛАВНОЙ
+========================================================= */
 
-  for (
+function updateHomeProgress(){
+
+  let knowledgeDone =
+    0;
+
+
+  let caseDone =
+    0;
+
+
+  for(
     let i = 1;
     i <= 10;
     i++
-  ) {
+  ){
 
-    if (
-      !caseData[i] ||
-      caseData[i].success <
-      NEED
-    ) {
+    const knowledgeItem =
+      knowledgeData[i];
 
-      return false;
+
+    if(
+      knowledgeItem
+      &&
+      Array.isArray(
+        knowledgeItem.results
+      )
+      &&
+      knowledgeItem.results.length
+      >= 3
+    ){
+
+      knowledgeDone++;
+    }
+
+
+    const caseItem =
+      caseData[i];
+
+
+    if(
+      caseItem
+      &&
+      caseItem.success >= 3
+    ){
+
+      caseDone++;
     }
   }
 
-  return true;
+
+  document
+    .getElementById(
+      "homeKnowledgeProgress"
+    )
+    .textContent =
+    `${knowledgeDone} / 10`;
+
+
+  document
+    .getElementById(
+      "homeCaseProgress"
+    )
+    .textContent =
+    `${caseDone} / 10`;
 }
 
 
 /* =========================================================
-   НАСТРОЙКИ
+   КОНФЕТТИ
 ========================================================= */
 
-function openSettings() {
+function createConfetti(
+  amount = 60
+){
 
-  document
-    .getElementById(
-      "settingsOverlay"
-    )
-    .classList
-    .remove("hidden");
+  const colors = [
 
-  updatePointerOptions();
+    "#ff686b",
+    "#ffd93d",
+    "#6bcb77",
+    "#4d96ff",
+    "#9747e5",
+    "#ff86a6",
+    "#10afc9",
+    "#ff9f1c"
+  ];
 
-  updateThemeButtons();
+
+  for(
+    let i = 0;
+    i < amount;
+    i++
+  ){
+
+    const piece =
+      document.createElement(
+        "div"
+      );
+
+
+    piece.className =
+      "confetti";
+
+
+    piece.style.left =
+      Math.random() *
+      100 +
+      "vw";
+
+
+    piece.style.top =
+      -30 -
+      Math.random() *
+      100 +
+      "px";
+
+
+    piece.style.background =
+      colors[
+        Math.floor(
+          Math.random() *
+          colors.length
+        )
+      ];
+
+
+    const time =
+      1700
+      +
+      Math.random() *
+      2300;
+
+
+    piece.style.setProperty(
+      "--time",
+      time + "ms"
+    );
+
+
+    piece.style.setProperty(
+      "--x",
+      (
+        Math.random() *
+        240 -
+        120
+      ) +
+      "px"
+    );
+
+
+    document.body.appendChild(
+      piece
+    );
+
+
+    setTimeout(
+      ()=>piece.remove(),
+      time + 300
+    );
+  }
 }
 
 
-function closeSettings() {
+/* =========================================================
+   ФИНАЛ КЕЙСОВ
+========================================================= */
 
-  document
-    .getElementById(
-      "settingsOverlay"
-    )
+function showCaseFinal(){
+
+  updateFinalNames();
+
+
+  caseFinalBackground
+    .classList
+    .remove("hidden");
+
+
+  createConfetti(
+    180
+  );
+}
+
+
+function closeCaseFinal(){
+
+  caseFinalBackground
     .classList
     .add("hidden");
 }
 
 
-let selectedPointer =
-  localStorage.getItem(
-    "trainerPointer"
-  ) ||
-  "classic";
+function resetCasesFromFinal(){
+
+  caseData =
+    {};
 
 
-function selectPointer(type) {
-
-  selectedPointer =
-    type;
-
-  localStorage.setItem(
-    "trainerPointer",
-    type
+  saveCaseData(
+    caseData
   );
 
-  applyPointer();
 
-  updatePointerOptions();
-}
+  closeCaseFinal();
 
+  renderCaseStats();
 
-function updatePointerOptions() {
+  updateHomeProgress();
 
-  document
-    .querySelectorAll(
-      ".pointer-option"
-    )
-    .forEach(
-      function(button) {
-
-        button
-          .classList
-          .toggle(
-
-            "selected",
-
-            button
-              .dataset
-              .pointer ===
-            selectedPointer
-
-          );
-      }
-    );
-}
-
-
-function applyPointer() {
-
-  const visual =
-    document.getElementById(
-      "pointerVisual"
-    );
-
-  visual.className =
-    "";
-
-  visual.innerHTML =
-    "";
-
-  if (
-    selectedPointer ===
-    "classic"
-  ) {
-
-    visual.className =
-      "pointer-classic";
-  }
-
-
-  if (
-    selectedPointer ===
-    "pizza"
-  ) {
-
-    visual.className =
-      "pointer-picture";
-
-    const shape =
-      document.createElement(
-        "div"
-      );
-
-    shape.className =
-      "pizza-pointer";
-
-    visual.appendChild(
-      shape
-    );
-  }
-
-
-  if (
-    selectedPointer ===
-    "finger"
-  ) {
-
-    visual.className =
-      "pointer-picture";
-
-    const shape =
-      document.createElement(
-        "div"
-      );
-
-    shape.className =
-      "finger-pointer";
-
-    visual.appendChild(
-      shape
-    );
-  }
-
-
-  if (
-    selectedPointer ===
-    "kids"
-  ) {
-
-    visual.className =
-      "pointer-picture";
-
-    const shape =
-      document.createElement(
-        "div"
-      );
-
-    shape.className =
-      "kids-pointer";
-
-    visual.appendChild(
-      shape
-    );
-  }
+  prepareWheel();
 }
 
 
 /* =========================================================
-   КОТ ДУБАСИТ КНИГУ
+   ФИНАЛ ЗНАНИЙ
 ========================================================= */
 
 let bookDamage =
   0;
 
+
 let catBusy =
   false;
 
 
-function resetBook() {
+function showKnowledgeFinal(){
+
+  updateFinalNames();
+
+
+  knowledgeFinalBackground
+    .classList
+    .remove("hidden");
+
+
+  resetBattle();
+
+
+  createConfetti(
+    150
+  );
+}
+
+
+function closeKnowledgeFinal(){
+
+  knowledgeFinalBackground
+    .classList
+    .add("hidden");
+}
+
+
+function resetKnowledgeFromFinal(){
+
+  knowledgeData =
+    {};
+
+
+  saveKnowledgeData(
+    knowledgeData
+  );
+
+
+  closeKnowledgeFinal();
+
+  renderKnowledgeTracker();
+
+  updateHomeProgress();
+
+  startKnowledgeQuestion();
+}
+
+
+/* =========================================================
+   КОТИК БЬЁТ КНИГУ
+========================================================= */
+
+function resetBattle(){
 
   bookDamage =
     0;
 
+
   catBusy =
     false;
 
+
   const book =
     document.getElementById(
-      "knowledgeBook"
+      "book"
     );
+
 
   book.className =
     "book";
 
-  document
-    .getElementById(
-      "bookEyeLeft"
-    )
-    .textContent =
-    "•";
 
   document
-    .getElementById(
-      "bookEyeRight"
+    .querySelector(
+      ".book-eye.left"
     )
     .textContent =
-    "•";
+    "×";
+
+
+  document
+    .querySelector(
+      ".book-eye.right"
+    )
+    .textContent =
+    "×";
 }
 
 
-/*
-  Каждый удар:
-  1. Кот замахивается.
-  2. Бита физически доезжает до книги.
-  3. 💥 и тряска.
-  4. Кот начинает отводить биту.
-  5. Только ТОГДА применяется ухудшение книги.
-*/
+function catAttack(){
 
-function catAttack() {
-
-  if (
-    catBusy
-  ) {
+  if(catBusy){
 
     return;
   }
+
 
   catBusy =
     true;
@@ -4738,66 +4345,44 @@ function catAttack() {
 
   const cat =
     document.getElementById(
-      "catAttackButton"
+      "catButton"
     );
 
 
   const book =
     document.getElementById(
-      "knowledgeBook"
+      "book"
     );
 
 
   const impact =
     document.getElementById(
-      "bookImpact"
+      "impact"
     );
 
 
   const attacks = [
 
     {
-      cat:
-        "attack-side",
-
-      duration:
-        650,
-
-      contact:
-        320,
-
-      damage:
-        430
+      name:"attack-side",
+      contact:350,
+      damage:500,
+      finish:760
     },
 
     {
-      cat:
-        "attack-overhead",
-
-      duration:
-        720,
-
-      contact:
-        360,
-
-      damage:
-        485
+      name:"attack-overhead",
+      contact:390,
+      damage:540,
+      finish:840
     },
 
     {
-      cat:
-        "attack-heavy",
-
-      duration:
-        800,
-
-      contact:
-        400,
-
-      damage:
-        540
+      name:"attack-heavy",
+      contact:430,
+      damage:590,
+      finish:920
     }
-
   ];
 
 
@@ -4817,36 +4402,28 @@ function catAttack() {
   );
 
 
-  book.classList.remove(
-    "contact"
-  );
-
-
-  impact.classList.remove(
-    "show"
-  );
-
-
   void cat.offsetWidth;
 
 
-  /* замах */
-
   cat.classList.add(
-    attack.cat
+    attack.name
   );
 
 
-  /* момент настоящего контакта */
+  /*
+    Момент контакта биты с книгой.
+  */
 
   setTimeout(
-    function() {
+    ()=>{
 
       book.classList.remove(
         "contact"
       );
 
+
       void book.offsetWidth;
+
 
       book.classList.add(
         "contact"
@@ -4857,7 +4434,9 @@ function catAttack() {
         "show"
       );
 
+
       void impact.offsetWidth;
+
 
       impact.classList.add(
         "show"
@@ -4872,12 +4451,12 @@ function catAttack() {
 
 
   /*
-    Бита уже начала отходить —
-    теперь книжка становится хуже.
+    Книга портится ПОСЛЕ удара,
+    когда бита уже отходит.
   */
 
   setTimeout(
-    function() {
+    ()=>{
 
       bookDamage++;
 
@@ -4888,10 +4467,8 @@ function catAttack() {
   );
 
 
-  /* окончание движения */
-
   setTimeout(
-    function() {
+    ()=>{
 
       cat.classList.remove(
         "attack-side",
@@ -4914,17 +4491,20 @@ function catAttack() {
         false;
 
     },
-    attack.duration +
-    40
+    attack.finish
   );
 }
 
 
-function applyBookDamage() {
+/* =========================================================
+   СТАДИИ УБИВАНИЯ КНИГИ
+========================================================= */
+
+function applyBookDamage(){
 
   const book =
     document.getElementById(
-      "knowledgeBook"
+      "book"
     );
 
 
@@ -4936,9 +4516,7 @@ function applyBookDamage() {
   );
 
 
-  if (
-    bookDamage === 1
-  ) {
+  if(bookDamage === 1){
 
     book.classList.add(
       "damage-1"
@@ -4946,9 +4524,7 @@ function applyBookDamage() {
   }
 
 
-  if (
-    bookDamage === 2
-  ) {
+  if(bookDamage === 2){
 
     book.classList.add(
       "damage-2"
@@ -4956,48 +4532,32 @@ function applyBookDamage() {
   }
 
 
-  if (
-    bookDamage === 3
-  ) {
+  if(bookDamage === 3){
 
     book.classList.add(
       "damage-3"
     );
-
-    document
-      .getElementById(
-        "bookEyeLeft"
-      )
-      .textContent =
-      "×";
-
-    document
-      .getElementById(
-        "bookEyeRight"
-      )
-      .textContent =
-      "•";
   }
 
 
-  if (
-    bookDamage >= 4
-  ) {
+  if(bookDamage >= 4){
 
     book.classList.add(
       "dead"
     );
 
+
     document
-      .getElementById(
-        "bookEyeLeft"
+      .querySelector(
+        ".book-eye.left"
       )
       .textContent =
       "X";
 
+
     document
-      .getElementById(
-        "bookEyeRight"
+      .querySelector(
+        ".book-eye.right"
       )
       .textContent =
       "X";
@@ -5005,362 +4565,148 @@ function applyBookDamage() {
 }
 
 
-function flyPaper() {
-
-  document
-    .querySelectorAll(
-      ".paper-bit"
-    )
-    .forEach(
-      function(piece) {
-
-        piece.classList.remove(
-          "fly"
-        );
-
-
-        piece.style.setProperty(
-          "--paper-x",
-
-          (
-            Math.random() *
-            180 -
-            90
-          ) +
-          "px"
-        );
-
-
-        piece.style.setProperty(
-          "--paper-y",
-
-          (
-            -70 -
-            Math.random() *
-            95
-          ) +
-          "px"
-        );
-
-
-        void piece.offsetWidth;
-
-
-        piece.classList.add(
-          "fly"
-        );
-      }
-    );
-}
-
-
 /* =========================================================
-   КОНФЕТТИ
+   БУМАЖКИ ОТ КНИГИ
 ========================================================= */
 
-function createConfetti(
-  amount,
-  durationMin,
-  durationMax
-) {
+function flyPaper(){
 
-  const colors = [
+  const papers = [
 
-    "#ff686b",
-    "#ffd93d",
-    "#6bcb77",
-    "#4d96ff",
-    "#9747e5",
-    "#ff86a6",
-    "#10afc9",
-    "#ff9f1c"
+    document.getElementById(
+      "paperBit1"
+    ),
 
+    document.getElementById(
+      "paperBit2"
+    ),
+
+    document.getElementById(
+      "paperBit3"
+    )
   ];
 
 
-  for (
-    let i = 0;
-    i < amount;
-    i++
-  ) {
+  papers.forEach(
+    paper=>{
 
-    const piece =
-      document.createElement(
-        "div"
+      paper.classList.remove(
+        "fly"
       );
 
 
-    piece.className =
-      "confetti";
+      paper.style.setProperty(
+        "--paper-x",
 
-
-    piece.style.left =
-      Math.random() *
-      100 +
-      "vw";
-
-
-    piece.style.top =
-      (
-        -20 -
-        Math.random() *
-        150
-      ) +
-      "px";
-
-
-    piece.style.background =
-      colors[
-        Math.floor(
+        (
           Math.random() *
-          colors.length
-        )
-      ];
-
-
-    piece.style.setProperty(
-      "--x",
-
-      (
-        Math.random() *
-        250 -
-        125
-      ) +
-      "px"
-    );
-
-
-    const duration =
-      durationMin +
-      Math.random() *
-      (
-        durationMax -
-        durationMin
+          180 -
+          90
+        ) +
+        "px"
       );
 
 
-    piece.style.setProperty(
-      "--time",
+      paper.style.setProperty(
+        "--paper-y",
 
-      duration +
-      "ms"
-    );
-
-
-    document.body.appendChild(
-      piece
-    );
-
-
-    setTimeout(
-      function() {
-
-        piece.remove();
-
-      },
-      duration +
-      300
-    );
-  }
-}
+        (
+          -60 -
+          Math.random() *
+          120
+        ) +
+        "px"
+      );
 
 
-function smallCelebration() {
-
-  createConfetti(
-    45,
-    1200,
-    2200
-  );
-}
+      void paper.offsetWidth;
 
 
-/* =========================================================
-   ФИНАЛЫ
-========================================================= */
-
-function showCasesFinal() {
-
-  document
-    .getElementById(
-      "finalCasesOverlay"
-    )
-    .classList
-    .remove("hidden");
-
-
-  createConfetti(
-    180,
-    2200,
-    4800
-  );
-}
-
-
-function closeCasesFinal() {
-
-  document
-    .getElementById(
-      "finalCasesOverlay"
-    )
-    .classList
-    .add("hidden");
-}
-
-
-function startNewCaseRound() {
-
-  caseData =
-    {};
-
-  save(
-    "trainerCases",
-    caseData
-  );
-
-  closeCasesFinal();
-
-  renderCaseStats();
-
-  updateHome();
-
-  prepareWheel();
-}
-
-
-function showKnowledgeFinal() {
-
-  resetBook();
-
-  document
-    .getElementById(
-      "finalKnowledgeOverlay"
-    )
-    .classList
-    .remove("hidden");
-
-
-  createConfetti(
-    160,
-    2000,
-    4300
-  );
-}
-
-
-function closeKnowledgeFinal() {
-
-  document
-    .getElementById(
-      "finalKnowledgeOverlay"
-    )
-    .classList
-    .add("hidden");
-}
-
-
-function startNewKnowledgeRound() {
-
-  knowledgeData =
-    {};
-
-  save(
-    "trainerKnowledgeV2",
-    knowledgeData
-  );
-
-  closeKnowledgeFinal();
-
-  renderKnowledgeTracker();
-
-  updateHome();
-
-  nextKnowledge();
-}
-
-
-/* =========================================================
-   ГЛАВНАЯ
-========================================================= */
-
-function updateHome() {
-
-  let knowledgeDone =
-    0;
-
-  let casesDone =
-    0;
-
-
-  for (
-    let i = 1;
-    i <= 10;
-    i++
-  ) {
-
-    const k =
-      knowledgeData[i];
-
-
-    if (
-      k &&
-      Array.isArray(
-        k.results
-      ) &&
-      k.results.length >=
-      NEED
-    ) {
-
-      knowledgeDone++;
+      paper.classList.add(
+        "fly"
+      );
     }
-
-
-    if (
-      caseData[i] &&
-      caseData[i].success >=
-      NEED
-    ) {
-
-      casesDone++;
-    }
-  }
-
-
-  document
-    .getElementById(
-      "homeKnowledgeProgress"
-    )
-    .textContent =
-    knowledgeDone +
-    " / 10";
-
-
-  document
-    .getElementById(
-      "homeCaseProgress"
-    )
-    .textContent =
-    casesDone +
-    " / 10";
+  );
 }
 
 
 /* =========================================================
-   СТАРТ
+   ЗАПУСК
 ========================================================= */
+
+/*
+  Если старая версия случайно
+  сохранила "..." как настоящее имя,
+  удаляем это.
+*/
+
+if(
+  (
+    localStorage.getItem(
+      "trainerName"
+    ) || ""
+  ).trim() === "..."
+){
+
+  localStorage.removeItem(
+    "trainerName"
+  );
+}
+
+
+/*
+  Фиксируем посещение текущего дня.
+*/
+
+registerToday();
+
+
+/*
+  Применяем сохранённые настройки.
+*/
 
 applyTheme();
 
 applyPointer();
 
-updateHome();
 
+/*
+  Загружаем имя.
+*/
+
+loadTrainerName();
+
+
+/*
+  Главный прогресс.
+*/
+
+updateHomeProgress();
+
+
+/*
+  На всякий случай строим
+  цифры колеса после загрузки.
+*/
+
+setTimeout(
+  ()=>positionWheelNumbers(
+    wheelRotation
+  ),
+  100
+);
+
+
+/*
+  При изменении размера окна
+  возвращаем цифры на правильные места.
+*/
 
 window.addEventListener(
   "resize",
-  function() {
+  ()=>{
 
-    positionNumbers(
+    positionWheelNumbers(
       wheelRotation
     );
   }
